@@ -1,55 +1,325 @@
 {
-  "note": "External CC0 texture sources used by the top-down layer. Verify license before shipping a paid build.",
-  "textures": [
-    {
-      "file": "res://assets/images/textures/floor_concrete.png",
-      "asset": "Concrete048",
-      "name": "Concrete 048",
-      "author": "ambientCG (Lennart Demes)",
-      "license": "CC0 1.0",
-      "url": "https://ambientcg.com/view?id=Concrete048",
-      "source_query": "concrete floor",
-      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
-    },
-    {
-      "file": "res://assets/images/textures/floor_wood.png",
-      "asset": "WoodFloor051",
-      "name": "Wood Floor 051",
-      "author": "ambientCG (Lennart Demes)",
-      "license": "CC0 1.0",
-      "url": "https://ambientcg.com/view?id=WoodFloor051",
-      "source_query": "wood floor",
-      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
-    },
-    {
-      "file": "res://assets/images/textures/floor_tile.png",
-      "asset": "Tiles141",
-      "name": "Tiles 141",
-      "author": "ambientCG (Lennart Demes)",
-      "license": "CC0 1.0",
-      "url": "https://ambientcg.com/view?id=Tiles141",
-      "source_query": "tiles floor",
-      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
-    },
-    {
-      "file": "res://assets/images/textures/floor_carpet.png",
-      "asset": "Carpet016",
-      "name": "Carpet 016",
-      "author": "ambientCG (Lennart Demes)",
-      "license": "CC0 1.0",
-      "url": "https://ambientcg.com/view?id=Carpet016",
-      "source_query": "carpet",
-      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
-    },
-    {
-      "file": "res://assets/images/textures/wall_brick.png",
-      "asset": "Bricks113A",
-      "name": "Bricks 113 A",
-      "author": "ambientCG (Lennart Demes)",
-      "license": "CC0 1.0",
-      "url": "https://ambientcg.com/view?id=Bricks113A",
-      "source_query": "bricks",
-      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
-    }
-  ]
+ "note": "External CC0 texture sources used by the top-down layer. Verify license before shipping a paid build.",
+ "textures": [
+  {
+   "file": "res://assets/images/textures/floor_concrete.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "ambientCG (Lennart Demes)",
+   "license": "CC0 1.0",
+   "url": "https://ambientcg.com/view?id=Concrete048",
+   "source_query": "concrete floor",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/floor_wood.png",
+   "asset": "WoodFloor051",
+   "name": "Wood Floor 051",
+   "author": "ambientCG (Lennart Demes)",
+   "license": "CC0 1.0",
+   "url": "https://ambientcg.com/view?id=WoodFloor051",
+   "source_query": "wood floor",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/floor_tile.png",
+   "asset": "Tiles141",
+   "name": "Tiles 141",
+   "author": "ambientCG (Lennart Demes)",
+   "license": "CC0 1.0",
+   "url": "https://ambientcg.com/view?id=Tiles141",
+   "source_query": "tiles floor",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/floor_carpet.png",
+   "asset": "Carpet016",
+   "name": "Carpet 016",
+   "author": "ambientCG (Lennart Demes)",
+   "license": "CC0 1.0",
+   "url": "https://ambientcg.com/view?id=Carpet016",
+   "source_query": "carpet",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/wall_brick.png",
+   "asset": "Bricks113A",
+   "name": "Bricks 113 A",
+   "author": "ambientCG (Lennart Demes)",
+   "license": "CC0 1.0",
+   "url": "https://ambientcg.com/view?id=Bricks113A",
+   "source_query": "bricks",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/floor_tile.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "REEBOO Labs",
+   "license": "Royalty-free in games; no redistribution as an asset pack",
+   "url": "https://reebo0.itch.io/psx-retro-textures-free-sample",
+   "source_query": "PSX Retro Seamless Textures (free sample) - tiles_checker_black_white.png (128)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/floor_carpet.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "REEBOO Labs",
+   "license": "Royalty-free in games; no redistribution as an asset pack",
+   "url": "https://reebo0.itch.io/psx-retro-textures-free-sample",
+   "source_query": "PSX Retro Seamless Textures (free sample) - horror_wallpaper_red.png (128)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/floor_concrete.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "REEBOO Labs",
+   "license": "Royalty-free in games; no redistribution as an asset pack",
+   "url": "https://reebo0.itch.io/psx-retro-textures-free-sample",
+   "source_query": "PSX Retro Seamless Textures (free sample) - concrete_panels_grey.png (128)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/floor_wood.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "REEBOO Labs",
+   "license": "Royalty-free in games; no redistribution as an asset pack",
+   "url": "https://reebo0.itch.io/psx-retro-textures-free-sample",
+   "source_query": "PSX Retro Seamless Textures (free sample) - brick_herringbone_red.png (128)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/wall_brick.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "REEBOO Labs",
+   "license": "Royalty-free in games; no redistribution as an asset pack",
+   "url": "https://reebo0.itch.io/psx-retro-textures-free-sample",
+   "source_query": "PSX Retro Seamless Textures (free sample) - brick_classic_red.png (128)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/wall_concrete.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "REEBOO Labs",
+   "license": "Royalty-free in games; no redistribution as an asset pack",
+   "url": "https://reebo0.itch.io/psx-retro-textures-free-sample",
+   "source_query": "PSX Retro Seamless Textures (free sample) - concrete_cracked_grey.png (128)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/textures/metal_rust.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "REEBOO Labs",
+   "license": "Royalty-free in games; no redistribution as an asset pack",
+   "url": "https://reebo0.itch.io/psx-retro-textures-free-sample",
+   "source_query": "PSX Retro Seamless Textures (free sample) - metal_plates_rusty.png (128)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/music/chapter1.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/music/chapter2.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/music/chapter3.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/ambient/cold_drone_loop.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/ambient/gas_station_hum.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/ambient/industrial_hum.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/ambient/rain_loop.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/ambient/wind_loop.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/voices/voice_a.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/voices/voice_b.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/voices/voice_c.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/voices/voice_d.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/sfx/alarm.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/sfx/door_open.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/sfx/explosion.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/sfx/flesh_hit.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/sfx/impact_wall.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/sfx/shell_ping.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/sfx/shot_pistol.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/audio/sfx/shot_shotgun.wav",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "Dead Hours / DEEPTALES",
+   "license": "Original work, no third-party samples",
+   "url": "tools/make_audio.py",
+   "source_query": "Synthesised by tools/make_audio.py (pure Python)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  }
+ ]
 }

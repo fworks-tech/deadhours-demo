@@ -16,7 +16,25 @@ const EMBER := Color("#ff8b3d")
 
 var mission: Node = null
 
+const SFX_DIR := "res://assets/audio/sfx/%s.wav"
+static var _sfx_cache: Dictionary = {}
 static var _soft: Texture2D = null
+
+static func sfx(name: String) -> AudioStream:
+	if _sfx_cache.has(name):
+		return _sfx_cache[name]
+	var path := SFX_DIR % name
+	if not ResourceLoader.exists(path):
+		_sfx_cache[name] = null
+		return null
+	var stream := load(path)
+	_sfx_cache[name] = stream
+	return stream
+
+func play(name: String, pitch: float = 1.0) -> void:
+	var stream := sfx(name)
+	if stream != null:
+		AudioManager.play_sfx(stream, pitch * randf_range(0.97, 1.04))
 static var _shard: Texture2D = null
 
 # ------------------------------------------------------------------ textures
@@ -78,7 +96,8 @@ func _particles(pos: Vector2, cfg: Dictionary) -> CPUParticles2D:
 
 # ------------------------------------------------------------------ gunfire
 
-func muzzle_flash(pos: Vector2, dir: Vector2, size: float = 1.0) -> void:
+func muzzle_flash(pos: Vector2, dir: Vector2, size: float = 1.0, weapon: String = "pistol") -> void:
+	play("shot_shotgun" if weapon == "shotgun" else "shot_pistol")
 	var f := Flash.new()
 	f.position = pos
 	f.dir = dir
@@ -97,6 +116,7 @@ func muzzle_flash(pos: Vector2, dir: Vector2, size: float = 1.0) -> void:
 	})
 
 func casing(pos: Vector2, dir: Vector2) -> void:
+	play("shell_ping", randf_range(0.9, 1.2))
 	_particles(pos, {
 		"amount": 1, "lifetime": 0.55, "vmin": 90, "vmax": 170,
 		"direction": -dir.rotated(-0.8), "spread": 18, "gravity": Vector2(0, 420),
@@ -119,6 +139,7 @@ func impact(pos: Vector2, normal: Vector2, kind: String = "wall") -> void:
 	if kind == "glass":
 		glass_break(pos, normal)
 		return
+	play("impact_wall", randf_range(0.9, 1.15))
 	_particles(pos, {
 		"amount": 7, "lifetime": 0.3, "vmin": 80, "vmax": 240,
 		"direction": normal, "spread": 55, "gravity": Vector2(0, 320),
@@ -151,6 +172,7 @@ func glass_break(pos: Vector2, normal: Vector2) -> void:
 # ------------------------------------------------------------------ blood
 
 func blood_spray(pos: Vector2, dir: Vector2, amount: int = 16) -> void:
+	play("flesh_hit", randf_range(0.85, 1.1))
 	_particles(pos, {
 		"amount": amount, "lifetime": 0.6, "vmin": 90, "vmax": 330,
 		"direction": dir, "spread": 40, "gravity": Vector2(0, 300),
@@ -188,6 +210,7 @@ func corpse_fx(pos: Vector2, dir: Vector2) -> void:
 # ------------------------------------------------------------------ explosions
 
 func explosion(pos: Vector2, radius: float = 160.0) -> void:
+	play("explosion", randf_range(0.92, 1.02))
 	# core flash
 	var ring := Ring.new()
 	ring.position = pos

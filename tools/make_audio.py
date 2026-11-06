@@ -214,6 +214,63 @@ def voice(base, dur=0.085, formants=(1.0, 2.4, 3.7)):
     return out
 
 
+# ------------------------------------------------------------------ sfx
+
+def shot(dur=0.22, cut=2600, sub=90, tail=0.07):
+    n = int(dur * SR)
+    raw = [rng.uniform(-1, 1) for _ in range(n)]
+    body = lowpass(raw, cut)
+    out = []
+    for i in range(n):
+        t = i / SR
+        e = math.exp(-t / tail)
+        out.append(body[i] * 1.6 * e + math.sin(2 * math.pi * sub * t * (1 - t)) * 0.5 * math.exp(-t / 0.05))
+    return out
+
+
+def flesh(dur=0.16):
+    n = int(dur * SR)
+    raw = lowpass([rng.uniform(-1, 1) for _ in range(n)], 900)
+    return [raw[i] * math.exp(-(i / SR) / 0.05) * 1.4 for i in range(n)]
+
+
+def boom(dur=0.8):
+    n = int(dur * SR)
+    raw = lowpass([rng.uniform(-1, 1) for _ in range(n)], 700)
+    out = []
+    for i in range(n):
+        t = i / SR
+        e = math.exp(-t / 0.22)
+        out.append(raw[i] * 1.8 * e + math.sin(2 * math.pi * (70 - 40 * t) * t) * 0.6 * e)
+    return out
+
+
+def tick(dur=0.07, freq=1800):
+    n = int(dur * SR)
+    return [math.sin(2 * math.pi * freq * (i / SR)) * math.exp(-(i / SR) / 0.012) * 0.6 for i in range(n)]
+
+
+def door_groan(dur=0.55):
+    n = int(dur * SR)
+    out = []
+    for i in range(n):
+        t = i / SR
+        f = 140 - 60 * (t / dur)
+        env = min(1.0, t / 0.05) * math.exp(-t / 0.35)
+        out.append((math.sin(2 * math.pi * f * t) * 0.35 + rng.uniform(-1, 1) * 0.05) * env)
+    return out
+
+
+def alarm(dur=0.9):
+    n = int(dur * SR)
+    out = []
+    for i in range(n):
+        t = i / SR
+        f = 620 if int(t / 0.28) % 2 == 0 else 480
+        out.append(math.sin(2 * math.pi * f * t) * 0.35 * min(1.0, t / 0.03) * math.exp(-t / 0.6))
+    return out
+
+
 if __name__ == "__main__":
     print("music")
     write_wav("assets/audio/music/chapter1.wav", chapter1())
@@ -228,4 +285,13 @@ if __name__ == "__main__":
     print("voices")
     for name, base in (("a", 150), ("b", 185), ("c", 220), ("d", 255)):
         write_wav(f"assets/audio/voices/voice_{name}.wav", voice(base))
+    print("sfx")
+    write_wav("assets/audio/sfx/shot_pistol.wav", shot(0.18, 3200, 110, 0.05))
+    write_wav("assets/audio/sfx/shot_shotgun.wav", shot(0.34, 1800, 70, 0.13))
+    write_wav("assets/audio/sfx/impact_wall.wav", tick(0.06, 2400))
+    write_wav("assets/audio/sfx/flesh_hit.wav", flesh())
+    write_wav("assets/audio/sfx/explosion.wav", boom())
+    write_wav("assets/audio/sfx/shell_ping.wav", tick(0.05, 3400))
+    write_wav("assets/audio/sfx/door_open.wav", door_groan())
+    write_wav("assets/audio/sfx/alarm.wav", alarm())
     print("done")

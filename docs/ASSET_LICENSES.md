@@ -31,6 +31,15 @@ shaders — is original work generated for Dead Hours and belongs to the project
 - `assets/images/sprites/topdown/*_sheet.png` — baked from `TopDownFigure.gd`
   by `tools/bake_character_sheets.gd` (8 directions x 8 frames, 128 px cells).
 - `assets/images/portraits/`, `assets/images/backgrounds/` — painterly set.
+- `assets/images/textures/*.png` — **PSX Retro Seamless Textures (free sample)**
+  by REEBOO Labs, 31 seamless 64/128 px PS1 textures; we ship 7 of them,
+  recoloured by the game's grade. Licence: royalty-free use in commercial and
+  non-commercial games, no redistribution as an asset pack or texture library.
+  Full text: `docs/licenses/reeboo_psx_retro_textures_LICENSE.txt`.
+  Source: https://reebo0.itch.io/psx-retro-textures-free-sample
+- `assets/audio/**` — music, ambience, voices and SFX are **original work**,
+  synthesised from maths by `tools/make_audio.py`. No third-party samples, no
+  attribution required. Rebuild with `python3 tools/make_audio.py`.
 - `assets/images/sprites/objects/*.png` — doors, lockers and weapon pickups,
   baked from `TopDownObjectArt.gd` by `tools/bake_object_sprites.gd` (10 sprites,
   2x, padded canvases, `_meta.json` with footprints).

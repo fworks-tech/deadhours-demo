@@ -225,6 +225,9 @@ licences to clear). Output, 22050 Hz mono WAV with seamless loops:
 - `assets/audio/ambient/*.wav` — 12 s beds: `cold_drone_loop`, `gas_station_hum`,
   `industrial_hum`, `rain_loop`, `wind_loop`.
 - `assets/audio/voices/voice_{a..d}.wav` — 85 ms vocal blips.
+- `assets/audio/sfx/*.wav` — `shot_pistol`, `shot_shotgun`, `impact_wall`,
+  `flesh_hit`, `explosion`, `shell_ping`, `door_open`, `alarm`, all triggered by
+  `TopDownFX.play()` with a small random pitch so repeats never sound identical.
 
 Missions pick music and ambience from level data (`"music": "chapter2"`,
 `"ambient": "gas_station"`) and stop both on exit. `AudioManager` now runs with
@@ -296,6 +299,14 @@ Story hooks that drove this (`assets/data/story.json`): the gas station chapter
 (fuel pumps), "a shot rings out, glass shatters" (`ch2_run_escape`), fires
 visible in `ch1_barricade_survive`, and the blood smear down the stairwell in
 `ch1_stairwell`.
+
+### Surfaces
+
+Floors and walls use the REEBOO Labs PSX Retro Seamless Textures (free sample,
+royalty-free in games): checker tile, bloody wallpaper, concrete panels,
+herringbone parquet, red brick, cracked concrete and rusty plates, all drawn
+tiled and tinted into the neon-noir grade with a light checker overlay kept for
+readability. Seven 128 px surfaces ship in `assets/images/textures/`.
 
 ### Surfaces and licensed assets
 

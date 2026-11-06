@@ -1,0 +1,16 @@
+REEBOO Labs - PSX Retro Seamless Textures - License
+
+Copyright (c) REEBOO Labs. All rights reserved except as granted below.
+
+You may:
+ - Use these textures, materials, shaders and scripts in commercial and non-commercial games, apps
+   and videos, royalty-free, in any number of projects.
+ - Modify them for your own projects.
+Credit is appreciated but not required.
+
+You may not:
+ - Resell or redistribute the textures or files as-is or modified, alone or as part of an asset pack,
+   texture library, template or bundle.
+
+The files are provided "as is", without warranty of any kind.
+Product page: https://reebo0.itch.io/psx-retro-textures

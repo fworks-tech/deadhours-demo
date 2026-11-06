@@ -261,7 +261,7 @@ func _firearm_attack(w: Dictionary) -> void:
 		var dir := aim_dir.rotated(randf_range(-spread, spread) * 0.5)
 		var hit: Dictionary = _cast_shot(dir, max_range)
 		if mission and mission.fx_system:
-			mission.fx_system.muzzle_flash(global_position + dir * 20.0, dir, 1.0 if pellets == 1 else 1.3)
+			mission.fx_system.muzzle_flash(global_position + dir * 20.0, dir, 1.0 if pellets == 1 else 1.3, weapon_id)
 			mission.fx_system.casing(global_position + dir * 10.0, dir)
 		if not hit.is_empty():
 			var col = hit.get("collider")

@@ -528,6 +528,8 @@ func try_interact(pos: Vector2) -> void:
 	if _near_interactable is TopDownNpc:
 		_near_interactable.talk()
 	elif _near_interactable is DoorNode:
+		if fx_system:
+			fx_system.play("door_open", 1.0)
 		_near_interactable.open_door()
 	elif _near_interactable is LockerNode:
 		_near_interactable.toggle_hide(player)
@@ -567,6 +569,8 @@ func emit_noise(pos: Vector2, radius: float, source: Node = null) -> void:
 		if _alert_label:
 			_alert_label.text = "ALARM"
 			_alert_label.visible = true
+		if fx_system:
+			fx_system.play("alarm", 1.0)
 	for e in enemies:
 		if not is_instance_valid(e) or not e.alive or e == source:
 			continue
