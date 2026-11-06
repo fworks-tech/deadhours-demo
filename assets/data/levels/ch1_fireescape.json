@@ -13,8 +13,8 @@
   },
   "player": {
     "spawn": [
-      520,
-      160
+      600,
+      250
     ],
     "weapon": "bat"
   },
@@ -286,6 +286,143 @@
         16
       ],
       "locked": false
+    },
+    {
+      "type": "rug",
+      "rect": [
+        470,
+        180,
+        240,
+        180
+      ]
+    },
+    {
+      "type": "bench",
+      "rect": [
+        490,
+        370,
+        130,
+        42
+      ]
+    },
+    {
+      "type": "cabinet",
+      "rect": [
+        880,
+        140,
+        90,
+        110
+      ]
+    },
+    {
+      "type": "plant",
+      "pos": [
+        930,
+        390
+      ],
+      "radius": 22
+    },
+    {
+      "type": "bench",
+      "rect": [
+        440,
+        890,
+        130,
+        42
+      ]
+    },
+    {
+      "type": "plant",
+      "pos": [
+        990,
+        700
+      ],
+      "radius": 22
+    },
+    {
+      "type": "cabinet",
+      "rect": [
+        820,
+        700,
+        90,
+        110
+      ]
+    },
+    {
+      "type": "bench",
+      "rect": [
+        440,
+        1450,
+        130,
+        42
+      ]
+    },
+    {
+      "type": "trash",
+      "pos": [
+        980,
+        1450
+      ],
+      "radius": 18
+    },
+    {
+      "type": "plant",
+      "pos": [
+        960,
+        1240
+      ],
+      "radius": 22
+    },
+    {
+      "type": "bench",
+      "rect": [
+        440,
+        2010,
+        130,
+        42
+      ]
+    },
+    {
+      "type": "plant",
+      "pos": [
+        980,
+        1800
+      ],
+      "radius": 22
+    },
+    {
+      "type": "dumpster",
+      "rect": [
+        880,
+        2150,
+        120,
+        76
+      ]
+    },
+    {
+      "type": "car",
+      "rect": [
+        440,
+        2200,
+        170,
+        86
+      ]
+    },
+    {
+      "type": "streetlight",
+      "pos": [
+        1000,
+        2130
+      ],
+      "radius": 26
+    },
+    {
+      "type": "trash",
+      "pos": [
+        860,
+        2300
+      ],
+      "radius": 16
     }
   ],
   "enemies": [

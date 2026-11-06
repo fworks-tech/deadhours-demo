@@ -174,6 +174,46 @@ Existing painterly assets are **not wasted**: every mission briefing is a full-s
 loading/briefing screen using the chapter background art (`ch1_fire_escape`,
 `ch1_stairwell`, `ch2_gas_station`). Portraits and cutscenes are untouched.
 
+### Controls
+
+Touch is the primary scheme, desktop is the fallback.
+
+| Input | Touch | Keyboard |
+|---|---|---|
+| Move | left stick (floating, fixed home ring) | WASD / arrows |
+| Aim | right stick, holds last direction | mouse |
+| Attack | ATTACK button (hold to keep firing) | LMB / J |
+| Dash | DASH button, edge-triggered, greys out on cooldown | SPACE / SHIFT |
+| Use (door, locker, pickup) | USE button, only appears when something is in range | E |
+
+Both sticks and every button track their own touch index, so you can move,
+aim and attack at the same time. The right stick only aims; it never
+auto-fires. Every control has a home ring so the thumbs can find it without
+looking. Layout is recomputed on resize and can be forced for QA with
+`layout_size`. Verified by `res://tools/TouchControlsTest.tscn` (23 checks:
+layout inside the viewport, dead zones, no auto-fire, dash/interact edge
+consumption, multi-touch).
+
+### Rooms and objects
+
+Levels are built from flat rooms plus a `props` array. Every prop is a
+`TopDownProp` with a hard outline, a couple of flat highlight bands and a
+footprint collider, so the map reads like a Hotline Miami floor plan:
+
+`sofa`, `bed`, `table`, `chair`, `bench`, `counter`, `fridge`, `tv`, `shelf`,
+`cabinet`, `desk`, `dumpster`, `car`, `plant`, `rug`, `trash`, `streetlight`
+(plus the existing `crate`, `barrel`, `locker`, `door`).
+
+```json
+{"type": "sofa", "rect": [380, 2400, 190, 74]}
+{"type": "plant", "pos": [930, 390], "radius": 22}
+{"type": "rug", "rect": [470, 180, 240, 180], "solid": false}
+```
+
+Solid props block movement, bullets and vision cones. Rugs, streetlights and
+trash are decoration only. Doorways are kept clear; spawn points are checked
+against footprints.
+
 ### Characters
 
 `TopDownFigure.gd` draws every character out of layered shapes, driven by

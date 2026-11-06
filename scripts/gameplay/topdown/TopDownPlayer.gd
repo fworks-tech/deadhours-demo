@@ -195,6 +195,8 @@ func _nearest_target() -> Node2D:
 	return best
 
 func _dash_pressed() -> bool:
+	if mission and mission.has_method("consume_dash") and mission.consume_dash():
+		return true
 	return Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_SHIFT)
 
 func _fire_pressed() -> bool:
@@ -203,6 +205,8 @@ func _fire_pressed() -> bool:
 	return Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_key_pressed(KEY_J)
 
 func _interact_pressed() -> bool:
+	if mission and mission.has_method("consume_interact") and mission.consume_interact():
+		return true
 	return Input.is_key_pressed(KEY_E)
 
 func _attack() -> void:

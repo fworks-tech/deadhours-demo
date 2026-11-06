@@ -68,9 +68,26 @@ var touch_aim: Vector2 = Vector2.ZERO
 var touch_fire: bool = false
 var _move_touch: int = -1
 var _aim_touch: int = -1
+var _attack_touch: int = -1
+var _dash_touch: int = -1
+var _use_touch: int = -1
+var touch_dash: bool = false
+var touch_interact: bool = false
+
+# touch layout (recomputed on resize)
+var _move_base: Vector2 = Vector2.ZERO
+var _aim_base: Vector2 = Vector2.ZERO
+var _btn_attack: Vector2 = Vector2.ZERO
+var _btn_dash: Vector2 = Vector2.ZERO
+var _btn_use: Vector2 = Vector2.ZERO
+# QA hook: lets the headless harness lay the controls out for a phone screen.
+var layout_size: Vector2 = Vector2.ZERO
 var _move_origin: Vector2 = Vector2.ZERO
 var _aim_origin: Vector2 = Vector2.ZERO
 const STICK_RADIUS := 78.0
+const BTN_ATTACK_R := 54.0
+const BTN_DASH_R := 40.0
+const BTN_USE_R := 34.0
 
 var _shake: float = 0.0
 var _message_t: float = 0.0
@@ -98,6 +115,8 @@ func _ready() -> void:
 
 func _apply_story_context() -> void:
 	mission_id = default_mission_id
+	if not OS.get_environment("TD_LEVEL").is_empty():
+		mission_id = OS.get_environment("TD_LEVEL")
 	if StoryManager and not StoryManager.current_checkpoint.is_empty():
 		var cp: Dictionary = StoryManager.current_checkpoint
 		if cp.get("type", "") == "mission" and cp.has("mission_id"):
@@ -294,6 +313,21 @@ func _build_props() -> void:
 				door.horizontal = door.rect.size.x >= door.rect.size.y
 				world.add_child(door)
 				doors.append(door)
+			"sofa", "bed", "table", "chair", "bench", "counter", "fridge", "tv", "shelf", "cabinet", "desk", "dumpster", "car", "plant", "rug", "trash", "streetlight":
+				var prect := _r(prop.get("rect", []))
+				if prect.size == Vector2.ZERO and prop.has("pos"):
+					var rad := float(prop.get("radius", 18.0))
+					prect = Rect2(_v(prop.get("pos", [0, 0])) - Vector2(rad, rad), Vector2(rad, rad) * 2.0)
+				if prect.size == Vector2.ZERO:
+					continue
+				var furn := TopDownProp.new()
+				furn.position = prect.position + prect.size * 0.5
+				furn.setup(ptype, prect.size, int(prop.get("seed", int(prect.position.x + prect.position.y))))
+				furn.z_index = 0 if ptype == "rug" else 1
+				world.add_child(furn)
+				var solid_default: bool = ptype not in ["rug", "streetlight", "trash"]
+				if bool(prop.get("solid", solid_default)):
+					_add_prop_collider(prect)
 			"locker":
 				var locker := LockerNode.new()
 				locker.mission = self
@@ -302,6 +336,19 @@ func _build_props() -> void:
 				lockers.append(locker)
 			_:
 				pass
+
+func _add_prop_collider(rect: Rect2) -> void:
+	# Furniture blocks movement, sight and bullets: one static box per footprint.
+	var body := StaticBody2D.new()
+	body.collision_layer = 1 << 0
+	body.collision_mask = 0
+	var shape := CollisionShape2D.new()
+	var rs := RectangleShape2D.new()
+	rs.size = rect.size
+	shape.shape = rs
+	shape.position = rect.position + rect.size * 0.5
+	body.add_child(shape)
+	world.add_child(body)
 
 func _build_pickups() -> void:
 	for p in level.get("pickups", []):
@@ -367,7 +414,11 @@ func _spawn_enemies() -> void:
 func _build_camera() -> void:
 	camera = Camera2D.new()
 	camera.name = "Camera"
-	camera.zoom = Vector2(1.55, 1.55)
+	var zoom_value := 1.55
+	var env_zoom := OS.get_environment("TD_ZOOM")
+	if not env_zoom.is_empty():
+		zoom_value = maxf(0.35, float(env_zoom))
+	camera.zoom = Vector2(zoom_value, zoom_value)
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 7.0
 	camera.limit_left = int(world_rect.position.x)
@@ -662,6 +713,11 @@ func _build_ui() -> void:
 	joystick_view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	joystick_view.mission = self
 	root.add_child(joystick_view)
+	_layout_touch()
+	if not get_viewport().size_changed.is_connected(_on_viewport_resized):
+		get_viewport().size_changed.connect(_on_viewport_resized)
+	if OS.get_environment("TD_TOUCH_PREVIEW") == "1":
+		touch_mode = true
 
 	var vignette := ColorRect.new()
 	vignette.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -777,6 +833,20 @@ func _build_briefing() -> void:
 	go.pressed.connect(start_mission)
 	box.add_child(go)
 
+	var ctrls := Label.new()
+	ctrls.text = "TOUCH   left stick move   ·   right stick aim   ·   ATTACK   ·   DASH   ·   USE"
+	ctrls.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	ctrls.add_theme_font_size_override("font_size", 14)
+	ctrls.add_theme_color_override("font_color", Color(0.78, 0.9, 0.85, 0.75))
+	box.add_child(ctrls)
+
+	var keys := Label.new()
+	keys.text = "KEYS   WASD move   ·   mouse aim   ·   LMB attack   ·   SPACE dash   ·   E use"
+	keys.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	keys.add_theme_font_size_override("font_size", 13)
+	keys.add_theme_color_override("font_color", Color(0.6, 0.62, 0.6, 0.65))
+	box.add_child(keys)
+
 	var tap := Label.new()
 	tap.text = "tap anywhere to begin"
 	tap.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -812,11 +882,40 @@ func _update_hud() -> void:
 func _update_joystick_view() -> void:
 	if joystick_view == null:
 		return
-	joystick_view.move_origin = _move_origin if _move_touch != -1 else Vector2.ZERO
-	joystick_view.move_vec = touch_move
-	joystick_view.aim_origin = _aim_origin if _aim_touch != -1 else Vector2.ZERO
-	joystick_view.aim_vec = touch_aim
 	joystick_view.queue_redraw()
+
+func _view_size() -> Vector2:
+	return layout_size if layout_size != Vector2.ZERO else get_viewport_rect().size
+
+func _layout_touch() -> void:
+	var vs: Vector2 = _view_size()
+	var m := 30.0
+	_move_base = Vector2(m + STICK_RADIUS + 6.0, vs.y - m - STICK_RADIUS)
+	_aim_base = Vector2(vs.x - m - STICK_RADIUS, vs.y - m - STICK_RADIUS)
+	_btn_attack = Vector2(_aim_base.x + 22.0, _aim_base.y - STICK_RADIUS - BTN_ATTACK_R - 24.0)
+	_btn_dash = Vector2(_btn_attack.x - BTN_ATTACK_R - BTN_DASH_R - 16.0, _btn_attack.y + 18.0)
+	_btn_use = Vector2(_btn_attack.x - 4.0, _btn_attack.y - BTN_ATTACK_R - BTN_USE_R - 14.0)
+
+func _on_viewport_resized() -> void:
+	_layout_touch()
+	if joystick_view:
+		joystick_view.queue_redraw()
+
+func consume_dash() -> bool:
+	var pressed := touch_dash
+	touch_dash = false
+	return pressed
+
+func consume_interact() -> bool:
+	var pressed := touch_interact
+	touch_interact = false
+	return pressed
+
+func use_button_available() -> bool:
+	return _near_interactable != null
+
+func _hit(pos: Vector2, center: Vector2, radius: float) -> bool:
+	return pos.distance_to(center) <= radius + 12.0
 
 # ------------------------------------------------------------- touch -------
 
@@ -827,29 +926,49 @@ func _unhandled_input(event: InputEvent) -> void:
 			if not game_started:
 				start_mission()
 				return
-			if event.position.x < get_viewport_rect().size.x * 0.5 and _move_touch == -1:
+			# action buttons first: they must never steal a stick finger
+			if _hit(event.position, _btn_attack, BTN_ATTACK_R):
+				_attack_touch = event.index
+				touch_fire = true
+				_vibrate(12)
+				return
+			if _hit(event.position, _btn_dash, BTN_DASH_R):
+				_dash_touch = event.index
+				touch_dash = true
+				_vibrate(18)
+				return
+			if _hit(event.position, _btn_use, BTN_USE_R):
+				_use_touch = event.index
+				touch_interact = true
+				_vibrate(12)
+				return
+			# sticks: left half moves, right half aims
+			if event.position.x < _view_size().x * 0.5 and _move_touch == -1:
 				_move_touch = event.index
 				_move_origin = event.position
 			elif _aim_touch == -1:
 				_aim_touch = event.index
 				_aim_origin = event.position
-				touch_fire = true
 		else:
+			if event.index == _attack_touch:
+				_attack_touch = -1
+				touch_fire = false
+			if event.index == _dash_touch:
+				_dash_touch = -1
+			if event.index == _use_touch:
+				_use_touch = -1
 			if event.index == _move_touch:
 				_move_touch = -1
 				touch_move = Vector2.ZERO
 			if event.index == _aim_touch:
 				_aim_touch = -1
 				touch_aim = Vector2.ZERO
-				touch_fire = false
 	elif event is InputEventScreenDrag:
 		touch_mode = true
 		if event.index == _move_touch:
-			touch_move = (event.position - _move_origin) / STICK_RADIUS
-			touch_move = touch_move.limit_length(1.0)
+			touch_move = ((event.position - _move_origin) / STICK_RADIUS).limit_length(1.0)
 		elif event.index == _aim_touch:
-			touch_aim = (event.position - _aim_origin) / STICK_RADIUS
-			touch_aim = touch_aim.limit_length(1.0)
+			touch_aim = ((event.position - _aim_origin) / STICK_RADIUS).limit_length(1.0)
 	elif event is InputEventKey and event.pressed and not event.echo:
 		if not game_started and (event.keycode == KEY_ENTER or event.keycode == KEY_SPACE):
 			start_mission()
@@ -857,6 +976,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_tree().reload_current_scene()
 	elif event is InputEventMouseButton and event.pressed and not game_started:
 		start_mission()
+
+func _vibrate(ms: int) -> void:
+	if OS.has_feature("mobile"):
+		Input.vibrate_handheld(ms)
 
 # ------------------------------------------------------- nested views ------
 
@@ -1136,19 +1259,79 @@ class ExitView extends Node2D:
 		draw_string(ThemeDB.fallback_font, Vector2(10, 26), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(0.7, 1.0, 0.85, 0.8))
 
 class JoystickView extends Control:
+	const R_STICK := 78.0
+	const R_ATTACK := 54.0
+	const R_DASH := 40.0
+	const R_USE := 34.0
 	var mission: Node
-	var move_origin: Vector2 = Vector2.ZERO
-	var move_vec: Vector2 = Vector2.ZERO
-	var aim_origin: Vector2 = Vector2.ZERO
-	var aim_vec: Vector2 = Vector2.ZERO
+
 	func _draw() -> void:
-		if mission == null:
+		if mission == null or not mission.touch_mode:
 			return
-		if mission._move_touch != -1:
-			draw_circle(mission._move_origin, 78.0, Color(1, 1, 1, 0.06))
-			draw_arc(mission._move_origin, 78.0, 0, TAU, 32, Color(1, 1, 1, 0.18), 2.0)
-			draw_circle(mission._move_origin + mission.touch_move * 60.0, 26.0, Color(1, 1, 1, 0.20))
-		if mission._aim_touch != -1:
-			draw_circle(mission._aim_origin, 78.0, Color(1, 0.25, 0.35, 0.06))
-			draw_arc(mission._aim_origin, 78.0, 0, TAU, 32, Color(1, 0.35, 0.45, 0.22), 2.0)
-			draw_circle(mission._aim_origin + mission.touch_aim * 60.0, 26.0, Color(1, 0.35, 0.45, 0.25))
+		var font := ThemeDB.fallback_font
+		var move_active: bool = mission._move_touch != -1
+		var aim_active: bool = mission._aim_touch != -1
+
+		# fixed homes, so the thumbs know where to come back to
+		_draw_home(font, mission._move_base, "MOVE", Color(0.82, 0.92, 0.88), move_active)
+		_draw_home(font, mission._aim_base, "AIM", Color(1.0, 0.42, 0.5), aim_active)
+
+		if move_active:
+			_draw_stick(mission._move_origin, mission.touch_move, Color(0.85, 0.95, 0.9, 0.22), Color(0.9, 1.0, 0.95, 0.5))
+		if aim_active:
+			_draw_stick(mission._aim_origin, mission.touch_aim, Color(1.0, 0.35, 0.45, 0.18), Color(1.0, 0.45, 0.55, 0.55))
+
+		var p = mission.player
+		var attack_label := "HIT"
+		var sub := ""
+		if p:
+			var w: Dictionary = p.weapon()
+			if not bool(w.get("melee", true)):
+				attack_label = "FIRE"
+			sub = str(w.get("label", "")).to_upper()
+			if not bool(w.get("melee", true)):
+				sub += " %d" % int(p.ammo)
+		_draw_button(font, mission._btn_attack, R_ATTACK, attack_label, sub,
+			mission._attack_touch != -1, Color(1.0, 0.36, 0.44))
+
+		var dash_ready := true
+		if p and p._dash_cd_left > 0.0:
+			dash_ready = false
+		_draw_button(font, mission._btn_dash, R_DASH, "DASH", "",
+			mission._dash_touch != -1, Color(0.5, 0.85, 1.0) if dash_ready else Color(0.4, 0.45, 0.5))
+
+		if mission.use_button_available():
+			_draw_button(font, mission._btn_use, R_USE, "USE", "",
+				mission._use_touch != -1, Color(0.7, 1.0, 0.82))
+
+	func _draw_home(font: Font, center: Vector2, label: String, accent: Color, active: bool) -> void:
+		var a: float = 0.0 if active else 1.0
+		draw_circle(center, R_STICK, Color(1, 1, 1, 0.035 * a))
+		draw_arc(center, R_STICK, 0, TAU, 40, Color(accent.r, accent.g, accent.b, 0.22 * a), 1.5)
+		for i in range(4):
+			var d: Vector2 = Vector2.RIGHT.rotated(i * PI * 0.5)
+			draw_line(center + d * (R_STICK - 9), center + d * (R_STICK - 2), Color(accent.r, accent.g, accent.b, 0.25 * a), 1.5)
+		_text(font, center + Vector2(0, R_STICK + 18), label, 12, Color(accent.r, accent.g, accent.b, 0.45 * a))
+
+	func _draw_stick(origin: Vector2, vec: Vector2, fill: Color, ring: Color) -> void:
+		draw_circle(origin, R_STICK, fill)
+		draw_arc(origin, R_STICK, 0, TAU, 40, ring, 2.0)
+		var knob: Vector2 = origin + vec * (R_STICK - 26.0)
+		draw_circle(knob, 26.0, Color(0.95, 0.97, 0.95, 0.22))
+		draw_arc(knob, 26.0, 0, TAU, 28, ring, 1.6)
+		draw_circle(knob, 7.0, Color(ring.r, ring.g, ring.b, 0.5))
+
+	func _draw_button(font: Font, center: Vector2, radius: float, label: String, sub: String,
+			pressed: bool, accent: Color) -> void:
+		var lift: float = 2.0 if pressed else 0.0
+		draw_circle(center + Vector2(0, lift), radius, Color(accent.r, accent.g, accent.b, 0.16 if pressed else 0.08))
+		draw_arc(center + Vector2(0, lift), radius, 0, TAU, 36, Color(accent.r, accent.g, accent.b, 0.85 if pressed else 0.5), 2.0)
+		draw_arc(center + Vector2(0, lift), radius - 6.0, 0, TAU, 36, Color(1, 1, 1, 0.06), 10.0)
+		_text(font, center + Vector2(0, 2 if sub.is_empty() else -6), label, 18, Color(0.95, 0.95, 0.92, 0.92))
+		if not sub.is_empty():
+			_text(font, center + Vector2(0, 16), sub, 11, Color(0.85, 0.85, 0.8, 0.55))
+
+	func _text(font: Font, at: Vector2, text: String, size: int, color: Color) -> void:
+		var sz: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size)
+		draw_string(font, at - Vector2(sz.x * 0.5, -sz.y * 0.34), text, HORIZONTAL_ALIGNMENT_LEFT, -1, size, color)
+
