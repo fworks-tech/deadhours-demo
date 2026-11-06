@@ -40,6 +40,9 @@ The script composes these automatically — the packs below are the source of tr
 - **amber_terminal** — retro institutional: amber phosphor glow, photocopied
   document-photo texture, bureaucratic dread. Post: amber duotone + scanlines.
 - **cold_noir** — desaturated blue-grey, harsh noir light, clinical dread.
+- **neon_noir** — Hotline Miami top-down: checkerboard floors, magenta/cyan/amber
+  neon strips on near-black, saturated and hard-lit. Also has a `sprite` prompt kind
+  (top-down character, weapon readable). Post: +25% saturation, +12% contrast, light grain.
   Post: cool desaturate + grain.
 
 ## Working without generative AI (manual pipeline)
