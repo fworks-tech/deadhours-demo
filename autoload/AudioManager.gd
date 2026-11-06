@@ -42,21 +42,23 @@ var is_music_playing: bool = false
 
 # Standard Chapter Music File Map
 const CHAPTER_MUSIC_MAP := {
-	1: "res://assets/audio/music/chapter1.ogg",
-	2: "res://assets/audio/music/chapter2.ogg",
-	3: "res://assets/audio/music/chapter3.ogg"
+	1: "res://assets/audio/music/chapter1.wav",
+	2: "res://assets/audio/music/chapter2.wav",
+	3: "res://assets/audio/music/chapter3.wav"
 }
 
 # Standard Ambient Track File Map
 const AMBIENT_TRACK_MAP := {
-	"rain": "res://assets/audio/ambient/rain_loop.ogg",
-	"wind": "res://assets/audio/ambient/wind_loop.ogg",
-	"drone": "res://assets/audio/ambient/cold_drone_loop.ogg",
-	"gas_station": "res://assets/audio/ambient/gas_station_hum.ogg",
-	"industrial": "res://assets/audio/ambient/industrial_hum.ogg"
+	"rain": "res://assets/audio/ambient/rain_loop.wav",
+	"wind": "res://assets/audio/ambient/wind_loop.wav",
+	"drone": "res://assets/audio/ambient/cold_drone_loop.wav",
+	"gas_station": "res://assets/audio/ambient/gas_station_hum.wav",
+	"industrial": "res://assets/audio/ambient/industrial_hum.wav"
 }
 
 func _ready() -> void:
+	# music, ambience and voices must survive a paused tree (menus, dialogue)
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_audio_players()
 	_load_initial_volumes()
 	_connect_story_manager()
@@ -107,7 +109,7 @@ func play_chapter_music(chapter_id: Variant) -> void:
 	var ch_num: int = int(chapter_id) if (chapter_id is int or (chapter_id is String and chapter_id.is_valid_int())) else 1
 	current_chapter = ch_num
 	
-	var track_path: String = CHAPTER_MUSIC_MAP.get(ch_num, "res://assets/audio/music/chapter%d.ogg" % ch_num)
+	var track_path: String = CHAPTER_MUSIC_MAP.get(ch_num, "res://assets/audio/music/chapter%d.wav" % ch_num)
 	var track_name: String = track_path.get_file().get_basename()
 	
 	if ResourceLoader.exists(track_path):
@@ -196,7 +198,7 @@ func play_ambient(key: String, fade_time: float = 1.0) -> void:
 	if _ambient_players.has(key) and _ambient_players[key].playing:
 		return
 	
-	var track_path: String = AMBIENT_TRACK_MAP.get(key, "res://assets/audio/ambient/%s.ogg" % key)
+	var track_path: String = AMBIENT_TRACK_MAP.get(key, "res://assets/audio/ambient/%s.wav" % key)
 	
 	var player: AudioStreamPlayer = _ambient_players.get(key, null)
 	if player == null:

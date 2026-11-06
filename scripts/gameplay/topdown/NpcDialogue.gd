@@ -1,10 +1,10 @@
 # NpcDialogue.gd
-# In-mission conversation overlay: portrait, speaker, typewriter text and
-# branching choices. Reads assets/data/dialogues.json and applies the same flag
-# operations the cutscenes use, so a conversation in a mission feeds the story.
+# In-mission conversation overlay in the Dead Hours look: the game keeps showing
+# behind a soft vignette, the panel is void-black with a hairline accent stripe,
+# and every speaker has a pitch-shifted "voice" blip while the line types out.
 #
-# The tree is paused while a conversation is open (this layer keeps running),
-# which is how Hotline Miami style games let a talk happen mid-firefight.
+# Reads assets/data/dialogues.json and applies the same flag operations the
+# cutscenes use, so a conversation in a mission feeds the story.
 extends CanvasLayer
 class_name NpcDialogue
 
@@ -12,6 +12,23 @@ signal closed()
 
 const DATA_PATH := "res://assets/data/dialogues.json"
 const PORTRAIT_DIR := "res://assets/images/portraits/%s.png"
+const VOICE_DIR := "res://assets/audio/voices/voice_%s.wav"
+const VOICE_VARIANTS := ["a", "b", "c", "d"]
+
+const BONE := Color("#e6e1d5")
+const VOID := Color("#0a0c0b")
+const HINT := Color(0.52, 0.58, 0.55)
+
+# speaker -> accent colour and voice pitch (fake voice, Animal-Crossing style)
+const SPEAKERS := {
+	"narrator": {"accent": Color("#6b7a72"), "pitch": 0.0},
+	"marcus": {"accent": Color("#9fbfd0"), "pitch": 0.88},
+	"stranger": {"accent": Color("#a8564f"), "pitch": 1.02},
+	"garcia": {"accent": Color("#c9a35a"), "pitch": 0.7},
+	"priya": {"accent": Color("#7fb7a1"), "pitch": 1.3},
+	"elena": {"accent": Color("#d8d3c4"), "pitch": 1.12},
+	"danny": {"accent": Color("#b98a68"), "pitch": 1.2},
+}
 
 static var _data: Dictionary = {}
 
@@ -22,18 +39,25 @@ var current: String = ""
 var npc: Node = null
 var active: bool = false
 
+var _speaker: String = "narrator"
+var _accent: Color = Color("#6b7a72")
 var _typing: bool = false
 var _full_text: String = ""
 var _shown: float = 0.0
 var _speed: float = 62.0
+var _blip_counter: int = 0
 
 var _root: Control
 var _portrait: TextureRect
+var _portrait_frame: PanelContainer
+var _stripe: ColorRect
 var _name: Label
 var _text: Label
 var _choices: VBoxContainer
 var _hint: Label
 var _choice_nodes: Array = []
+var _typing_finished_choices: Array = []
+var _voice_players: Array = []
 
 # ---------------------------------------------------------------- data
 
@@ -57,6 +81,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	layer = 60
 	_build_ui()
+	_load_voices()
 	visible = false
 
 func _build_ui() -> void:
@@ -65,61 +90,132 @@ func _build_ui() -> void:
 	_root.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_root)
 
-	var dim := ColorRect.new()
-	dim.color = Color(0.02, 0.03, 0.03, 0.55)
-	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_root.add_child(dim)
+	# the game stays visible: only a light wash plus a bottom gradient for legibility
+	var wash := ColorRect.new()
+	wash.color = Color(0.02, 0.03, 0.035, 0.16)
+	wash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.add_child(wash)
+
+	var grad := Gradient.new()
+	grad.set_color(0, Color(0.02, 0.03, 0.035, 0.0))
+	grad.set_color(1, Color(0.02, 0.03, 0.035, 0.86))
+	var tex := GradientTexture2D.new()
+	tex.gradient = grad
+	tex.fill_from = Vector2(0, 0)
+	tex.fill_to = Vector2(0, 1)
+	tex.width = 8
+	tex.height = 128
+	var shade := TextureRect.new()
+	shade.texture = tex
+	shade.stretch_mode = TextureRect.STRETCH_SCALE
+	shade.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	shade.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	shade.offset_top = -340.0
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.add_child(shade)
 
 	var panel := PanelContainer.new()
 	panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	panel.offset_top = -300.0
-	panel.offset_left = 24.0
-	panel.offset_right = -24.0
-	panel.offset_bottom = -20.0
+	panel.offset_top = -286.0
+	panel.offset_left = 28.0
+	panel.offset_right = -28.0
+	panel.offset_bottom = -24.0
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#0c1012")
-	style.border_color = Color("#3e5c46")
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(4)
+	style.bg_color = Color(VOID.r, VOID.g, VOID.b, 0.9)
+	style.border_color = Color(0.24, 0.33, 0.34, 0.9)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(2)
 	panel.add_theme_stylebox_override("panel", style)
 	_root.add_child(panel)
 
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 18)
+	row.add_theme_constant_override("separation", 0)
 	panel.add_child(row)
 
+	_stripe = ColorRect.new()
+	_stripe.custom_minimum_size = Vector2(3, 0)
+	_stripe.color = _accent
+	row.add_child(_stripe)
+
+	var inner := HBoxContainer.new()
+	inner.add_theme_constant_override("separation", 18)
+	inner.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var pad := MarginContainer.new()
+	pad.add_theme_constant_override("margin_left", 16)
+	pad.add_theme_constant_override("margin_right", 16)
+	pad.add_theme_constant_override("margin_top", 12)
+	pad.add_theme_constant_override("margin_bottom", 12)
+	pad.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(inner)
+	row.add_child(pad)
+
+	_portrait_frame = PanelContainer.new()
+	_portrait_frame.custom_minimum_size = Vector2(214, 232)
+	var pstyle := StyleBoxFlat.new()
+	pstyle.bg_color = Color(0.03, 0.04, 0.045, 1.0)
+	pstyle.border_color = _accent
+	pstyle.set_border_width_all(1)
+	pstyle.set_corner_radius_all(2)
+	_portrait_frame.add_theme_stylebox_override("panel", pstyle)
+	inner.add_child(_portrait_frame)
+
 	_portrait = TextureRect.new()
-	_portrait.custom_minimum_size = Vector2(220, 240)
 	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	row.add_child(_portrait)
+	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_portrait_frame.add_child(_portrait)
 
 	var col := VBoxContainer.new()
 	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	col.add_theme_constant_override("separation", 8)
-	row.add_child(col)
+	col.add_theme_constant_override("separation", 6)
+	inner.add_child(col)
 
 	_name = Label.new()
-	_name.add_theme_font_size_override("font_size", 20)
-	_name.add_theme_color_override("font_color", Color("#e6e1d5"))
+	_name.add_theme_font_size_override("font_size", 19)
 	col.add_child(_name)
+
+	var rule := ColorRect.new()
+	rule.custom_minimum_size = Vector2(0, 1)
+	rule.color = Color(_accent.r, _accent.g, _accent.b, 0.35)
+	col.add_child(rule)
 
 	_text = Label.new()
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_text.add_theme_font_size_override("font_size", 17)
-	_text.add_theme_color_override("font_color", Color(0.85, 0.86, 0.82))
+	_text.add_theme_color_override("font_color", Bone_color())
 	col.add_child(_text)
 
 	_choices = VBoxContainer.new()
-	_choices.add_theme_constant_override("separation", 6)
+	_choices.add_theme_constant_override("separation", 5)
 	col.add_child(_choices)
 
 	_hint = Label.new()
-	_hint.add_theme_font_size_override("font_size", 12)
-	_hint.add_theme_color_override("font_color", Color(0.55, 0.6, 0.58))
+	_hint.add_theme_font_size_override("font_size", 11)
+	_hint.add_theme_color_override("font_color", HINT)
 	col.add_child(_hint)
+
+func Bone_color() -> Color:
+	return BONE
+
+func _load_voices() -> void:
+	for key in VOICE_VARIANTS:
+		var path := VOICE_DIR % key
+		if ResourceLoader.exists(path):
+			_voice_players.append(load(path))
+
+func _set_accent(speaker: String) -> void:
+	var cfg: Dictionary = SPEAKERS.get(speaker, {"accent": Color("#8f9a92"), "pitch": 1.0})
+	_accent = cfg.get("accent", Color("#8f9a92"))
+	_speaker = speaker
+	if _stripe:
+		_stripe.color = _accent
+	if _name:
+		_name.add_theme_color_override("font_color", _accent)
+	if _portrait_frame:
+		var st := _portrait_frame.get_theme_stylebox("panel")
+		if st is StyleBoxFlat:
+			st.border_color = _accent
 
 # ---------------------------------------------------------------- flow
 
@@ -145,33 +241,32 @@ func enter_node(node_id: String) -> void:
 	var node: Dictionary = nodes[node_id]
 	_apply(node.get("effects", []))
 	var speaker := str(node.get("speaker", conversation.get("speaker", "narrator")))
+	_set_accent(speaker)
 	_name.text = str(node.get("name", speaker.to_upper()))
 	_set_portrait(str(node.get("portrait", "")))
 	_show_text(str(node.get("text", "")))
 	_clear_choices()
 	if node.has("choices"):
-		# defer so the line can be read (or skipped) before the options appear
 		_typing_finished_choices = node.get("choices", [])
-
-var _typing_finished_choices: Array = []
 
 func _set_portrait(key: String) -> void:
 	if key.is_empty():
 		_portrait.texture = null
-		_portrait.visible = false
+		_portrait_frame.visible = false
 		return
 	var path := PORTRAIT_DIR % key
 	if ResourceLoader.exists(path):
 		_portrait.texture = load(path)
-		_portrait.visible = true
+		_portrait_frame.visible = true
 	else:
 		_portrait.texture = null
-		_portrait.visible = false
+		_portrait_frame.visible = false
 
 func _show_text(text: String) -> void:
 	_full_text = text
 	_shown = 0.0
 	_typing = true
+	_blip_counter = 0
 	_text.text = text
 	_text.visible_characters = 0
 	_hint.text = "SPACE / TAP TO CONTINUE"
@@ -180,9 +275,29 @@ func _process(delta: float) -> void:
 	if not active or not _typing:
 		return
 	_shown += delta * _speed
+	var before := _text.visible_characters
 	_text.visible_characters = int(_shown)
+	if _text.visible_characters != before:
+		_maybe_blip(before, _text.visible_characters)
 	if _shown >= float(_full_text.length()):
 		_finish_typing()
+
+func _maybe_blip(from: int, to: int) -> void:
+	if _voice_players.is_empty():
+		return
+	var cfg: Dictionary = SPEAKERS.get(_speaker, {"pitch": 1.0})
+	var pitch: float = float(cfg.get("pitch", 1.0))
+	if pitch <= 0.0:            # narrator stays silent
+		return
+	for i in range(max(0, from), min(to, _full_text.length())):
+		var ch := _full_text[i]
+		if ch == " " or ch == "." or ch == ",":
+			continue
+		_blip_counter += 1
+		if _blip_counter % 2 == 0:
+			var stream = _voice_players[(i + _blip_counter) % _voice_players.size()]
+			AudioManager.play_sfx(stream, pitch * randf_range(0.94, 1.08))
+			break
 
 func _finish_typing() -> void:
 	_typing = false
@@ -234,8 +349,30 @@ func _show_choices(list: Array) -> void:
 		var btn := Button.new()
 		btn.text = "%d. %s" % [_choice_nodes.size() + 1, str(choice.get("text", ""))]
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		btn.custom_minimum_size = Vector2(0, 38)
+		btn.custom_minimum_size = Vector2(0, 36)
 		btn.add_theme_font_size_override("font_size", 16)
+		btn.add_theme_color_override("font_color", BONE)
+		btn.add_theme_color_override("font_hover_color", Color("#0a0c0b"))
+
+		var normal := StyleBoxFlat.new()
+		normal.bg_color = Color(0.06, 0.08, 0.09, 0.92)
+		normal.border_color = Color(_accent.r, _accent.g, _accent.b, 0.5)
+		normal.border_width_left = 3
+		normal.set_corner_radius_all(1)
+		normal.content_margin_left = 10
+		normal.content_margin_right = 8
+		btn.add_theme_stylebox_override("normal", normal)
+
+		var hover := StyleBoxFlat.new()
+		hover.bg_color = _accent
+		hover.border_color = _accent
+		hover.border_width_left = 3
+		hover.set_corner_radius_all(1)
+		hover.content_margin_left = 10
+		hover.content_margin_right = 8
+		btn.add_theme_stylebox_override("hover", hover)
+		btn.add_theme_stylebox_override("pressed", hover)
+
 		btn.pressed.connect(_choose.bind(choice))
 		_choices.add_child(btn)
 		_choice_nodes.append(btn)

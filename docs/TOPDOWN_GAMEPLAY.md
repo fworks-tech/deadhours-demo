@@ -214,6 +214,28 @@ Solid props block movement, bullets and vision cones. Rugs, streetlights and
 trash are decoration only. Doorways are kept clear; spawn points are checked
 against footprints.
 
+### Sound and voice
+
+All audio is synthesised by `tools/make_audio.py` (pure Python, no samples, no
+licences to clear). Output, 22050 Hz mono WAV with seamless loops:
+
+- `assets/audio/music/chapter{1,2,3}.wav` — 24 s loops: night dread (drone,
+  heartbeat, distant metal), station tension (eighth-note pulse, fluorescent
+  hum, ticks), Riverside pad (slow minor swell, sparse plucks).
+- `assets/audio/ambient/*.wav` — 12 s beds: `cold_drone_loop`, `gas_station_hum`,
+  `industrial_hum`, `rain_loop`, `wind_loop`.
+- `assets/audio/voices/voice_{a..d}.wav` — 85 ms vocal blips.
+
+Missions pick music and ambience from level data (`"music": "chapter2"`,
+`"ambient": "gas_station"`) and stop both on exit. `AudioManager` now runs with
+`PROCESS_MODE_ALWAYS`, so music and voices survive the paused tree a dialogue
+opens.
+
+The fake voices are per-speaker pitch shifts of the blips (`garcia` 0.7 up to
+`priya` 1.3), fired every other visible character while a line types out;
+`narrator` stays silent. Regenerate everything with
+`python3 tools/make_audio.py`.
+
 ### NPC conversations
 
 Missions can hold people you can talk to. Data lives in two places:
@@ -222,6 +244,11 @@ Missions can hold people you can talk to. Data lives in two places:
   `portrait`, `text`, `next` and `choices`, and `effects` on nodes or choices
   (`set` flags, `inc` counters, `give` a weapon, `hostile`, `complete`).
 - level JSON `npcs` — `{"id","name","char","pos","facing","conversation"}`.
+
+The overlay shows the live game behind a light wash and a bottom gradient, with a
+void-black panel, a per-speaker accent stripe, and hairline rules in the project
+palette (bone `#e6e1d5`, void `#0a0c0b`, threshold green `#3e5c46`, speaker
+accents from amber to rust).
 
 `TopDownNpc.gd` places the body (same layered figure, look from
 `characters.json` > `npcs`), draws the name tag and the TALK ring, and turns to

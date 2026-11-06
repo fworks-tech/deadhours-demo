@@ -199,6 +199,7 @@ func _build_world() -> void:
 	_build_pickups()
 	_build_ambient_effects()
 	_build_npcs()
+	_build_audio()
 	_build_exit()
 	_spawn_player()
 	_spawn_enemies()
@@ -614,6 +615,20 @@ func hit_stop(duration: float = 0.045) -> void:
 
 func _end_hit_stop() -> void:
 	Engine.time_scale = 1.0
+
+# ------------------------------------------------------------------ audio --
+
+func _build_audio() -> void:
+	var music := str(level.get("music", ""))
+	if music.is_empty():
+		var mid := str(default_mission_id)
+		music = "chapter2" if mid.begins_with("ch2") else ("chapter3" if mid.begins_with("ch3") else "chapter1")
+	var mpath := "res://assets/audio/music/%s.wav" % music
+	if ResourceLoader.exists(mpath):
+		AudioManager.play_music(load(mpath), true)
+	var amb := str(level.get("ambient", ""))
+	if not amb.is_empty() and AudioManager.has_method("play_ambient"):
+		AudioManager.play_ambient(amb, 1.5)
 
 # ------------------------------------------------------------- npcs / talk --
 
@@ -1596,3 +1611,12 @@ class JoystickView extends Control:
 		var sz: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size)
 		draw_string(font, at - Vector2(sz.x * 0.5, -sz.y * 0.34), text, HORIZONTAL_ALIGNMENT_LEFT, -1, size, color)
 
+func _exit_tree() -> void:
+	Engine.time_scale = 1.0
+	if dialogue_open:
+		get_tree().paused = false
+	if AudioManager:
+		AudioManager.stop_music(true)
+		var amb := str(level.get("ambient", ""))
+		if not amb.is_empty() and AudioManager.has_method("stop_ambient"):
+			AudioManager.stop_ambient(amb, 0.6)

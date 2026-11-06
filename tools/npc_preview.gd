@@ -1,25 +1,28 @@
-# Renders the NPC conversation UI for design review:
-#   godot --path . --resolution 960x540 --write-movie shot.png res://tools/NpcPreview.tscn
+# Renders the conversation overlay over live gameplay (what the player sees):
+#   TD_AUTOSTART=1 godot --path . --resolution 960x540 --write-movie shot.png res://tools/NpcPreview.tscn
 extends Node2D
 
+var mission: Node
 var dialogue: NpcDialogue
 
 func _ready() -> void:
-	dialogue = NpcDialogue.new()
-	add_child(dialogue)
-	# a couple of frames so the viewport is live before the overlay opens
+	mission = load("res://scenes/gameplay/TopDownMission.tscn").instantiate()
+	mission.default_mission_id = "ch2_sneak"
+	add_child(mission)
+	await get_tree().create_timer(0.5, true, false, true).timeout
+
+	var garcia: Node = null
+	for n in mission.npcs:
+		if n.npc_id == "garcia":
+			garcia = n
+	if garcia == null:
+		push_warning("preview: no garcia")
+		return
+	mission.open_dialogue("garcia_forecourt", garcia)
+	dialogue = mission.npc_dialogue
 	await get_tree().process_frame
-	dialogue.open("garcia_forecourt", null)
-	await get_tree().process_frame
-	dialogue.advance()   # finish typing
+	dialogue.advance()   # finish typing line 1
 	dialogue.advance()   # move to the choice node
 	dialogue.advance()   # finish typing, options appear
-	await get_tree().process_frame
-	get_tree().paused = false   # keep rendering for the capture
-
-func _draw() -> void:
-	draw_rect(Rect2(0, 0, 960, 540), Color("#0a0c0b"))
-	for x in range(0, 960, 48):
-		draw_line(Vector2(x, 0), Vector2(x, 540), Color(1, 1, 1, 0.02), 1.0)
-	for y in range(0, 540, 48):
-		draw_line(Vector2(0, y), Vector2(960, y), Color(1, 1, 1, 0.02), 1.0)
+	# keep rendering for the capture (audio + world stay live)
+	get_tree().paused = false

@@ -703,5 +703,7 @@
       "facing": "east",
       "conversation": "marcus_landing"
     }
-  ]
+  ],
+  "music": "chapter1",
+  "ambient": "wind"
 }

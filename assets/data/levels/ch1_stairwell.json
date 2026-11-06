@@ -789,5 +789,7 @@
       "facing": "north",
       "conversation": "stairwell_stranger"
     }
-  ]
+  ],
+  "music": "chapter1",
+  "ambient": "industrial"
 }

@@ -648,5 +648,7 @@
       "facing": "south",
       "conversation": "priya_store"
     }
-  ]
+  ],
+  "music": "chapter2",
+  "ambient": "gas_station"
 }
