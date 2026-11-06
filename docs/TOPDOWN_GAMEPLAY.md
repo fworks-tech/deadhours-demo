@@ -1,0 +1,219 @@
+# Top-Down Gameplay — Dead Hours
+
+Dead Hours is now a **narrative-driven top-down action game**: painterly cutscenes and
+choices carry the story, and the violent beats are playable missions seen from above
+(Hotline Miami camera, pace and lethality).
+
+Everything narrative already built stays: the checkpoint graph, flags, relationships,
+the 7 endings, the DEEPTALES validator. Missions are just another checkpoint type.
+
+---
+
+## 1. Design rules
+
+| Rule | Why |
+| :--- | :--- |
+| One hit kills, both ways | Tension is positioning, not health bars |
+| Dash is the defensive verb | No blocking; escape is movement |
+| Guns are loud, melee is silent | Gunfire alerts everyone in earshot → consequences |
+| Enemies die permanently | Every body is a flag-able consequence |
+| Missions are short (60–180s) | Fits a mobile session; restarts are cheap |
+| The story remembers | Kills, alarms and time become story flags |
+
+### Controls
+
+**Desktop**
+
+- `WASD` / arrows: move
+- Mouse: aim
+- Left click (or `J`): attack / shoot
+- `Space` or `Shift`: dash
+- `E`: interact (doors, lockers)
+- `R`: restart after death
+
+**Touch**
+
+- Left half drag: virtual stick for movement
+- Right half drag: aim stick; holding it fires, with auto-aim assist
+- On-screen buttons: restart (top right), interact hint (bottom center)
+
+---
+
+## 2. File map
+
+| Path | Purpose |
+| :--- | :--- |
+| `scenes/gameplay/TopDownMission.tscn` | The only mission scene; loads a level by id |
+| `scripts/gameplay/topdown/TopDownMission.gd` | Level builder, camera, HUD, touch input, mission rules |
+| `scripts/gameplay/topdown/TopDownPlayer.gd` | Movement, dash, aim, melee/hitscan weapons, death |
+| `scripts/gameplay/topdown/TopDownEnemy.gd` | Patrol, vision cone, LOS, noise reaction, chase, one-hit kill |
+| `assets/data/levels/*.json` | Level data (geometry, spawns, pickups, flags) |
+| `tools/TopDownSmokeTest.tscn` | Headless QA: builds a level and exercises combat/exit |
+| `tools/story_flow_probe.gd` | Headless QA: checkpoint → mission → back to story |
+
+---
+
+## 3. Level format
+
+Levels live in `assets/data/levels/<mission_id>.json`. Rooms are rectangles; walls are
+generated around them and door openings are carved out of those walls.
+
+```jsonc
+{
+  "id": "ch1_fireescape",
+  "title": "The Fire Escape",
+  "subtitle": "Seven floors of rusted metal",
+  "kicker": "DEAD HOURS · CHAPTER 1 · 04:12",
+  "loading_art": "ch1_fire_escape",      // existing painterly background key
+  "briefing": "…",
+  "tip": "One hit kills. Theirs and yours.",
+  "objective": "DESCEND THE FIRE ESCAPE",
+  "world": { "width": 1440, "height": 2560 },
+  "player": { "spawn": [520, 160], "weapon": "knife" },
+  "rooms": [
+    { "rect": [480, 100, 480, 320], "floor": "checker_red",
+      "neon": "#ff2e88", "neon_side": "top", "label": "7F" }
+  ],
+  "doors": [ { "rect": [660, 410, 160, 20] } ],        // architectural openings
+  "props": [
+    { "type": "crate",  "rect": [500, 130, 56, 56] },
+    { "type": "barrel", "pos": [900, 350], "radius": 20 },
+    { "type": "door",   "rect": [660, 1204, 160, 16], "locked": false },
+    { "type": "locker", "rect": [430, 660, 54, 92] }
+  ],
+  "enemies": [
+    { "pos": [520, 760], "weapon": "fists",
+      "patrol": [[520, 760], [520, 900]], "facing": [1, 0],
+      "view_range": 430, "view_angle": 96 }
+  ],
+  "pickups": [ { "weapon": "pistol", "ammo": 7, "pos": [640, 920] } ],
+  "exit": { "rect": [620, 2140, 240, 140], "label": "STREET" },
+  "on_enemy_killed": [ { "add": { "corruption_level": 1 } } ],
+  "on_alarm":        [ { "set": { "made_enemies": true } } ],
+  "on_complete":     [ { "set": { "fire_escape_used": true } } ]
+}
+```
+
+### Field notes
+
+- `floor`: `checker`, `checker_red`, `concrete`, `dirt`.
+- `neon`: any hex; the strip is drawn along `neon_side` (`top|bottom|left|right`).
+- Rooms that share an edge become connected once a `doors` opening covers the seam.
+- `props.door` is an interactive door on top of an opening (blocks movement and vision
+  until opened with `E`). `locked: true` refuses with a HUD message.
+- `props.locker` hides the player: enemies lose the target until you step out.
+- `complete_on_clear: true` ends the mission when the last enemy dies, instead of
+  requiring the exit zone.
+- `weapon`: `fists`, `knife`, `bat`, `pistol`, `shotgun`.
+
+### Automatic result flags
+
+On completion the mission writes, per mission id:
+
+- `<mission_id>_complete` (bool)
+- `<mission_id>_kills` (int)
+- `<mission_id>_alerted` (bool)
+- `<mission_id>_time` (seconds)
+
+Then it applies `on_complete` flag operations and calls
+`StoryManager.advance_to_next_checkpoint()`.
+
+---
+
+## 4. Story wiring
+
+A checkpoint becomes a mission with:
+
+```json
+{
+  "type": "mission",
+  "mission_id": "ch1_fireescape",
+  "scene": "res://scenes/gameplay/TopDownMission.tscn"
+}
+```
+
+`StoryManager` treats `mission` as `PLAYING`, changes scene, and the mission reads
+`StoryManager.current_checkpoint.mission_id`. If a checkpoint's scene file does not
+exist yet, `StoryManager` now falls back to `GameScene.tscn`, which renders that
+checkpoint's dialogue and choices instead of leaving the player stuck in the previous
+scene.
+
+Live now:
+
+| Checkpoint | Mission | Story role |
+| :--- | :--- | :--- |
+| `ch1_fireescape` | `ch1_fireescape` | Escape the building down the fire escape |
+| `ch1_stairwell` | `ch1_stairwell` | Alternative descent; sets `made_enemies` if the alarm goes |
+| `ch2_sneak_approach` | `ch2_sneak` | Reach the Route 9 back office; `garcia_hostile` on alarm |
+
+Consequences already feed the ending logic:
+
+- `corruption_level` grows with every kill (per-kill flag operation).
+- `made_enemies` / `garcia_hostile` push Chapter 2 toward the hostile branch.
+- `fire_escape_used`, `took_stairs`, `has_flashlight` stay as the story wrote them.
+
+---
+
+## 5. Art direction (neon noir)
+
+The gameplay layer is **procedural neon noir** so it can ship without waiting on a
+sprite pipeline, and so it can be replaced asset-by-asset later.
+
+| Element | Treatment |
+| :--- | :--- |
+| Floors | Checker tiles, 64px cells, grout lines, deterministic grime |
+| Neon | Magenta `#ff2e88`, cyan `#28e0d0`, amber `#ffb03a` wall strips + glow |
+| Walls | Slate `#333d45` with a lit top edge |
+| Void | `#0b0e11` with a faint 128px grid (building mass, not emptiness) |
+| Blood | Layered dark red splatter decals, permanent per mission |
+| Characters | Top-down silhouettes: shoulders, head, weapon, direction |
+| Camera | Zoom 1.55, smoothing, 70px look-ahead toward aim, shake on shots |
+| Vignette | Existing `shaders/vignette.gdshader`, intensity 0.32 |
+
+Existing painterly assets are **not wasted**: every mission briefing is a full-screen
+loading/briefing screen using the chapter background art (`ch1_fire_escape`,
+`ch1_stairwell`, `ch2_gas_station`). Portraits and cutscenes are untouched.
+
+### Art pipeline
+
+`tools/art_pipeline.py` gained a `neon_noir` style pack (plus a `sprite` prompt kind)
+so generated or hand-made top-down sprites, props and backgrounds can be produced with
+the same manifest → fill → verify workflow:
+
+```bash
+python3 tools/art_pipeline.py prompts --style neon_noir
+python3 tools/art_pipeline.py postprocess art.png --style neon_noir
+```
+
+---
+
+## 6. Adding a mission
+
+1. Write `assets/data/levels/<id>.json` (copy an existing level as a base).
+2. Add a checkpoint in `assets/data/story.json` with `type: "mission"`,
+   `mission_id: "<id>"`, `scene: "res://scenes/gameplay/TopDownMission.tscn"`.
+3. Validate: `python3 tools/validate_story.py` (or the Godot addon).
+4. Playtest: open `scenes/gameplay/TopDownMission.tscn` and set
+   `default_mission_id` in the inspector, or run the story to that checkpoint.
+5. QA headless:
+
+```bash
+godot --headless --path . res://tools/TopDownSmokeTest.tscn
+TD_AUTOSTART=1 godot --headless --path . res://scenes/gameplay/TopDownMission.tscn --quit-after 300
+```
+
+`TD_AUTOSTART=1` skips the briefing so automated runs reach gameplay immediately.
+
+---
+
+## 7. Known gaps / next
+
+1. Character sprites are drawn procedurally; a generated sprite sheet should replace
+   the body drawing (the `sprite` art-pipeline kind is ready for it).
+2. No SFX/music yet — the mission uses no audio. Next pass: footsteps, gunshots,
+   melee hit, alarm sting, and a synth loop per mission.
+3. Enemy steering is direct (no navmesh); wide rooms with L-shaped obstacles can
+   snag an enemy. Rectangular room layouts avoid it today.
+4. Difficulty knobs (enemy speed, view range, grace period) are per-level JSON fields;
+   no global difficulty setting yet.
+5. Thrown weapons and weapon pickups from corpses are not implemented.

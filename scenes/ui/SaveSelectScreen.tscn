@@ -1,0 +1,214 @@
+[gd_scene load_steps=5 format=3 uid="uid://save_select_scene_001"]
+
+[ext_resource type="Script" path="res://scripts/ui/SaveSelectScreen.gd" id="1_saveselect"]
+
+[sub_resource type="Gradient" id="Gradient_ss_bg"]
+colors = PackedColorArray(0.04, 0.05, 0.1, 1, 0.02, 0.02, 0.04, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ss_bg"]
+gradient = SubResource("Gradient_ss_bg")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[node name="SaveSelectScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_saveselect")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_ss_bg")
+expand_mode = 1
+
+[node name="SafeAreaMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SafeAreaMargin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TopBar" type="HBoxContainer" parent="SafeAreaMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BackButton" type="Button" parent="SafeAreaMargin/VBoxContainer/TopBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "< Back"
+
+[node name="TitleLabel" type="Label" parent="SafeAreaMargin/VBoxContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "SELECT SAVE SLOT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SafeAreaMargin/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SlotsVBox" type="VBoxContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="Slot0Card" type="PanelContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot0Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBox" type="HBoxContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot0Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Slot0InfoLabel" type="Label" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot0Card/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Auto-Save Slot"
+
+[node name="Slot0LoadBtn" type="Button" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot0Card/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Load"
+
+[node name="Slot0DeleteBtn" type="Button" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot0Card/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Delete"
+
+[node name="Slot1Card" type="PanelContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot1Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBox" type="HBoxContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot1Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Slot1InfoLabel" type="Label" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot1Card/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Save Slot 1"
+
+[node name="Slot1LoadBtn" type="Button" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot1Card/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Load"
+
+[node name="Slot1DeleteBtn" type="Button" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot1Card/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Delete"
+
+[node name="Slot2Card" type="PanelContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot2Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBox" type="HBoxContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot2Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Slot2InfoLabel" type="Label" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot2Card/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Save Slot 2"
+
+[node name="Slot2LoadBtn" type="Button" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot2Card/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Load"
+
+[node name="Slot2DeleteBtn" type="Button" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot2Card/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Delete"
+
+[node name="Slot3Card" type="PanelContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot3Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBox" type="HBoxContainer" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot3Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Slot3InfoLabel" type="Label" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot3Card/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Save Slot 3"
+
+[node name="Slot3LoadBtn" type="Button" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot3Card/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Load"
+
+[node name="Slot3DeleteBtn" type="Button" parent="SafeAreaMargin/VBoxContainer/ScrollContainer/SlotsVBox/Slot3Card/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Delete"

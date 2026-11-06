@@ -1,0 +1,278 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BranchingPaths Story Schema",
+  "description": "JSON Schema specification for narrative story data in BranchingPaths Godot 4 mobile game.",
+  "type": "object",
+  "required": [
+    "game_title",
+    "version",
+    "chapters"
+  ],
+  "properties": {
+    "game_title": {
+      "type": "string",
+      "description": "The title of the narrative game.",
+      "example": "BranchingPaths"
+    },
+    "version": {
+      "type": "string",
+      "description": "Story content format version string.",
+      "example": "1.0"
+    },
+    "total_endings": {
+      "type": "integer",
+      "description": "Total number of possible endings achievable across all chapters.",
+      "example": 6
+    },
+    "chapters": {
+      "type": "object",
+      "description": "Map of chapter keys (e.g. '1', '2') to Chapter definitions.",
+      "additionalProperties": {
+        "$ref": "#/definitions/Chapter"
+      }
+    }
+  },
+  "definitions": {
+    "Chapter": {
+      "type": "object",
+      "description": "A single chapter containing narrative checkpoints.",
+      "required": [
+        "id",
+        "title",
+        "checkpoints"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique short key identifier for the chapter.",
+          "example": "ch1"
+        },
+        "title": {
+          "type": "string",
+          "description": "Display title of the chapter.",
+          "example": "Chapter 1: The Arrival"
+        },
+        "summary": {
+          "type": "string",
+          "description": "Short synopsis or logline of the chapter.",
+          "example": "You arrive at the old estate through fog and rain."
+        },
+        "checkpoints": {
+          "type": "object",
+          "description": "Map of checkpoint IDs to Checkpoint definitions within this chapter.",
+          "additionalProperties": {
+            "$ref": "#/definitions/Checkpoint"
+          }
+        }
+      }
+    },
+    "Checkpoint": {
+      "type": "object",
+      "description": "A node in the narrative flow representing a scene, decision point, puzzle, or story ending.",
+      "required": [
+        "id",
+        "chapter",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this checkpoint across the entire game.",
+          "example": "ch1_start"
+        },
+        "chapter": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Chapter number or chapter ID that owns this checkpoint.",
+          "example": 1
+        },
+        "scene": {
+          "type": "string",
+          "description": "Resource path to the Godot .tscn file associated with this checkpoint.",
+          "example": "res://scenes/cutscenes/Ch1Intro.tscn"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "cutscene",
+            "choice",
+            "exploration",
+            "puzzle",
+            "mission",
+            "end"
+          ],
+          "description": "Checkpoint behavior type: 'cutscene', 'choice', 'exploration', 'puzzle', 'mission' (top-down action mission), 'end'.",
+          "example": "cutscene"
+        },
+        "speaker": {
+          "type": "string",
+          "description": "Optional default speaker or POV character for the checkpoint.",
+          "example": "player"
+        },
+        "dialogue": {
+          "type": "array",
+          "description": "Sequential dialogue lines displayed during this checkpoint.",
+          "items": {
+            "$ref": "#/definitions/DialogueEntry"
+          }
+        },
+        "choices": {
+          "type": "array",
+          "description": "Interactive choices presented to the player (primarily for type 'choice').",
+          "items": {
+            "$ref": "#/definitions/ChoiceEntry"
+          }
+        },
+        "on_enter": {
+          "type": "array",
+          "description": "Flag state modifications executed immediately when entering this checkpoint.",
+          "items": {
+            "$ref": "#/definitions/FlagOperation"
+          }
+        },
+        "next": {
+          "type": "string",
+          "description": "ID of the target checkpoint to advance to automatically when dialogue/scene completes.",
+          "example": "ch1_choice1"
+        },
+        "end_type": {
+          "type": "string",
+          "description": "Required when type is 'end'. Categorizes ending result ('good', 'bad', 'neutral', 'secret').",
+          "example": "good"
+        },
+        "mission_id": {
+          "type": "string",
+          "description": "Level id under assets/data/levels/ for checkpoints of type 'mission'.",
+          "example": "ch1_fireescape"
+        }
+      }
+    },
+    "DialogueEntry": {
+      "type": "object",
+      "description": "A single line of spoken text or narration.",
+      "required": [
+        "speaker",
+        "text"
+      ],
+      "properties": {
+        "speaker": {
+          "type": "string",
+          "description": "Name or ID of character speaking ('narrator', 'alice', 'player').",
+          "example": "alice"
+        },
+        "emotion": {
+          "type": "string",
+          "description": "Emotion expression for portrait/animation mapping ('neutral', 'curious', 'annoyed', 'worried').",
+          "example": "curious"
+        },
+        "text": {
+          "type": "string",
+          "description": "Spoken text line displayed on screen.",
+          "example": "You came. I wasn't sure you would."
+        },
+        "voice": {
+          "type": "string",
+          "description": "Optional path to voice audio file (.wav/.ogg).",
+          "example": "res://assets/audio/voice/ch1_alice_01.wav"
+        }
+      }
+    },
+    "ChoiceEntry": {
+      "type": "object",
+      "description": "An interactive selection option presented to the player.",
+      "required": [
+        "id",
+        "text",
+        "next"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this choice option.",
+          "example": "ch1_c1_enter"
+        },
+        "text": {
+          "type": "string",
+          "description": "Button label text shown to the player.",
+          "example": "Enter the estate with Alice"
+        },
+        "character": {
+          "type": "string",
+          "description": "Character perspective making the choice.",
+          "example": "player"
+        },
+        "requires": {
+          "type": "object",
+          "description": "Condition map or flag state required for this choice to be visible/selectable. Supports boolean checks or operator-value objects.",
+          "example": {
+            "has_key": true,
+            "trust_alice": {
+              ">=": 2
+            }
+          }
+        },
+        "effects": {
+          "type": "array",
+          "description": "Flag state modifications executed when the player selects this choice.",
+          "items": {
+            "$ref": "#/definitions/FlagOperation"
+          }
+        },
+        "next": {
+          "type": "string",
+          "description": "ID of the checkpoint to transition to after picking this choice.",
+          "example": "ch1_inside"
+        }
+      }
+    },
+    "FlagOperation": {
+      "type": "object",
+      "description": "Operation dict applying mutation to game flags ('set', 'add', 'sub', 'toggle', 'clear').",
+      "properties": {
+        "set": {
+          "type": "object",
+          "description": "Sets flag key(s) to specified values (boolean, integer, string).",
+          "example": {
+            "met_alice": true
+          }
+        },
+        "add": {
+          "type": "object",
+          "description": "Increments integer flag key(s) by value.",
+          "example": {
+            "trust_alice": 1
+          }
+        },
+        "sub": {
+          "type": "object",
+          "description": "Decrements integer flag key(s) by value.",
+          "example": {
+            "trust_alice": 1
+          }
+        },
+        "toggle": {
+          "type": "array",
+          "description": "Flips boolean flag key(s) from true to false or false to true.",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "has_flashlight"
+          ]
+        },
+        "clear": {
+          "type": "array",
+          "description": "Resets flag key(s) to default values.",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "temporary_flag"
+          ]
+        }
+      }
+    }
+  }
+}

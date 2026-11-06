@@ -1,0 +1,63 @@
+{
+  "portraits": {
+    "elena": {
+      "scared": "res://assets/images/portraits/elena_scared.png",
+      "breathless": "res://assets/images/portraits/elena_breathless.png",
+      "relieved": "res://assets/images/portraits/elena_relieved.png"
+    },
+    "danny": {
+      "scared": "res://assets/images/portraits/danny_scared.png",
+      "pleading": "res://assets/images/portraits/danny_pleading.png",
+      "weak": "res://assets/images/portraits/danny_weak.png",
+      "peaceful": "res://assets/images/portraits/danny_peaceful.png",
+      "broken": "res://assets/images/portraits/danny_broken.png",
+      "relieved": "res://assets/images/portraits/danny_neutral.png",
+      "neutral": "res://assets/images/portraits/danny_neutral.png"
+    },
+    "garcia": {
+      "neutral": "res://assets/images/portraits/garcia_neutral.png",
+      "serious": "res://assets/images/portraits/garcia_serious.png",
+      "cold": "res://assets/images/portraits/garcia_cold.png"
+    },
+    "priya": {
+      "neutral": "res://assets/images/portraits/priya_neutral.png",
+      "angry": "res://assets/images/portraits/priya_angry.png"
+    },
+    "dr_chen": {
+      "neutral": "res://assets/images/portraits/dr_chen_neutral.png",
+      "serious": "res://assets/images/portraits/dr_chen_serious.png",
+      "sad": "res://assets/images/portraits/dr_chen_sad.png",
+      "amazed": "res://assets/images/portraits/dr_chen_amazed.png"
+    },
+    "marcus": {
+      "wrong": "res://assets/images/portraits/marcus_wrong.png",
+      "neutral": "res://assets/images/portraits/marcus_wrong.png"
+    }
+  },
+  "backgrounds": {
+    "ch1_bedroom": "res://assets/images/backgrounds/ch1_bedroom.png",
+    "ch1_hallway_peephole": "res://assets/images/backgrounds/ch1_hallway_peephole.png",
+    "ch1_fire_escape": "res://assets/images/backgrounds/ch1_fire_escape.png",
+    "ch1_stairwell": "res://assets/images/backgrounds/ch1_stairwell.png",
+    "ch1_garage": "res://assets/images/backgrounds/ch1_garage.png",
+    "ch2_gas_station": "res://assets/images/backgrounds/ch2_gas_station.png",
+    "ch3_riverside": "res://assets/images/backgrounds/ch3_riverside.png",
+    "route9_highway": "res://assets/images/backgrounds/route9_highway.png"
+  },
+  "narrator": {
+    "portrait": null,
+    "color": "#888888"
+  },
+  "unknown": {
+    "portrait": null,
+    "color": "#aaaaaa"
+  },
+  "marcus_text": {
+    "portrait": null,
+    "color": "#66aa66"
+  },
+  "radio": {
+    "portrait": null,
+    "color": "#6699cc"
+  }
+}

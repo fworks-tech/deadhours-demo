@@ -1,0 +1,70 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+; [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+config/name="Dead Hours"
+config/version="1.1.0"
+config/description="A narrative-driven 2D mobile horror game where your choices shape the story. Survive the outbreak."
+run/main_scene="res://scenes/core/SplashScreen.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+GameManager="*res://autoload/GameManager.gd"
+StoryManager="*res://autoload/StoryManager.gd"
+ChoiceManager="*res://autoload/ChoiceManager.gd"
+FlagsManager="*res://autoload/FlagsManager.gd"
+SaveManager="*res://autoload/SaveManager.gd"
+AudioManager="*res://autoload/AudioManager.gd"
+SceneManager="*res://autoload/SceneManager.gd"
+SettingsManager="*res://autoload/SettingsManager.gd"
+BackgroundManager="*res://autoload/BackgroundManager.gd"
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/stretch/mode="canvas_items"
+window/size/stretch/aspect="expand"
+window/handheld/orientation=1
+window/handheld/show_status=false
+
+[input]
+ui_accept={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"button_index":1,"button_mask":0,"pressed":false,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_pressed":false,"canceled":false), Object(InputEventScreenTouch,"index":0,"location":Vector2(0, 0),"pressed":false,"canceled":false)]
+}
+move_left={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194319,"physical_keycode":65,"key_label":0,"unicode":97,"echo":false,"script":null)]
+}
+move_right={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194321,"physical_keycode":68,"key_label":0,"unicode":100,"echo":false,"script":null)]
+}
+move_up={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194320,"physical_keycode":87,"key_label":0,"unicode":119,"echo":false,"script":null)]
+}
+move_down={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194322,"physical_keycode":83,"key_label":0,"unicode":115,"echo":false,"script":null)]
+}
+
+[input_devices]
+pointing/emulate_touch_from_mouse=true
+pointing/emulate_mouse_from_touch=true
+
+[internationalization]
+locale/translations=PackedStringArray("res://locale/en.en.translation", "res://locale/en.pt_BR.translation")
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0

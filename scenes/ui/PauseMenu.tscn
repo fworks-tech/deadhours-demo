@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://pause_menu_scene_001"]
+
+[ext_resource type="Script" path="res://scripts/ui/PauseMenu.gd" id="1_pausemenu"]
+
+[node name="PauseMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pausemenu")
+
+[node name="OverlayBackground" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.82)
+
+[node name="SafeAreaMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="CenterContainer" type="CenterContainer" parent="SafeAreaMargin"]
+layout_mode = 2
+
+[node name="PauseBox" type="VBoxContainer" parent="SafeAreaMargin/CenterContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="SafeAreaMargin/CenterContainer/PauseBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "GAME PAUSED"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="SafeAreaMargin/CenterContainer/PauseBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="SafeAreaMargin/CenterContainer/PauseBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Resume"
+
+[node name="SettingsButton" type="Button" parent="SafeAreaMargin/CenterContainer/PauseBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Settings"
+
+[node name="RestartButton" type="Button" parent="SafeAreaMargin/CenterContainer/PauseBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Restart Chapter"
+
+[node name="QuitButton" type="Button" parent="SafeAreaMargin/CenterContainer/PauseBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Quit to Main Menu"

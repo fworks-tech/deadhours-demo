@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://c_ending_silence_001"]
+
+[ext_resource type="Script" path="res://scripts/narrative/CutsceneTemplate.gd" id="1_cutscene"]
+[ext_resource type="PackedScene" path="res://scenes/narrative/DialogueSystem.tscn" id="2_dialogue"]
+
+[node name="EndingSilence" type="Node2D"]
+script = ExtResource("1_cutscene")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+position_smoothing_enabled = true
+position_smoothing_speed = 5.0
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="Alice" type="Sprite2D" parent="."]
+position = Vector2(320, 420)
+
+[node name="Bob" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 420)
+
+[node name="Player" type="Sprite2D" parent="."]
+position = Vector2(640, 460)
+
+[node name="DialogueSystem" parent="." instance=ExtResource("2_dialogue")]

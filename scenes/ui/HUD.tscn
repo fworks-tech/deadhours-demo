@@ -1,0 +1,112 @@
+[gd_scene load_steps=2 format=3 uid="uid://c_hud_001"]
+
+[ext_resource type="Script" path="res://scripts/ui/HUD.gd" id="1_hud"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="TopBar" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MarginLeft" type="Control" parent="MarginContainer/TopBar/HBox"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="ChapterLabel" type="Label" parent="MarginContainer/TopBar/HBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Chapter 1: The Arrival"
+
+[node name="ObjectiveLabel" type="Label" parent="MarginContainer/TopBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "Objective: Explore the area"
+text_overrun_behavior = 3
+
+[node name="ChoicesCounterLabel" type="Label" parent="MarginContainer/TopBar/HBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Choices: 0"
+
+[node name="PauseButton" type="Button" parent="MarginContainer/TopBar/HBox"]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 18
+text = "⏸"
+
+[node name="PauseOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="ColorRect" type="ColorRect" parent="PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="CenterContainer" type="CenterContainer" parent="PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="PauseOverlay/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PauseTitle" type="Label" parent="PauseOverlay/CenterContainer/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "GAME PAUSED"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="PauseOverlay/CenterContainer/VBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="PauseOverlay/CenterContainer/VBox"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Resume"
+
+[node name="QuitButton" type="Button" parent="PauseOverlay/CenterContainer/VBox"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Quit to Menu"

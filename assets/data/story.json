@@ -1,0 +1,2240 @@
+{
+  "game_title": "Dead Hours",
+  "version": "0.1",
+  "total_endings": 7,
+  "chapters": {
+    "1": {
+      "id": "ch1",
+      "title": "Chapter 1: The First Night",
+      "summary": "The outbreak begins. You wake to screaming and have minutes to decide who lives, who dies, and who you become.",
+      "checkpoints": {
+        "ch1_start": {
+          "id": "ch1_start",
+          "chapter": 1,
+          "scene": "res://scenes/chapters/ch1_start.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "3:47 AM. The screaming woke you."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Not the neighbors fighting again. Something worse. Something that doesn't sound human."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "Your phone buzzes. A message from Marcus: 'Don't open the door. Don't go outside. They're everywhere.'"
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "chapter1_started": true
+              }
+            }
+          ],
+          "next": "ch1_choice1"
+        },
+        "ch1_choice1": {
+          "id": "ch1_choice1",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1Bedroom.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "Someone is banging on your apartment door. The sound is desperate. Human. You think."
+            },
+            {
+              "speaker": "unknown",
+              "emotion": "scared",
+              "text": "Please! Please open the door! They're coming! I can hear them on the stairs!"
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch1_c1_open",
+              "text": "Open the door — let them in",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "let_stranger_in": true
+                  }
+                },
+                {
+                  "set": {
+                    "met_elena": true
+                  }
+                }
+              ],
+              "next": "ch1_elena_enter"
+            },
+            {
+              "id": "ch1_c1_refuse",
+              "text": "Stay quiet — don't answer",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "ignored_stranger": true
+                  }
+                },
+                {
+                  "add": {
+                    "corruption_level": 1
+                  }
+                }
+              ],
+              "next": "ch1_refuse_door"
+            },
+            {
+              "id": "ch1_c1_look",
+              "text": "Look through the peephole first",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "checked_peephole": true
+                  }
+                },
+                {
+                  "add": {
+                    "secrets_discovered": 1
+                  }
+                }
+              ],
+              "next": "ch1_peephole"
+            }
+          ]
+        },
+        "ch1_elena_enter": {
+          "id": "ch1_elena_enter",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1ElenaEnter.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "You throw the lock. The door flies open and a woman crashes into your arms, shaking."
+            },
+            {
+              "speaker": "elena",
+              "emotion": "scared",
+              "text": "Thank god. Thank you. I thought... I saw them take Henderson down the hall. They just... they bit into him and he..."
+            },
+            {
+              "speaker": "elena",
+              "emotion": "breathless",
+              "text": "We need to leave. The building. They're working through floor by floor."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "elena_in_party": true
+              }
+            },
+            {
+              "add": {
+                "trust_elena": 2
+              }
+            }
+          ],
+          "next": "ch1_choice2"
+        },
+        "ch1_refuse_door": {
+          "id": "ch1_refuse_door",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1RefuseDoor.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "You press your back against the wall and hold your breath."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "The banging stops. Then a sound you'll never forget — wet, tearing, and the voice that was begging goes silent."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Minutes pass. Something drags itself away from your door. You're alone."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "alone_chapter1": true
+              }
+            }
+          ],
+          "next": "ch1_choice2"
+        },
+        "ch1_peephole": {
+          "id": "ch1_peephole",
+          "chapter": 1,
+          "scene": "res://scenes/chapters/ch1_peephole.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "You press your eye to the peephole. A woman in her thirties, pajamas, barefoot. Behind her, something is crawling on the ceiling of the hallway."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "horror",
+              "text": "It has Henderson's face. But its joints bend the wrong way. And it's smiling."
+            }
+          ],
+          "next": "ch1_peephole_choice"
+        },
+        "ch1_peephole_choice": {
+          "id": "ch1_peephole_choice",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1PeepholeChoice.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "The woman hasn't seen it yet. It's three meters behind her. You have seconds."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch1_pc_warn",
+              "text": "Yell through the door — 'GET DOWN!'",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "met_elena": true
+                  }
+                },
+                {
+                  "set": {
+                    "elena_in_party": true
+                  }
+                },
+                {
+                  "add": {
+                    "trust_elena": 3
+                  }
+                },
+                {
+                  "set": {
+                    "heroic_moment": true
+                  }
+                }
+              ],
+              "next": "ch1_elena_dive"
+            },
+            {
+              "id": "ch1_pc_open",
+              "text": "Throw the door open and pull her inside",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "met_elena": true
+                  }
+                },
+                {
+                  "set": {
+                    "elena_in_party": true
+                  }
+                },
+                {
+                  "add": {
+                    "trust_elena": 2
+                  }
+                },
+                {
+                  "set": {
+                    "brave_moment": true
+                  }
+                },
+                {
+                  "sub": {
+                    "supplies": 1
+                  }
+                }
+              ],
+              "next": "ch1_elena_dive"
+            },
+            {
+              "id": "ch1_pc_silent",
+              "text": "Watch. Say nothing.",
+              "character": "player",
+              "effects": [
+                {
+                  "add": {
+                    "corruption_level": 2
+                  }
+                },
+                {
+                  "set": {
+                    "watched_elena_die": true
+                  }
+                }
+              ],
+              "next": "ch1_refuse_door"
+            }
+          ]
+        },
+        "ch1_elena_dive": {
+          "id": "ch1_elena_dive",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1ElenaDive.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "intense",
+              "text": "The thing on the ceiling lunges. Elena throws herself through your doorway as you slam the door shut."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Something hits the other side. Once. Twice. Then it moves on."
+            },
+            {
+              "speaker": "elena",
+              "emotion": "breathless",
+              "text": "What... what WAS that? That was Henderson. I've lived next to him for two years. That was Henderson."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "elena_in_party": true
+              }
+            }
+          ],
+          "next": "ch1_choice2"
+        },
+        "ch1_choice2": {
+          "id": "ch1_choice2",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1Apartment.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Your apartment is on the 7th floor. The fire escape leads to the alley. The elevator is a death trap. The stairs... you heard something on them."
+            },
+            {
+              "speaker": "marcus_text",
+              "emotion": "neutral",
+              "text": "[Marcus]: I'm on the 4th floor. I have a car in the garage. Get to me and we go. NOW."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch1_c2_fireescape",
+              "text": "Take the fire escape down",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "used_fire_escape": true
+                  }
+                },
+                {
+                  "sub": {
+                    "supplies": 1
+                  }
+                }
+              ],
+              "next": "ch1_fireescape"
+            },
+            {
+              "id": "ch1_c2_stairs",
+              "text": "Risk the stairwell to reach Marcus",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "took_stairs": true
+                  }
+                }
+              ],
+              "next": "ch1_stairwell"
+            },
+            {
+              "id": "ch1_c2_barricade",
+              "text": "Barricade here and wait for sunrise",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "barricaded": true
+                  }
+                },
+                {
+                  "add": {
+                    "supplies": 2
+                  }
+                }
+              ],
+              "next": "ch1_barricade"
+            }
+          ]
+        },
+        "ch1_fireescape": {
+          "id": "ch1_fireescape",
+          "chapter": 1,
+          "scene": "res://scenes/gameplay/TopDownMission.tscn",
+          "type": "mission",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "The fire escape groans under your weight. Seven floors of rusted metal and the sounds of the city tearing itself apart below."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Halfway down, you see a supply bag on the 4th floor landing. Marcus's floor."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "fire_escape_used": true
+              }
+            }
+          ],
+          "next": "ch1_choice3",
+          "mission_id": "ch1_fireescape"
+        },
+        "ch1_stairwell": {
+          "id": "ch1_stairwell",
+          "chapter": 1,
+          "scene": "res://scenes/gameplay/TopDownMission.tscn",
+          "type": "mission",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "horror",
+              "text": "The stairwell is dark. Emergency lights flicker. On the 6th floor landing, blood drags in a long smear down the stairs."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "You hear something breathing on the 5th floor. It's not human breathing."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "took_stairs": true
+              }
+            },
+            {
+              "set": {
+                "has_flashlight": true
+              }
+            }
+          ],
+          "next": "ch1_choice3",
+          "mission_id": "ch1_stairwell"
+        },
+        "ch1_barricade": {
+          "id": "ch1_barricade",
+          "chapter": 1,
+          "scene": "res://scenes/levels/Ch1Barricade.tscn",
+          "type": "puzzle",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "You push the couch against the door. Wedge a chair under the knob. It won't hold forever, but maybe until morning."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "uneasy",
+              "text": "Hours pass. The sounds outside get worse. Then, silence. The worst kind."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "horror",
+              "text": "At dawn, you hear a voice in the hallway. Marcus. He sounds wrong. 'Let me in,' he says. 'I made it. Open up.'"
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "barricaded_chapter1": true
+              }
+            },
+            {
+              "add": {
+                "supplies": 2
+              }
+            }
+          ],
+          "next": "ch1_barricade_choice"
+        },
+        "ch1_barricade_choice": {
+          "id": "ch1_barricade_choice",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1BarricadeChoice.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "horror",
+              "text": "Marcus's voice. But you've known Marcus for five years. That cadence is off. He's speaking too slowly. Too carefully. Like he's reading lines."
+            },
+            {
+              "speaker": "marcus",
+              "emotion": "wrong",
+              "text": "Come on, open the door. It's me. I'm fine. I'm totally fine. I just need to come in. Please."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch1_bc_open",
+              "text": "Open the door for Marcus",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "opened_for_infected": true
+                  }
+                }
+              ],
+              "next": "ch1_marcus_infected"
+            },
+            {
+              "id": "ch1_bc_refuse",
+              "text": "Tell Marcus to slide his ID under the door",
+              "character": "player",
+              "effects": [
+                {
+                  "add": {
+                    "secrets_discovered": 1
+                  }
+                },
+                {
+                  "set": {
+                    "smart_check": true
+                  }
+                }
+              ],
+              "next": "ch1_marcus_test"
+            },
+            {
+              "id": "ch1_bc_silent",
+              "text": "Stay silent. Don't respond.",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "ignored_marcus": true
+                  }
+                }
+              ],
+              "next": "ch1_marcus_leaves"
+            }
+          ]
+        },
+        "ch1_marcus_infected": {
+          "id": "ch1_marcus_infected",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1MarcusInfected.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "horror",
+              "text": "You move the couch. The door swings open. Marcus is standing there, smiling. His eyes are milk-white. The bite mark on his neck is still bleeding."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "horror",
+              "text": "He lunges."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "marcus_dead": true
+              }
+            },
+            {
+              "set": {
+                "player_bitten_ch1": true
+              }
+            },
+            {
+              "add": {
+                "corruption_level": 1
+              }
+            }
+          ],
+          "next": "ch1_barricade_survive"
+        },
+        "ch1_marcus_test": {
+          "id": "ch1_marcus_test",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1MarcusTest.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "You ask him to slide his ID under the door. There's a long pause."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Then the sound of something heavy hitting the wall. A guttural, inhuman shriek. And then running. Down the stairs. Away."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "That wasn't Marcus."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "marcus_infected": true
+              }
+            },
+            {
+              "add": {
+                "secrets_discovered": 1
+              }
+            }
+          ],
+          "next": "ch1_barricade_survive"
+        },
+        "ch1_marcus_leaves": {
+          "id": "ch1_marcus_leaves",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1MarcusLeaves.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "You say nothing. The voice outside repeats itself. Slower. Then it makes a sound — not a word. Something between a growl and a laugh."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "It leaves. You hear it descend the stairwell, each step heavier than the last."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "marcus_infected": true
+              }
+            }
+          ],
+          "next": "ch1_barricade_survive"
+        },
+        "ch1_barricade_survive": {
+          "id": "ch1_barricade_survive",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1BarricadeSurvive.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Dawn breaks gray and ugly over the city. From your window, you can see fires. Cars abandoned in the street. Figures moving wrong in the distance."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Marcus's last message, from hours ago: 'If you get this, I'm already gone. The keys to the truck are under the visor. Get out of the city. Don't stop.'"
+            }
+          ],
+          "next": "ch1_choice3"
+        },
+        "ch1_choice3": {
+          "id": "ch1_choice3",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1Garage.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "You make it to the parking garage. Marcus's truck is there. Keys under the visor, just like he said."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "But someone is already at the truck. A teenager, maybe sixteen. Blood on his shirt. A bite on his arm, fresh. He sees you."
+            },
+            {
+              "speaker": "teenager",
+              "emotion": "scared",
+              "text": "Please. I stole this from a dead guy. I didn't know whose it was. Take it. I don't care. Just — can I come with you? I can't stay here."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch1_c3_take_kid",
+              "text": "Take the kid with you",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "met_danny": true
+                  }
+                },
+                {
+                  "set": {
+                    "danny_in_party": true
+                  }
+                },
+                {
+                  "add": {
+                    "trust_danny": 2
+                  }
+                },
+                {
+                  "set": {
+                    "danny_bitten": true
+                  }
+                }
+              ],
+              "next": "ch1_take_danny"
+            },
+            {
+              "id": "ch1_c3_leave_kid",
+              "text": "Take the truck, leave the kid",
+              "character": "player",
+              "effects": [
+                {
+                  "add": {
+                    "corruption_level": 1
+                  }
+                },
+                {
+                  "set": {
+                    "left_danny_behind": true
+                  }
+                }
+              ],
+              "next": "ch1_leave_danny"
+            },
+            {
+              "id": "ch1_c3_help_kid",
+              "text": "Ask about the bite before deciding",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "met_danny": true
+                  }
+                },
+                {
+                  "add": {
+                    "secrets_discovered": 1
+                  }
+                }
+              ],
+              "next": "ch1_danny_bite"
+            }
+          ]
+        },
+        "ch1_danny_bite": {
+          "id": "ch1_danny_bite",
+          "chapter": 1,
+          "scene": "res://scenes/chapters/ch1_danny_bite.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "You ask about the bite. He looks at it like he forgot it was there."
+            },
+            {
+              "speaker": "danny",
+              "emotion": "scared",
+              "text": "It's... I don't know. My dog bit me? It was my dog. He went crazy this morning and I—"
+            },
+            {
+              "speaker": "danny",
+              "emotion": "pleading",
+              "text": "It doesn't matter. Please. I can help. I know how to drive. I know the city. Don't leave me here."
+            }
+          ],
+          "next": "ch1_danny_bite_choice"
+        },
+        "ch1_danny_bite_choice": {
+          "id": "ch1_danny_bite_choice",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1DannyBiteChoice.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "The bite looks wrong. The skin around it is turning gray. You've seen enough horror movies. But he's a kid."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch1_dbc_take_him",
+              "text": "Take him. You can figure it out later.",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "met_danny": true
+                  }
+                },
+                {
+                  "set": {
+                    "danny_in_party": true
+                  }
+                },
+                {
+                  "set": {
+                    "danny_bitten": true
+                  }
+                },
+                {
+                  "add": {
+                    "trust_danny": 1
+                  }
+                }
+              ],
+              "next": "ch1_take_danny"
+            },
+            {
+              "id": "ch1_dbc_first_aid",
+              "text": "Tie off the wound and take him — but watch him",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "met_danny": true
+                  }
+                },
+                {
+                  "set": {
+                    "danny_in_party": true
+                  }
+                },
+                {
+                  "set": {
+                    "danny_bitten": true
+                  }
+                },
+                {
+                  "set": {
+                    "danny_tourniquet": true
+                  }
+                },
+                {
+                  "add": {
+                    "trust_danny": 3
+                  }
+                }
+              ],
+              "next": "ch1_take_danny"
+            },
+            {
+              "id": "ch1_dbc_leave_him",
+              "text": "Tell him the truth — you can't risk it",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "left_danny_behind": true
+                  }
+                },
+                {
+                  "add": {
+                    "corruption_level": 1
+                  }
+                }
+              ],
+              "next": "ch1_leave_danny"
+            }
+          ]
+        },
+        "ch1_take_danny": {
+          "id": "ch1_take_danny",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1TakeDanny.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "danny",
+              "emotion": "relieved",
+              "text": "Thank you. I swear I won't be a problem. I know the back roads out of the city. My dad taught me before he..."
+            },
+            {
+              "speaker": "danny",
+              "emotion": "neutral",
+              "text": "There's a gas station on Route 9. We can stock up there."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "danny_in_party": true
+              }
+            },
+            {
+              "set": {
+                "has_vehicle": true
+              }
+            }
+          ],
+          "next": "ch1_end"
+        },
+        "ch1_leave_danny": {
+          "id": "ch1_leave_danny",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1LeaveDanny.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "danny",
+              "emotion": "broken",
+              "text": "Yeah. Yeah, I get it. I'd leave me too."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "You get in the truck. In the mirror, the kid sits on the curb. He doesn't move. He doesn't watch you go."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "You don't know how long a bite takes. You don't know if you just killed him or saved yourself."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "has_vehicle": true
+              }
+            }
+          ],
+          "next": "ch1_end"
+        },
+        "ch1_end": {
+          "id": "ch1_end",
+          "chapter": 1,
+          "scene": "res://scenes/cutscenes/Ch1End.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "The city burns behind you. The highway is empty. Whatever you did tonight — who you saved, who you left, who you let in — it's with you now."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "ominous",
+              "text": "The dead don't forget. And neither does the kid in your backseat. If he's there."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "chapter1_complete": true
+              }
+            }
+          ],
+          "next": "ch2_start"
+        }
+      }
+    },
+    "2": {
+      "id": "ch2",
+      "title": "Chapter 2: The Gas Station",
+      "summary": "Route 9. The first stop. Supplies are low and trust is tested. What you do here determines who's still alive at the end.",
+      "checkpoints": {
+        "ch2_start": {
+          "id": "ch2_start",
+          "chapter": 2,
+          "scene": "res://scenes/chapters/ch2_start.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Route 9. The gas station sits alone in a sea of dead grass. The lights are on. That should be reassuring. It isn't."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "There's a group inside. You can see them through the windows. Four, maybe five people. They have guns."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "chapter2_started": true
+              }
+            }
+          ],
+          "next": "ch2_choice1"
+        },
+        "ch2_choice1": {
+          "id": "ch2_choice1",
+          "chapter": 2,
+          "scene": "res://scenes/cutscenes/Ch2Approach.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "garcia",
+              "emotion": "neutral",
+              "text": "Slow and easy. Hands where I can see them. I've shot three people this week who moved too fast."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "A man steps out the front door. Shotgun, low and ready. Not pointed at you. Not pointed away either."
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "neutral",
+              "text": "That's far enough. How many in the vehicle? Any bites?"
+            },
+            {
+              "speaker": "priya",
+              "emotion": "neutral",
+              "text": "He will use it, if he has to. Don't give him a reason."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch2_c1_honest",
+              "text": "Tell the truth about your group",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "met_garcia": true
+                  }
+                },
+                {
+                  "add": {
+                    "trust_garcia": 2
+                  }
+                }
+              ],
+              "next": "ch2_honest_approach"
+            },
+            {
+              "id": "ch2_c1_lie",
+              "text": "Lie — say it's just you, no bites",
+              "character": "player",
+              "requires": {
+                "danny_bitten": true
+              },
+              "effects": [
+                {
+                  "set": {
+                    "met_garcia": true
+                  }
+                },
+                {
+                  "set": {
+                    "lied_about_bite": true
+                  }
+                },
+                {
+                  "add": {
+                    "corruption_level": 1
+                  }
+                }
+              ],
+              "next": "ch2_lie_approach"
+            },
+            {
+              "id": "ch2_c1_sneak",
+              "text": "Wait for nightfall, sneak in for supplies",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "attempted_sneak": true
+                  }
+                }
+              ],
+              "next": "ch2_sneak_approach"
+            }
+          ]
+        },
+        "ch2_honest_approach": {
+          "id": "ch2_honest_approach",
+          "chapter": 2,
+          "scene": "res://scenes/cutscenes/Ch2HonestApproach.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "garcia",
+              "emotion": "neutral",
+              "text": "Honest. I respect that. Most people lie."
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "serious",
+              "text": "I used to run a checkpoint outside São Paulo. Two hundred people a day lied to my face. You know what honesty is worth now? Everything."
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "serious",
+              "text": "The kid with the bite stays outside. I don't care if it's a dog bite or a zombie bite. Outside. That's the deal."
+            },
+            {
+              "speaker": "priya",
+              "emotion": "neutral",
+              "text": "He's right. The kid stays outside the fence. But I'll leave him a blanket. It gets cold."
+            }
+          ],
+          "next": "ch2_garcia_deal"
+        },
+        "ch2_lie_approach": {
+          "id": "ch2_lie_approach",
+          "chapter": 2,
+          "scene": "res://scenes/cutscenes/Ch2LieApproach.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "garcia",
+              "emotion": "neutral",
+              "text": "Just you. Alright. Come in. But I'm watching."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "Garcia's eyes linger on Danny a beat too long. He might know. Or he might just be careful. Either way, you're inside."
+            },
+            {
+              "speaker": "priya",
+              "emotion": "suspicious",
+              "text": "Nobody travels alone anymore. Nobody. Remember that when you tell us your story later."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "inside_gas_station": true
+              }
+            },
+            {
+              "add": {
+                "supplies": 2
+              }
+            }
+          ],
+          "next": "ch2_garcia_deal"
+        },
+        "ch2_sneak_approach": {
+          "id": "ch2_sneak_approach",
+          "chapter": 2,
+          "scene": "res://scenes/gameplay/TopDownMission.tscn",
+          "type": "mission",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "You wait. Hours. The sun drops. The group inside settles into watches. The back door has a padlock you can pick."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "You slip in through the back. Aisle three. The shelves are still half-stocked."
+            }
+          ],
+          "on_enter": [
+            {
+              "add": {
+                "supplies": 3
+              }
+            },
+            {
+              "add": {
+                "secrets_discovered": 1
+              }
+            }
+          ],
+          "next": "ch2_sneak_caught",
+          "mission_id": "ch2_sneak"
+        },
+        "ch2_sneak_caught": {
+          "id": "ch2_sneak_caught",
+          "chapter": 2,
+          "scene": "res://scenes/cutscenes/Ch2SneakCaught.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "horror",
+              "text": "A flashlight hits your face. A woman, rifle aimed at your chest."
+            },
+            {
+              "speaker": "priya",
+              "emotion": "angry",
+              "text": "Don't move. Don't even breathe wrong. Garcia! We've got a thief."
+            },
+            {
+              "speaker": "priya",
+              "emotion": "angry",
+              "text": "I had a sister who trusted the wrong stranger. I buried what was left of her myself. So no — I don't give warnings twice."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch2_sc_surrender",
+              "text": "Drop to your knees and surrender",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "met_garcia": true
+                  }
+                },
+                {
+                  "set": {
+                    "met_priya": true
+                  }
+                },
+                {
+                  "sub": {
+                    "supplies": 2
+                  }
+                }
+              ],
+              "next": "ch2_garcia_deal"
+            },
+            {
+              "id": "ch2_sc_run",
+              "text": "Grab what you can and run",
+              "character": "player",
+              "effects": [
+                {
+                  "sub": {
+                    "supplies": 1
+                  }
+                },
+                {
+                  "set": {
+                    "made_enemies": true
+                  }
+                },
+                {
+                  "add": {
+                    "corruption_level": 1
+                  }
+                }
+              ],
+              "next": "ch2_run_escape"
+            }
+          ]
+        },
+        "ch2_run_escape": {
+          "id": "ch2_run_escape",
+          "chapter": 2,
+          "scene": "res://scenes/cutscenes/Ch2RunEscape.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "intense",
+              "text": "You shove the shelf. Bottles crash. You sprint for the back door with a bag of supplies."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "A shot rings out. Glass shatters above your head. You make it to the truck. Danny is screaming. You drive."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "They'll remember you. And you just made enemies on a road with nowhere to hide."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "garcia_hostile": true
+              }
+            }
+          ],
+          "next": "ch2_end"
+        },
+        "ch2_garcia_deal": {
+          "id": "ch2_garcia_deal",
+          "chapter": 2,
+          "scene": "res://scenes/cutscenes/Ch2GarciaDeal.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "garcia",
+              "emotion": "neutral",
+              "text": "We've been here three days. Military radio went dead yesterday. Last transmission said there's a safe zone — Riverside, forty miles north."
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "tired",
+              "text": "I had fourteen people under my command before all this. Nine made it to this gas station. Four since. Do the math on my patience."
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "serious",
+              "text": "We're heading there at dawn. You're welcome to come. But I need to know — and I need the truth — what happened to your friend Marcus?"
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "serious",
+              "text": "So I'll ask once. What happened to Marcus?"
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch2_gd_truth",
+              "text": "Tell Garcia everything about Marcus",
+              "character": "player",
+              "effects": [
+                {
+                  "add": {
+                    "trust_garcia": 3
+                  }
+                },
+                {
+                  "set": {
+                    "shared_marcus_story": true
+                  }
+                }
+              ],
+              "next": "ch2_join_group"
+            },
+            {
+              "id": "ch2_gd_partial",
+              "text": "Give a vague answer — 'we got separated'",
+              "character": "player",
+              "effects": [
+                {
+                  "sub": {
+                    "trust_garcia": 1
+                  }
+                }
+              ],
+              "next": "ch2_join_group"
+            },
+            {
+              "id": "ch2_gd_solo",
+              "text": "Decline the offer — you travel alone",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "travels_solo": true
+                  }
+                },
+                {
+                  "sub": {
+                    "trust_garcia": 2
+                  }
+                }
+              ],
+              "next": "ch2_solo_depart"
+            }
+          ]
+        },
+        "ch2_join_group": {
+          "id": "ch2_join_group",
+          "chapter": 2,
+          "scene": "res://scenes/cutscenes/Ch2JoinGroup.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "garcia",
+              "emotion": "neutral",
+              "text": "Good. We leave at 5 AM. Priya handles weapons. Sam runs medical. You and your people handle fuel and watches."
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "neutral",
+              "text": "I'm not a cruel man. I'm a careful one. There's a difference, and out here the difference keeps people breathing."
+            },
+            {
+              "speaker": "priya",
+              "emotion": "neutral",
+              "text": "About the kid. I've seen bites turn people in six hours. If he turns in the car, I'll put him down. That's not negotiable."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "Danny is sitting outside, arm wrapped, pale. He doesn't know what they're saying about him. But he can guess."
+            },
+            {
+              "speaker": "priya",
+              "emotion": "sad",
+              "text": "Kid asked me for water an hour ago. I gave it to him. If he turns, remember I did that too."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "met_priya": true
+              }
+            },
+            {
+              "set": {
+                "joined_group": true
+              }
+            },
+            {
+              "add": {
+                "supplies": 2
+              }
+            }
+          ],
+          "next": "ch2_end"
+        },
+        "ch2_solo_depart": {
+          "id": "ch2_solo_depart",
+          "chapter": 2,
+          "scene": "res://scenes/cutscenes/Ch2SoloDepart.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "garcia",
+              "emotion": "cold",
+              "text": "Your call. But that road north? It's not forgiving. If you get in trouble, don't come back here."
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "tired",
+              "text": "I've watched people drive off full of pride. None of them came back to gloat. Take the fuel. It's on the house."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "You fill up the truck and drive north alone. The road is empty. The radio picks up static and fragments — coordinates, warnings, screaming."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "travels_solo": true
+              }
+            }
+          ],
+          "next": "ch2_end"
+        },
+        "ch2_end": {
+          "id": "ch2_end",
+          "chapter": 2,
+          "scene": "res://scenes/cutscenes/Ch2End.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Forty miles to Riverside. The road is blocked, detoured, and littered with the remains of people who tried to outrun the end."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "ominous",
+              "text": "Somewhere behind you, Garcia's group is either following or fortifying. Somewhere in your backseat, Danny is either sleeping or turning."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "You'll know soon enough."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "chapter2_complete": true
+              }
+            }
+          ],
+          "next": "ch3_start"
+        }
+      }
+    },
+    "3": {
+      "id": "ch3",
+      "title": "Chapter 3: Riverside",
+      "summary": "The safe zone. The last stop. Every choice you've made walks through the gates with you — and not all of them are welcome.",
+      "checkpoints": {
+        "ch3_start": {
+          "id": "ch3_start",
+          "chapter": 3,
+          "scene": "res://scenes/chapters/ch3_start.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Riverside. A walled community. Guard towers. Floodlights. People who look like they've been here long enough to feel safe — and suspicious of anyone who hasn't."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "A checkpoint. Medical screening. And a question on every wall, in every guard's eyes: who are you, and what did you do to get here?"
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "chapter3_started": true
+              }
+            }
+          ],
+          "next": "ch3_screening"
+        },
+        "ch3_screening": {
+          "id": "ch3_screening",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3Screening.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "dr_chen",
+              "emotion": "neutral",
+              "text": "I'm Dr. Chen. Medical screening. I need to check everyone in your vehicle for bites. This is non-negotiable."
+            },
+            {
+              "speaker": "dr_chen",
+              "emotion": "sad",
+              "text": "I was an epidemiologist. I spent my whole career preparing for something like this. It didn't help. Maybe you'll be the exception."
+            },
+            {
+              "speaker": "dr_chen",
+              "emotion": "serious",
+              "text": "If anyone is infected, we can offer them palliative care. We don't turn people away. But we do quarantine. Understand?"
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch3_sc_allow",
+              "text": "Allow the screening — be honest about Danny",
+              "character": "player",
+              "requires": {
+                "danny_bitten": true
+              },
+              "effects": [
+                {
+                  "set": {
+                    "honest_at_riverside": true
+                  }
+                },
+                {
+                  "add": {
+                    "trust_riverside": 2
+                  }
+                }
+              ],
+              "next": "ch3_danny_quarantine"
+            },
+            {
+              "id": "ch3_sc_allow_no_danny",
+              "text": "Allow the screening — you have nothing to hide",
+              "character": "player",
+              "requires": {
+                "danny_bitten": false
+              },
+              "effects": [
+                {
+                  "add": {
+                    "trust_riverside": 3
+                  }
+                },
+                {
+                  "set": {
+                    "cleared_riverside": true
+                  }
+                }
+              ],
+              "next": "ch3_riverside_welcome"
+            },
+            {
+              "id": "ch3_sc_refuse",
+              "text": "Refuse — you don't trust them",
+              "character": "player",
+              "effects": [
+                {
+                  "sub": {
+                    "trust_riverside": 3
+                  }
+                },
+                {
+                  "set": {
+                    "refused_screening": true
+                  }
+                }
+              ],
+              "next": "ch3_refuse_screening"
+            }
+          ]
+        },
+        "ch3_danny_quarantine": {
+          "id": "ch3_danny_quarantine",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3DannyQuarantine.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "dr_chen",
+              "emotion": "sad",
+              "text": "The bite is progressing. I'm sorry. He has maybe twelve hours before the fever takes him."
+            },
+            {
+              "speaker": "dr_chen",
+              "emotion": "neutral",
+              "text": "We can make him comfortable. And we have been working on something — experimental. No guarantees. It might slow the infection. It might not work at all."
+            },
+            {
+              "speaker": "dr_chen",
+              "emotion": "sad",
+              "text": "I've watched forty-one people turn. I promised every one of them I'd try. I'm promising you the same thing now."
+            },
+            {
+              "speaker": "danny",
+              "emotion": "scared",
+              "text": "I don't want to turn. Please. I don't want to be one of them."
+            }
+          ],
+          "next": "ch3_danny_choice"
+        },
+        "ch3_danny_choice": {
+          "id": "ch3_danny_choice",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3DannyChoice.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "Dr. Chen waits. Danny waits. The clock is the only thing that doesn't."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch3_dc_experimental",
+              "text": "Let Danny try the experimental treatment",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "danny_treated": true
+                  }
+                },
+                {
+                  "add": {
+                    "trust_danny": 3
+                  }
+                }
+              ],
+              "next": "ch3_danny_treatment"
+            },
+            {
+              "id": "ch3_dc_comfort",
+              "text": "Just make him comfortable — let him go peacefully",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "danny_comfort_care": true
+                  }
+                }
+              ],
+              "next": "ch3_danny_peaceful"
+            },
+            {
+              "id": "ch3_dc_say_goodbye",
+              "text": "Spend his last hours with him",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "stayed_with_danny": true
+                  }
+                },
+                {
+                  "add": {
+                    "trust_danny": 5
+                  }
+                }
+              ],
+              "next": "ch3_danny_final_hours"
+            }
+          ]
+        },
+        "ch3_danny_treatment": {
+          "id": "ch3_danny_treatment",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3DannyTreatment.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "The treatment is brutal. Danny screams. His fever spikes. Then, slowly, it breaks."
+            },
+            {
+              "speaker": "dr_chen",
+              "emotion": "amazed",
+              "text": "His vitals are stabilizing. I don't believe it. The infection is retreating."
+            },
+            {
+              "speaker": "dr_chen",
+              "emotion": "hopeful",
+              "text": "Eleven trials. Eleven failures. I told myself after the last one that I was done experimenting on people. And then your friend walked in."
+            },
+            {
+              "speaker": "danny",
+              "emotion": "weak",
+              "text": "Did it work? I feel... I feel okay. I actually feel okay."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "danny_survived": true
+              }
+            },
+            {
+              "set": {
+                "found_cure": true
+              }
+            }
+          ],
+          "next": "ch3_riverside_welcome"
+        },
+        "ch3_danny_peaceful": {
+          "id": "ch3_danny_peaceful",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3DannyPeaceful.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "sad",
+              "text": "You sit with Danny. He talks about his dad. About the dog. About a girl named Sofia he never got the nerve to talk to."
+            },
+            {
+              "speaker": "danny",
+              "emotion": "peaceful",
+              "text": "You were the last good thing that happened to me. I want you to know that."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "At 3:47 AM — the same time everything started — Danny closes his eyes. He doesn't open them again."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "danny_dead": true
+              }
+            }
+          ],
+          "next": "ch3_riverside_welcome"
+        },
+        "ch3_danny_final_hours": {
+          "id": "ch3_danny_final_hours",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3DannyFinalHours.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "sad",
+              "text": "You spend the last hours talking. About everything and nothing. He teaches you how to do a card trick. You teach him how to hotwire a car."
+            },
+            {
+              "speaker": "danny",
+              "emotion": "peaceful",
+              "text": "If you find Sofia — her last name is Marchetti, she goes to Lincoln High — tell her I should have said something. That I was an idiot."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "He turns at dawn. Dr. Chen handles it. You don't watch. But you hear it."
+            }
+          ],
+          "on_enter": [
+            {
+              "set": {
+                "danny_dead": true
+              }
+            },
+            {
+              "set": {
+                "knows_sofia": true
+              }
+            }
+          ],
+          "next": "ch3_riverside_welcome"
+        },
+        "ch3_refuse_screening": {
+          "id": "ch3_refuse_screening",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3RefuseScreening.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "dr_chen",
+              "emotion": "cold",
+              "text": "Then you can't come in. I'm sorry. The rules exist for a reason."
+            },
+            {
+              "speaker": "dr_chen",
+              "emotion": "sad",
+              "text": "I hope whatever you're hiding out there is worth the walls you won't enter. Good luck. Truly."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "You sit in the truck outside the walls. Night falls. The sounds come closer."
+            }
+          ],
+          "next": "ch3_outside_choice"
+        },
+        "ch3_outside_choice": {
+          "id": "ch3_outside_choice",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3OutsideChoice.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "horror",
+              "text": "They come at midnight. A horde. Dozens. Maybe a hundred. Drawn by the lights of Riverside. The gates hold — for now."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "You're outside the gates. The truck is running. You have seconds."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch3_oc_drive_away",
+              "text": "Drive away — you don't owe these people anything",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "abandoned_riverside": true
+                  }
+                },
+                {
+                  "add": {
+                    "corruption_level": 2
+                  }
+                }
+              ],
+              "next": "ending_drifter"
+            },
+            {
+              "id": "ch3_oc_help_fight",
+              "text": "Fight alongside Riverside — sound the horn, draw the horde",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "helped_riverside": true
+                  }
+                },
+                {
+                  "set": {
+                    "player_bitten_ch3": true
+                  }
+                }
+              ],
+              "next": "ending_hero"
+            },
+            {
+              "id": "ch3_oc_sneak_in",
+              "text": "Use the chaos to sneak inside the walls",
+              "character": "player",
+              "effects": [
+                {
+                  "add": {
+                    "corruption_level": 2
+                  }
+                },
+                {
+                  "set": {
+                    "sneaked_into_riverside": true
+                  }
+                }
+              ],
+              "next": "ending_coward"
+            }
+          ]
+        },
+        "ch3_riverside_welcome": {
+          "id": "ch3_riverside_welcome",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3RiversideWelcome.tscn",
+          "type": "cutscene",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Riverside takes you in. It's not much — a cot, a meal, walls that hold. But it's more than most people have."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Weeks pass. You find a role. You find a rhythm. And then you find the radio message."
+            },
+            {
+              "speaker": "radio",
+              "emotion": "neutral",
+              "text": "[RADIO]: ...calling any survivors. Military convoy en route to Riverside. 48 hours. If you can hear this, hold on. Help is coming. Repeat..."
+            }
+          ],
+          "next": "ch3_convergence"
+        },
+        "ch3_convergence": {
+          "id": "ch3_convergence",
+          "chapter": 3,
+          "scene": "res://scenes/cutscenes/Ch3Convergence.tscn",
+          "type": "choice",
+          "speaker": "player",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "tense",
+              "text": "The horde comes before the convoy. Two thousand strong, drawn by something — sound, smell, or just the instinct to destroy what's alive."
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "serious",
+              "text": "We can hold the gate for an hour. Maybe two. If we evacuate through the north tunnel, we lose the settlement but we live."
+            },
+            {
+              "speaker": "priya",
+              "emotion": "tense",
+              "text": "I counted the first wave. We don't have enough ammo to make a dent. Whatever we choose, choose it now."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "ominous",
+              "text": "This is it. Everything you did — who you saved, who you abandoned, who you let in, who you left behind — it all comes down to this."
+            },
+            {
+              "speaker": "garcia",
+              "emotion": "serious",
+              "text": "I've given orders in worse places. But never to people I actually care about. Make it count."
+            }
+          ],
+          "choices": [
+            {
+              "id": "ch3_conv_hold",
+              "text": "Hold the gate — buy time for everyone to evacuate",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "held_the_gate": true
+                  }
+                }
+              ],
+              "next": "ending_hero"
+            },
+            {
+              "id": "ch3_conv_evacuate",
+              "text": "Evacuate immediately — save who you can",
+              "character": "player",
+              "effects": [
+                {
+                  "set": {
+                    "chose_evacuation": true
+                  }
+                }
+              ],
+              "next": "ending_survivor"
+            },
+            {
+              "id": "ch3_conv_sacrifice",
+              "text": "Draw the horde away from Riverside — alone",
+              "character": "player",
+              "requires": {
+                "corruption_level": {
+                  "operator": "<",
+                  "value": 3
+                }
+              },
+              "effects": [
+                {
+                  "set": {
+                    "sacrificed_self": true
+                  }
+                }
+              ],
+              "next": "ending_martyr"
+            },
+            {
+              "id": "ch3_conv_betray",
+              "text": "Steal a vehicle and leave — let them sort it out",
+              "character": "player",
+              "requires": {
+                "corruption_level": {
+                  "operator": ">=",
+                  "value": 3
+                }
+              },
+              "effects": [
+                {
+                  "set": {
+                    "betrayed_riverside": true
+                  }
+                },
+                {
+                  "add": {
+                    "corruption_level": 3
+                  }
+                }
+              ],
+              "next": "ending_drifter"
+            },
+            {
+              "id": "ch3_conv_cure",
+              "text": "Tell Dr. Chen to release the experimental cure — risk it all",
+              "character": "player",
+              "requires": {
+                "found_cure": true
+              },
+              "effects": [
+                {
+                  "set": {
+                    "released_cure": true
+                  }
+                }
+              ],
+              "next": "ending_cure"
+            },
+            {
+              "id": "ch3_conv_silence",
+              "text": "Keep your head down and stay silent — let the walls hold or fall without you",
+              "character": "player",
+              "effects": [],
+              "next": "ending_silence"
+            }
+          ]
+        },
+        "ending_hero": {
+          "id": "ending_hero",
+          "chapter": 3,
+          "scene": "res://scenes/endings/ending_hero.tscn",
+          "type": "end",
+          "end_type": "good",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "bittersweet",
+              "text": "You held the gate for three hours. When the convoy arrived, they found you slumped against the barricade, still breathing, still you."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Riverside survived because you bought them the time they needed. The convoy took you in. The bite on your arm healed. Nobody knows why."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "hopeful",
+              "text": "Some people say it's because you did enough good to earn a second chance. Maybe. Or maybe the world just isn't done with you yet."
+            }
+          ]
+        },
+        "ending_survivor": {
+          "id": "ending_survivor",
+          "chapter": 3,
+          "scene": "res://scenes/endings/ending_survivor.tscn",
+          "type": "end",
+          "end_type": "neutral",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "You evacuated 87 people through the north tunnel. Riverside fell, but the people didn't."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "The convoy found you on the road two days later. A caravan of survivors and a story about someone who made the hard call at the right time."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "bittersweet",
+              "text": "You survived. You'll have to decide if that's enough."
+            }
+          ]
+        },
+        "ending_martyr": {
+          "id": "ending_martyr",
+          "chapter": 3,
+          "scene": "res://scenes/endings/ending_martyr.tscn",
+          "type": "end",
+          "end_type": "good",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "sad",
+              "text": "You took the truck and drove south, horn blaring, radio screaming. The horde followed you. All of them."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "Riverside never knew what you did. The convoy arrived to a settlement that was untouched. They found the truck three miles south, empty, doors open."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "bittersweet",
+              "text": "They never found you. But Riverside lives. And that was the point."
+            }
+          ]
+        },
+        "ending_drifter": {
+          "id": "ending_drifter",
+          "chapter": 3,
+          "scene": "res://scenes/endings/ending_drifter.tscn",
+          "type": "end",
+          "end_type": "bad",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "You drove. The radio said the convoy was coming. You didn't turn back."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "Weeks later, you hear that Riverside fell. Everyone. The convoy was too late. You don't know if that's your fault. You'll spend the rest of your life deciding."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "empty",
+              "text": "The road goes on. So do you. Alone."
+            }
+          ]
+        },
+        "ending_coward": {
+          "id": "ending_coward",
+          "chapter": 3,
+          "scene": "res://scenes/endings/ending_coward.tscn",
+          "type": "end",
+          "end_type": "bad",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "You slipped through the north gate during the chaos. Nobody saw you come in. Nobody cared."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "Riverside fell that night. You survived by hiding in a storm drain while the screaming lasted six hours."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "empty",
+              "text": "The convoy found you the next day. They asked what happened. You said you didn't know. They believed you. You wish you didn't."
+            }
+          ]
+        },
+        "ending_cure": {
+          "id": "ending_cure",
+          "chapter": 3,
+          "scene": "res://scenes/endings/ending_cure.tscn",
+          "type": "end",
+          "end_type": "good",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "hopeful",
+              "text": "Dr. Chen administered the experimental treatment to everyone — infected, exposed, everyone. The fever broke. The gray skin receded. The dead became... less dead."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "It wasn't a cure. Not really. But it was a chance. And in the first winter of the end, a chance was everything."
+            },
+            {
+              "speaker": "dr_chen",
+              "emotion": "hopeful",
+              "text": "Forty-one people turned on my watch. This is for them. Every single one of them."
+            },
+            {
+              "speaker": "dr_chen",
+              "emotion": "amazed",
+              "text": "Danny was the key. His blood had something we'd never seen. If you hadn't brought him here... none of this would exist."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "hopeful",
+              "text": "You saved the kid. The kid saved everyone. The dead hours are ending."
+            }
+          ]
+        },
+        "ending_silence": {
+          "id": "ending_silence",
+          "chapter": 3,
+          "scene": "res://scenes/endings/ending_silence.tscn",
+          "type": "end",
+          "end_type": "neutral",
+          "dialogue": [
+            {
+              "speaker": "narrator",
+              "emotion": "empty",
+              "text": "You made it through. Riverside took you in, eventually. You got a cot, a job, a routine."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "cold",
+              "text": "But you never told anyone about the voice at the door. The kid you left on the curb. The friend you let in when you shouldn't have."
+            },
+            {
+              "speaker": "narrator",
+              "emotion": "neutral",
+              "text": "The dead walk outside the walls. But some of the dead walk inside them too. The ones you carry."
+            }
+          ]
+        }
+      }
+    }
+  }
+}

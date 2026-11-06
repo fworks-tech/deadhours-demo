@@ -1,0 +1,526 @@
+{
+  "id": "ch1_fireescape",
+  "kicker": "DEAD HOURS · CHAPTER 1 · 04:12",
+  "title": "The Fire Escape",
+  "subtitle": "Seven floors of rusted metal between you and the street",
+  "loading_art": "ch1_fire_escape",
+  "briefing": "The stairwell door slammed behind you. Below: the fire escape, the alley, and whatever is already climbing it. Anything that moves down here is not going to ask questions.",
+  "tip": "One hit kills. Theirs and yours. Dash through doorways, close the distance, keep moving.",
+  "objective": "DESCEND THE FIRE ESCAPE",
+  "world": {
+    "width": 1440,
+    "height": 2560
+  },
+  "player": {
+    "spawn": [
+      520,
+      160
+    ],
+    "weapon": "bat"
+  },
+  "rooms": [
+    {
+      "id": "landing_7",
+      "rect": [
+        480,
+        100,
+        480,
+        320
+      ],
+      "floor": "checker_red",
+      "neon": "#ff2e88",
+      "neon_side": "top",
+      "label": "7F"
+    },
+    {
+      "id": "shaft_a",
+      "rect": [
+        660,
+        420,
+        160,
+        220
+      ],
+      "floor": "concrete",
+      "neon": "#ff2e88",
+      "neon_side": "left"
+    },
+    {
+      "id": "landing_6",
+      "rect": [
+        420,
+        640,
+        600,
+        320
+      ],
+      "floor": "checker",
+      "neon": "#28e0d0",
+      "neon_side": "left",
+      "label": "6F"
+    },
+    {
+      "id": "shaft_b",
+      "rect": [
+        660,
+        960,
+        160,
+        240
+      ],
+      "floor": "concrete",
+      "neon": "#28e0d0",
+      "neon_side": "right"
+    },
+    {
+      "id": "landing_5",
+      "rect": [
+        420,
+        1200,
+        600,
+        320
+      ],
+      "floor": "checker_red",
+      "neon": "#ff2e88",
+      "neon_side": "bottom",
+      "label": "5F"
+    },
+    {
+      "id": "shaft_c",
+      "rect": [
+        660,
+        1520,
+        160,
+        240
+      ],
+      "floor": "concrete",
+      "neon": "#ffb03a",
+      "neon_side": "left"
+    },
+    {
+      "id": "landing_4",
+      "rect": [
+        420,
+        1760,
+        600,
+        320
+      ],
+      "floor": "checker",
+      "neon": "#ffb03a",
+      "neon_side": "top",
+      "label": "4F"
+    },
+    {
+      "id": "street",
+      "rect": [
+        420,
+        2080,
+        600,
+        280
+      ],
+      "floor": "dirt",
+      "neon": "#28e0d0",
+      "neon_side": "bottom",
+      "label": "ALLEY"
+    }
+  ],
+  "doors": [
+    {
+      "rect": [
+        660,
+        410,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        660,
+        630,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        660,
+        950,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        660,
+        1190,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        660,
+        1510,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        660,
+        1750,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        660,
+        2070,
+        160,
+        20
+      ]
+    }
+  ],
+  "props": [
+    {
+      "type": "crate",
+      "rect": [
+        500,
+        130,
+        56,
+        56
+      ]
+    },
+    {
+      "type": "crate",
+      "rect": [
+        556,
+        130,
+        56,
+        56
+      ]
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        900,
+        350
+      ],
+      "radius": 20
+    },
+    {
+      "type": "locker",
+      "rect": [
+        430,
+        660,
+        54,
+        92
+      ]
+    },
+    {
+      "type": "crate",
+      "rect": [
+        880,
+        700,
+        64,
+        64
+      ]
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        520,
+        900
+      ],
+      "radius": 20
+    },
+    {
+      "type": "door",
+      "rect": [
+        660,
+        1204,
+        160,
+        16
+      ],
+      "locked": false
+    },
+    {
+      "type": "crate",
+      "rect": [
+        900,
+        1240,
+        56,
+        56
+      ]
+    },
+    {
+      "type": "locker",
+      "rect": [
+        430,
+        1780,
+        54,
+        92
+      ]
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        960,
+        1880
+      ],
+      "radius": 20
+    },
+    {
+      "type": "crate",
+      "rect": [
+        500,
+        1900,
+        64,
+        64
+      ]
+    },
+    {
+      "type": "door",
+      "rect": [
+        660,
+        2084,
+        160,
+        16
+      ],
+      "locked": false
+    }
+  ],
+  "enemies": [
+    {
+      "pos": [
+        820,
+        300
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          820,
+          300
+        ],
+        [
+          900,
+          300
+        ]
+      ],
+      "facing": [
+        0,
+        1
+      ]
+    },
+    {
+      "pos": [
+        740,
+        540
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          740,
+          540
+        ],
+        [
+          740,
+          600
+        ]
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "view_range": 340
+    },
+    {
+      "pos": [
+        520,
+        760
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          520,
+          760
+        ],
+        [
+          520,
+          900
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ]
+    },
+    {
+      "pos": [
+        900,
+        870
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          900,
+          870
+        ],
+        [
+          700,
+          870
+        ]
+      ],
+      "facing": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pos": [
+        520,
+        1300
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          520,
+          1300
+        ],
+        [
+          520,
+          1440
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ]
+    },
+    {
+      "pos": [
+        900,
+        1420
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          900,
+          1420
+        ],
+        [
+          700,
+          1420
+        ]
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "view_range": 380
+    },
+    {
+      "pos": [
+        560,
+        1860
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          560,
+          1860
+        ],
+        [
+          560,
+          2000
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ]
+    },
+    {
+      "pos": [
+        860,
+        1980
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          860,
+          1980
+        ],
+        [
+          700,
+          1980
+        ]
+      ],
+      "facing": [
+        -1,
+        0
+      ]
+    },
+    {
+      "pos": [
+        740,
+        2210
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          740,
+          2210
+        ],
+        [
+          900,
+          2210
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ]
+    }
+  ],
+  "pickups": [
+    {
+      "weapon": "pistol",
+      "ammo": 7,
+      "pos": [
+        640,
+        920
+      ]
+    },
+    {
+      "weapon": "shotgun",
+      "ammo": 4,
+      "pos": [
+        500,
+        1770
+      ]
+    }
+  ],
+  "exit": {
+    "rect": [
+      620,
+      2140,
+      240,
+      140
+    ],
+    "label": "STREET"
+  },
+  "on_enemy_killed": [
+    {
+      "add": {
+        "corruption_level": 1
+      }
+    }
+  ],
+  "on_complete": [
+    {
+      "set": {
+        "fire_escape_used": true,
+        "has_weapon": true
+      }
+    }
+  ]
+}
