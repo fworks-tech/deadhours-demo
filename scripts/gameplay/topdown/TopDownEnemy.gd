@@ -230,6 +230,9 @@ func _shoot_player() -> void:
 	var end_point: Vector2 = hit.get("position", global_position + dir * 800.0)
 	if mission:
 		mission.spawn_tracer(global_position + dir * 16.0, end_point, Color("#ff9f7a"))
+		if mission.fx_system:
+			mission.fx_system.muzzle_flash(global_position + dir * 18.0, dir, 0.9)
+			mission.fx_system.impact(end_point, -dir)
 		mission.shake_camera(3.0)
 	if not hit.is_empty() and hit.get("collider") == mission.player:
 		mission.player.kill()

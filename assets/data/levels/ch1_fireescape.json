@@ -423,6 +423,16 @@
         2300
       ],
       "radius": 16
+    },
+    {
+      "type": "tank",
+      "rect": [
+        930,
+        2290,
+        50,
+        50
+      ],
+      "radius_fx": 150
     }
   ],
   "enemies": [
@@ -668,5 +678,17 @@
         "has_weapon": true
       }
     }
-  ]
+  ],
+  "effects": {
+    "fires": [
+      {
+        "pos": [
+          520,
+          2245
+        ],
+        "size": 1.5
+      }
+    ],
+    "blood_smears": []
+  }
 }

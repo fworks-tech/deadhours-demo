@@ -359,6 +359,36 @@
         720
       ],
       "radius": 26
+    },
+    {
+      "type": "pump",
+      "rect": [
+        780,
+        700,
+        38,
+        58
+      ],
+      "radius_fx": 170
+    },
+    {
+      "type": "pump",
+      "rect": [
+        858,
+        700,
+        38,
+        58
+      ],
+      "radius_fx": 170
+    },
+    {
+      "type": "tank",
+      "rect": [
+        1540,
+        540,
+        52,
+        52
+      ],
+      "radius_fx": 140
     }
   ],
   "enemies": [
@@ -590,5 +620,9 @@
         "inside_gas_station": true
       }
     }
-  ]
+  ],
+  "effects": {
+    "fires": [],
+    "blood_smears": []
+  }
 }

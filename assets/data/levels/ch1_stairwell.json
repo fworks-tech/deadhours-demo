@@ -433,6 +433,16 @@
         2600
       ],
       "radius": 20
+    },
+    {
+      "type": "tank",
+      "rect": [
+        1240,
+        880,
+        50,
+        50
+      ],
+      "radius_fx": 140
     }
   ],
   "enemies": [
@@ -750,5 +760,21 @@
         "has_flashlight": true
       }
     }
-  ]
+  ],
+  "effects": {
+    "fires": [],
+    "blood_smears": [
+      {
+        "from": [
+          706,
+          760
+        ],
+        "to": [
+          742,
+          1180
+        ],
+        "width": 24
+      }
+    ]
+  }
 }

@@ -38,6 +38,8 @@ var wall_art: Node2D
 var decals: Node2D
 var actors: Node2D
 var fx: Node2D
+var fx_system: TopDownFX
+var explosives: Array = []
 
 var player: TopDownPlayer
 var enemies: Array = []
@@ -176,6 +178,11 @@ func _build_world() -> void:
 	fx.name = "FX"
 	world.add_child(fx)
 
+	fx_system = TopDownFX.new()
+	fx_system.name = "Effects"
+	fx_system.mission = self
+	fx.add_child(fx_system)
+
 	var w: float = float(level.get("world", {}).get("width", 1600))
 	var h: float = float(level.get("world", {}).get("height", 2200))
 	world_rect = Rect2(0, 0, w, h)
@@ -185,6 +192,7 @@ func _build_world() -> void:
 	_build_walls()
 	_build_props()
 	_build_pickups()
+	_build_ambient_effects()
 	_build_exit()
 	_spawn_player()
 	_spawn_enemies()
@@ -313,6 +321,17 @@ func _build_props() -> void:
 				door.horizontal = door.rect.size.x >= door.rect.size.y
 				world.add_child(door)
 				doors.append(door)
+			"pump", "tank":
+				var erect := _r(prop.get("rect", []))
+				if erect.size == Vector2.ZERO:
+					continue
+				var exp := ExplosiveNode.new()
+				exp.mission = self
+				exp.rect = erect
+				exp.kind = "pump" if ptype == "pump" else "tank"
+				exp.radius = float(prop.get("radius_fx", 150.0))
+				world.add_child(exp)
+				explosives.append(exp)
 			"sofa", "bed", "table", "chair", "bench", "counter", "fridge", "tv", "shelf", "cabinet", "desk", "dumpster", "car", "plant", "rug", "trash", "streetlight":
 				var prect := _r(prop.get("rect", []))
 				if prect.size == Vector2.ZERO and prop.has("pos"):
@@ -349,6 +368,16 @@ func _add_prop_collider(rect: Rect2) -> void:
 	shape.position = rect.position + rect.size * 0.5
 	body.add_child(shape)
 	world.add_child(body)
+
+func _build_ambient_effects() -> void:
+	var eff: Dictionary = level.get("effects", {})
+	if eff.is_empty() or fx_system == null:
+		return
+	for f in eff.get("fires", []):
+		fx_system.ambient_fire(_v(f.get("pos", [0, 0])), float(f.get("size", 1.0)))
+	for smear in eff.get("blood_smears", []):
+		fx_system.blood_smear(_v(smear.get("from", [0, 0])), _v(smear.get("to", [0, 0])),
+			float(smear.get("width", 22.0)))
 
 func _build_pickups() -> void:
 	for p in level.get("pickups", []):
@@ -487,6 +516,9 @@ func try_interact(pos: Vector2) -> void:
 		_near_interactable.toggle_hide(player)
 
 func spawn_tracer(from: Vector2, to: Vector2, color: Color) -> void:
+	if fx_system:
+		fx_system.tracer(from, to, color, 1.8)
+		return
 	var line := Line2D.new()
 	line.width = 1.6
 	line.default_color = color
@@ -498,6 +530,8 @@ func spawn_tracer(from: Vector2, to: Vector2, color: Color) -> void:
 	tween.tween_callback(line.queue_free)
 
 func spawn_blood(at: Vector2, from_dir: Vector2) -> void:
+	if fx_system:
+		fx_system.corpse_fx(at, from_dir)
 	var blood := BloodView.new()
 	blood.position = at
 	blood.dir = from_dir
@@ -535,6 +569,36 @@ func raise_alarm(pos: Vector2, radius: float, source: Node = null) -> void:
 		if e.global_position.distance_to(pos) <= radius:
 			e.alert_to(pos)
 
+func explode(pos: Vector2, radius: float = 160.0, source: Node = null) -> void:
+	if fx_system:
+		fx_system.explosion(pos, radius)
+	shake_camera(16.0)
+	raise_alarm(pos, radius * 6.0, null)
+	for e in enemies.duplicate():
+		if not is_instance_valid(e) or not e.alive:
+			continue
+		if e.global_position.distance_to(pos) > radius:
+			continue
+		if is_wall_between(pos, e.global_position):
+			continue
+		e.die((e.global_position - pos).normalized())
+	if player and player.alive and player.global_position.distance_to(pos) <= radius * 0.8:
+		player.kill()
+	for other in explosives.duplicate():
+		if not is_instance_valid(other) or other == source or other.blown:
+			continue
+		if other.global_position.distance_to(pos) <= radius * 1.7:
+			other.chain_in(randf_range(0.08, 0.24))
+
+func hit_stop(duration: float = 0.045) -> void:
+	if Engine.time_scale < 1.0:
+		return
+	Engine.time_scale = 0.3
+	get_tree().create_timer(duration, true, false, true).timeout.connect(_end_hit_stop)
+
+func _end_hit_stop() -> void:
+	Engine.time_scale = 1.0
+
 func is_wall_between(a: Vector2, b: Vector2) -> bool:
 	var space := get_world_2d().direct_space_state
 	var q := PhysicsRayQueryParameters2D.create(a, b, (1 << 0) | (1 << 3))
@@ -543,11 +607,17 @@ func is_wall_between(a: Vector2, b: Vector2) -> bool:
 func on_enemy_killed(enemy: Node, from_dir: Vector2) -> void:
 	kills += 1
 	spawn_blood(enemy.global_position, from_dir)
+	hit_stop()
+	shake_camera(3.5)
 	FlagsManager.process_flag_operations(level.get("on_enemy_killed", []))
 	_check_clear_objective()
 
 func on_player_died() -> void:
 	player_dead = true
+	if fx_system and player:
+		fx_system.corpse_fx(player.global_position, Vector2.DOWN)
+		fx_system.damage_flash()
+	shake_camera(12.0)
 	if overlay_layer:
 		_show_result("YOU DIED", "The building keeps its dead.", true)
 
@@ -1288,6 +1358,67 @@ class PickupNode extends Area2D:
 		if TopDownObjectArt.draw_sprite(self, "pickup_" + weapon_id, footprint):
 			return
 		TopDownObjectArt.pickup(self, weapon_id)
+
+class ExplosiveNode extends StaticBody2D:
+	var mission: Node
+	var rect: Rect2 = Rect2()
+	var kind: String = "pump"
+	var radius: float = 150.0
+	var blown: bool = false
+	var _shape: CollisionShape2D
+
+	func _ready() -> void:
+		collision_layer = 1 << 3
+		collision_mask = 0
+		position = rect.position + rect.size * 0.5
+		_shape = CollisionShape2D.new()
+		var rs := RectangleShape2D.new()
+		rs.size = rect.size
+		_shape.shape = rs
+		add_child(_shape)
+		z_index = 1
+		queue_redraw()
+
+	func take_hit(_dir: Vector2 = Vector2.ZERO) -> void:
+		blow()
+
+	func chain_in(delay: float) -> void:
+		if blown:
+			return
+		blown = true   # claim it now so a second blast cannot double-trigger
+		get_tree().create_timer(delay, true, false, true).timeout.connect(_detonate)
+
+	func blow() -> void:
+		if blown:
+			return
+		blown = true
+		_detonate()
+
+	func _detonate() -> void:
+		if mission == null:
+			return
+		visible = false
+		collision_layer = 0
+		if _shape:
+			_shape.set_deferred("disabled", true)
+		mission.explode(global_position, radius, self)
+		queue_free()
+
+	func _draw() -> void:
+		var r := Rect2(-rect.size * 0.5, rect.size)
+		if kind == "pump":
+			draw_rect(r, Color("#2c3138"))
+			draw_rect(r, Color("#080a0c"), false, 2.0)
+			draw_rect(Rect2(r.position + Vector2(4, 4), Vector2(r.size.x - 8, r.size.y * 0.42)), Color("#0f1a1c"))
+			draw_rect(Rect2(r.position + Vector2(6, 6), Vector2(r.size.x - 12, r.size.y * 0.18)), Color(0.4, 0.9, 0.7, 0.35))
+			draw_rect(Rect2(r.position + Vector2(r.size.x - 12, r.size.y * 0.55), Vector2(5, 16)), Color("#8d9298"))
+			draw_line(Vector2(r.position.x + 6, r.end.y - 8), Vector2(r.end.x - 6, r.end.y - 8), Color("#8d5a2b"), 3.0)
+		else:
+			draw_circle(Vector2.ZERO, minf(r.size.x, r.size.y) * 0.5, Color("#3f4a44"))
+			draw_circle(Vector2.ZERO, minf(r.size.x, r.size.y) * 0.5, Color("#080a0c"))
+			draw_circle(Vector2.ZERO, minf(r.size.x, r.size.y) * 0.42, Color("#545f58"))
+			draw_rect(Rect2(-3, -r.size.y * 0.5 + 4, 6, 8), Color("#b8443a"))
+			draw_circle(Vector2.ZERO, 4.0, Color(0.9, 0.3, 0.2, 0.5))
 
 class ExitView extends Node2D:
 	var size: Vector2 = Vector2(100, 100)

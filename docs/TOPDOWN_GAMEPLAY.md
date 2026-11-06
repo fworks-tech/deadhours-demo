@@ -214,6 +214,34 @@ Solid props block movement, bullets and vision cones. Rugs, streetlights and
 trash are decoration only. Doorways are kept clear; spawn points are checked
 against footprints.
 
+### Combat effects
+
+`TopDownFX.gd` holds every impact beat, all procedural (no audio or texture
+assets needed):
+
+| Effect | Trigger | Notes |
+|---|---|---|
+| muzzle flash + powder puff | any firearm shot | star burst along the barrel, scales with weapon |
+| shell casing | firearm shot | brass splinter with gravity and spin |
+| tracer | every bullet | tapered line, 0.1 s fade |
+| impact sparks / dust / bullet hole | bullet hits wall | small persistent scorch dot |
+| glass break | impact kind `glass` | pale shards + frosty crack decal |
+| blood spray + mist | melee hit, gunshot kill | directional, gravity-fed |
+| blood pool / smear | death, level `effects.blood_smears` | grows over 0.8 s, stays for the run |
+| corpse beat | enemy death | pool under the body, hit-stop 45 ms, small shake |
+| explosion | fuel pump, propane tank | flash, shockwave ring, embers, smoke column, debris, scorch, alarm, chain reaction |
+| damage vignette | player death | red edge flash |
+| ambient fire | level `effects.fires` | looping flame + smoke column |
+
+Explosives are level data: `{"type": "pump" | "tank", "rect": [...], "radius_fx": 170}`.
+They are solid, block bullets, explode when shot or caught in a blast, damage
+both sides, and chain to neighbours within 1.7x their radius.
+
+Story hooks that drove this (`assets/data/story.json`): the gas station chapter
+(fuel pumps), "a shot rings out, glass shatters" (`ch2_run_escape`), fires
+visible in `ch1_barricade_survive`, and the blood smear down the stairwell in
+`ch1_stairwell`.
+
 ### Surfaces and licensed assets
 
 Floors use CC0 photographic textures (ambientCG) graded into the neon-noir

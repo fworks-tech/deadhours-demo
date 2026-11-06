@@ -235,6 +235,8 @@ func _melee_attack(w: Dictionary) -> void:
 				continue
 			if mission.is_wall_between(global_position, e.global_position):
 				continue
+			if mission.fx_system:
+				mission.fx_system.blood_spray(e.global_position, aim_dir, 20)
 			e.die(aim_dir)
 			hit_any = true
 		if float(w.get("noise", 0.0)) > 0.0:
@@ -258,10 +260,20 @@ func _firearm_attack(w: Dictionary) -> void:
 	for i in range(pellets):
 		var dir := aim_dir.rotated(randf_range(-spread, spread) * 0.5)
 		var hit: Dictionary = _cast_shot(dir, max_range)
+		if mission and mission.fx_system:
+			mission.fx_system.muzzle_flash(global_position + dir * 20.0, dir, 1.0 if pellets == 1 else 1.3)
+			mission.fx_system.casing(global_position + dir * 10.0, dir)
 		if not hit.is_empty():
 			var col = hit.get("collider")
-			if col and col.has_method("die") and col != self:
+			if col and col.has_method("take_hit"):
+				col.take_hit(dir)
+			elif col and col.has_method("die") and col != self:
 				col.die(dir)
+		if mission and mission.fx_system:
+			if hit.is_empty():
+				mission.fx_system.impact(global_position + dir * max_range, -dir)
+			else:
+				mission.fx_system.impact(hit.get("position", global_position + dir * max_range), hit.get("normal", -dir))
 		if mission:
 			mission.spawn_tracer(global_position + dir * 16.0, hit.get("position", global_position + dir * max_range), Color("#ffd9a0"))
 	if mission:
