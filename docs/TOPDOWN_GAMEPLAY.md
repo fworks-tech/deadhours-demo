@@ -214,6 +214,13 @@ Solid props block movement, bullets and vision cones. Rugs, streetlights and
 trash are decoration only. Doorways are kept clear; spawn points are checked
 against footprints.
 
+### Surfaces and licensed assets
+
+Floors use CC0 photographic textures (ambientCG) graded into the neon-noir
+palette, tiled under the existing checker/grime/neon pass; walls use a matching
+brick texture. Every third-party file is registered in `docs/ASSET_LICENSES.md`
+and `assets/data/asset_sources.json` before it ships.
+
 ### Characters
 
 `TopDownFigure.gd` draws every character out of layered shapes, driven by
@@ -239,6 +246,21 @@ own rotation for the head pass.
 Swap a color, hairstyle or build in `characters.json` and every mission follows.
 A generated sprite sheet can replace the figure later without touching gameplay:
 the figure node is the only thing that knows how a body is drawn.
+
+### Game-ready character sheets
+
+The blockout figure is baked into a real asset by
+`tools/bake_character_sheets.gd`:
+
+- 8 directions x 8 walk frames, 128 px cells (2x world density), transparent PNG
+- `assets/images/sprites/topdown/<char>_sheet.png` + `_sheet.json` (grid, pivot, fps)
+- `TopDownFigure` loads the sheet automatically and falls back to the blockout
+  draw if it is missing, so painted frames can drop straight in later
+- weapons stay live: the sheet holds the body, the held weapon is drawn on top
+  so pickups and ammo read immediately
+
+Rebake after changing `characters.json`:
+`xvfb-run -a godot --path . res://tools/BakeCharacterSheets.tscn`
 
 Preview the cast: `res://tools/CharacterPreview.tscn`.
 Check the four facings: `res://tools/FacingPreview.tscn`.

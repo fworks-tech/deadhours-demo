@@ -23,9 +23,33 @@ var hunch: float = 0.0         # 0 human .. 1 heavy zombie stoop
 # World-space direction the character is looking/aiming. The head is drawn in
 # screen space from this, so facing north shows the back of the head.
 var view_dir: Vector2 = Vector2.DOWN
+# Optional baked sprite sheet (see tools/bake_character_sheets.gd). When present
+# the blockout draw is replaced by real frames; everything else is unchanged.
+var sheet: Texture2D = null
+var sheet_meta: Dictionary = {}
 var _breath: float = 0.0
 
 static var _library: Dictionary = {}
+static var _sheets: Dictionary = {}
+
+static func sheet_data(key: String) -> Array:
+	if _sheets.has(key):
+		return _sheets[key]
+	var base := "res://assets/images/sprites/topdown/%s_sheet" % key
+	var tex: Texture2D = null
+	var meta: Dictionary = {}
+	if ResourceLoader.exists(base + ".png"):
+		tex = load(base + ".png")
+	if FileAccess.file_exists(base + ".json"):
+		var f := FileAccess.open(base + ".json", FileAccess.READ)
+		if f:
+			var parsed = JSON.parse_string(f.get_as_text())
+			if typeof(parsed) == TYPE_DICTIONARY:
+				meta = parsed
+	if tex == null:
+		meta = {}
+	_sheets[key] = [tex, meta]
+	return _sheets[key]
 
 static func library() -> Dictionary:
 	if not _library.is_empty():
@@ -55,6 +79,13 @@ func _ready() -> void:
 
 func setup(l: Dictionary) -> void:
 	look = l.duplicate(true)
+	sheet = null
+	sheet_meta = {}
+	var key := str(look.get("sheet", ""))
+	if not key.is_empty() and OS.get_environment("TD_NO_SHEET") != "1":
+		var data := sheet_data(key)
+		sheet = data[0]
+		sheet_meta = data[1]
 	queue_redraw()
 
 func _process(delta: float) -> void:
@@ -87,6 +118,12 @@ func build() -> float:
 # ---------------------------------------------------------------- drawing
 
 func _draw() -> void:
+	if sheet != null and not sheet_meta.is_empty():
+		if dead:
+			_draw_sheet_corpse()
+		else:
+			_draw_sheet()
+		return
 	if dead:
 		_draw_corpse()
 		return
@@ -134,6 +171,54 @@ func _draw() -> void:
 		_draw_flash(b, stoop)
 	if covered:
 		draw_circle(Vector2(0, -2), 15.0 * b, Color(0.02, 0.03, 0.04, 0.45))
+
+# ------------------------------------------------------------- baked sheet
+
+func _sheet_indices() -> Vector2i:
+	var frames := int(sheet_meta.get("frames", 8))
+	var dirs := int(sheet_meta.get("directions", 8))
+	var ang: float = view_dir.angle() if view_dir.length() > 0.01 else PI * 0.5
+	var d := int(round(fposmod(ang + PI * 0.5, TAU) / TAU * float(dirs))) % dirs
+	var f := 0
+	if walk > 0.05:
+		f = int(fposmod(phase, TAU) / TAU * float(frames)) % frames
+	return Vector2i(f, d)
+
+func _sheet_rect() -> Rect2:
+	var fw := float(sheet_meta.get("frame_w", 128))
+	var fh := float(sheet_meta.get("frame_h", 128))
+	var idx := _sheet_indices()
+	return Rect2(idx.x * fw, idx.y * fh, fw, fh)
+
+func _sheet_world_size() -> Vector2:
+	var fw := float(sheet_meta.get("frame_w", 128))
+	var fh := float(sheet_meta.get("frame_h", 128))
+	var scale_factor := maxf(0.2, float(sheet_meta.get("bake_scale", 2.0)))
+	return Vector2(fw, fh) / scale_factor
+
+func _draw_sheet() -> void:
+	var size := _sheet_world_size()
+	var tint := Color(1, 1, 1, 1)
+	if hurt > 0.0:
+		tint = tint.lerp(Color(2.4, 1.5, 1.5, 1.0), clampf(hurt, 0.0, 1.0))
+	# the frames are baked per direction, so the node rotation is cancelled
+	draw_set_transform(Vector2.ZERO, -global_rotation, Vector2.ONE)
+	draw_texture_rect_region(sheet, Rect2(-size * 0.5, size), _sheet_rect(), tint)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	# held weapon still comes from the live layer, so pickups read instantly
+	_draw_weapon(build())
+	if covered:
+		draw_circle(Vector2(0, -2), 15.0 * build(), Color(0.02, 0.03, 0.04, 0.45))
+
+func _draw_sheet_corpse() -> void:
+	var size := _sheet_world_size()
+	var fw := float(sheet_meta.get("frame_w", 128))
+	var fh := float(sheet_meta.get("frame_h", 128))
+	# south-facing frame laid on its side reads as a body on the floor
+	var rect := Rect2(0, fh * 4.0, fw, fh)
+	draw_set_transform(Vector2.ZERO, PI * 0.5, Vector2(1.0, 0.72))
+	draw_texture_rect_region(sheet, Rect2(-size * 0.5, size), rect, Color(0.55, 0.5, 0.52, 1.0))
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 func _draw_torso(b: float, stoop: float) -> void:
 	var w := 11.0 * b

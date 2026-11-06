@@ -984,12 +984,37 @@ func _vibrate(ms: int) -> void:
 # ------------------------------------------------------- nested views ------
 
 class FloorView extends Node2D:
+	const FLOOR_TEXTURES := {
+		"checker": "floor_tile",
+		"checker_red": "floor_carpet",
+		"concrete": "floor_concrete",
+		"dirt": "floor_concrete",
+		"wood": "floor_wood",
+		"carpet": "floor_carpet",
+		"tile": "floor_tile",
+	}
+	const FLOOR_TINTS := {
+		"checker": Color(0.85, 0.9, 0.95),
+		"checker_red": Color(1.15, 0.72, 0.8),
+		"concrete": Color(0.9, 0.95, 1.0),
+		"dirt": Color(1.0, 0.86, 0.72),
+	}
 	var mission: Node
 	var rect: Rect2 = Rect2()
 	var floor_key: String = "checker"
 	var neon: Color = Color("#ff2e88")
 	var neon_side: String = "top"
 	var seed: int = 1
+	var texture: Texture2D = null
+
+	func _ready() -> void:
+		var tex_name: String = FLOOR_TEXTURES.get(floor_key, "")
+		if tex_name.is_empty():
+			return
+		var path := "res://assets/images/textures/%s.png" % tex_name
+		if ResourceLoader.exists(path):
+			texture = load(path)
+			texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 
 	func _draw() -> void:
 		var base := Color("#1a2127")
@@ -1004,6 +1029,14 @@ class FloorView extends Node2D:
 		elif floor_key == "checker_red":
 			base = Color("#241619")
 			alt = Color("#301c22")
+		var textured := texture != null
+		if textured:
+			# CC0 photographic surface (see assets/data/asset_sources.json), tinted
+			# into the neon-noir grade. The checker read is kept as a light overlay.
+			texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+			draw_texture_rect(texture, rect, true, FLOOR_TINTS.get(floor_key, Color(0.9, 0.94, 1.0)))
+			base = Color(base.r, base.g, base.b, 0.35)
+			alt = Color(alt.r, alt.g, alt.b, 0.30)
 		draw_rect(rect, base)
 		if floor_key.begins_with("checker"):
 			var cell := 64.0
@@ -1074,9 +1107,18 @@ class BackdropView extends Node2D:
 
 class WallView extends Node2D:
 	var rects: Array = []
+	var texture: Texture2D = null
+	func _ready() -> void:
+		var path := "res://assets/images/textures/wall_brick.png"
+		if ResourceLoader.exists(path):
+			texture = load(path)
+			texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	func _draw() -> void:
 		for wall in rects:
-			draw_rect(wall, Color("#333d45"))
+			if texture:
+				texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+				draw_texture_rect(texture, wall, true, Color(0.55, 0.6, 0.66))
+			draw_rect(wall, Color("#333d45") if texture == null else Color(0.05, 0.06, 0.07, 0.18))
 			draw_rect(Rect2(wall.position, Vector2(wall.size.x, 3.0)), Color("#55636e"))
 			draw_rect(Rect2(wall.position, Vector2(2.0, wall.size.y)), Color("#41505a"))
 

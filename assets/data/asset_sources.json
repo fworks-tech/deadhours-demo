@@ -1,0 +1,55 @@
+{
+  "note": "External CC0 texture sources used by the top-down layer. Verify license before shipping a paid build.",
+  "textures": [
+    {
+      "file": "res://assets/images/textures/floor_concrete.png",
+      "asset": "Concrete048",
+      "name": "Concrete 048",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "url": "https://ambientcg.com/view?id=Concrete048",
+      "source_query": "concrete floor",
+      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+    },
+    {
+      "file": "res://assets/images/textures/floor_wood.png",
+      "asset": "WoodFloor051",
+      "name": "Wood Floor 051",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "url": "https://ambientcg.com/view?id=WoodFloor051",
+      "source_query": "wood floor",
+      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+    },
+    {
+      "file": "res://assets/images/textures/floor_tile.png",
+      "asset": "Tiles141",
+      "name": "Tiles 141",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "url": "https://ambientcg.com/view?id=Tiles141",
+      "source_query": "tiles floor",
+      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+    },
+    {
+      "file": "res://assets/images/textures/floor_carpet.png",
+      "asset": "Carpet016",
+      "name": "Carpet 016",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "url": "https://ambientcg.com/view?id=Carpet016",
+      "source_query": "carpet",
+      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+    },
+    {
+      "file": "res://assets/images/textures/wall_brick.png",
+      "asset": "Bricks113A",
+      "name": "Bricks 113 A",
+      "author": "ambientCG (Lennart Demes)",
+      "license": "CC0 1.0",
+      "url": "https://ambientcg.com/view?id=Bricks113A",
+      "source_query": "bricks",
+      "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+    }
+  ]
+}
