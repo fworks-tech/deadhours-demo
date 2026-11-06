@@ -308,7 +308,8 @@
       "facing": [
         0,
         1
-      ]
+      ],
+      "type": "runner"
     },
     {
       "pos": [
@@ -330,7 +331,8 @@
         0,
         1
       ],
-      "view_range": 340
+      "view_range": 340,
+      "type": "shambler"
     },
     {
       "pos": [
@@ -351,7 +353,8 @@
       "facing": [
         1,
         0
-      ]
+      ],
+      "type": "shambler"
     },
     {
       "pos": [
@@ -372,7 +375,8 @@
       "facing": [
         -1,
         0
-      ]
+      ],
+      "type": "shambler"
     },
     {
       "pos": [
@@ -393,7 +397,8 @@
       "facing": [
         1,
         0
-      ]
+      ],
+      "type": "shambler"
     },
     {
       "pos": [
@@ -415,7 +420,8 @@
         -1,
         0
       ],
-      "view_range": 380
+      "view_range": 380,
+      "type": "shambler"
     },
     {
       "pos": [
@@ -436,7 +442,8 @@
       "facing": [
         1,
         0
-      ]
+      ],
+      "type": "shambler"
     },
     {
       "pos": [
@@ -457,7 +464,8 @@
       "facing": [
         -1,
         0
-      ]
+      ],
+      "type": "shambler"
     },
     {
       "pos": [
@@ -478,7 +486,8 @@
       "facing": [
         1,
         0
-      ]
+      ],
+      "type": "shambler"
     }
   ],
   "pickups": [

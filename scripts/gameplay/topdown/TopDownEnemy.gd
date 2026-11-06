@@ -7,17 +7,14 @@ class_name TopDownEnemy
 
 enum State { PATROL, ALERT, CHASE, ATTACK, DEAD }
 
-const BODY_COLOR := Color("#7f9a86")
-const BODY_DARK := Color("#556b5b")
-const HEAD_COLOR := Color("#c9d3c2")
-const OUTLINE := Color("#101512")
 const ALERT_COLOR := Color("#ff2f4f")
 
 @export var patrol_speed: float = 104.0
 @export var chase_speed: float = 178.0
-@export var view_range: float = 430.0
+@export var view_range: float = 340.0
 @export var view_angle: float = 96.0
 @export var hearing_range: float = 320.0
+@export var zombie_type: String = "shambler"
 
 var mission: Node = null
 var alive: bool = true
@@ -36,6 +33,11 @@ var _los_timer: float = 0.0
 var _shoot_cd: float = 0.0
 var _windup: float = 0.0
 var _lost_timer: float = 0.0
+var _cone_tick: int = 0
+var _lunge_left: float = 0.0
+var _lunge_cd: float = 0.0
+var _lunge_dir: Vector2 = Vector2.ZERO
+var figure: TopDownFigure = null
 
 func _ready() -> void:
 	collision_layer = 1 << 2  # enemy
@@ -49,11 +51,22 @@ func _ready() -> void:
 	add_child(shape)
 
 	_cone = Polygon2D.new()
-	_cone.color = Color(1.0, 0.24, 0.33, 0.10)
+	_cone.color = Color(1.0, 0.24, 0.33, 0.07)
 	_cone.z_as_relative = false
 	_cone.z_index = 1
 	_cone.polygon = PackedVector2Array([Vector2.ZERO])
 	add_child(_cone)
+
+	var look := TopDownFigure.look_for("zombie", zombie_type)
+	figure = TopDownFigure.new()
+	figure.name = "Figure"
+	figure.setup(look)
+	figure.hunch = float(look.get("hunch", 0.85))
+	figure.weapon = weapon_id
+	# infected read bigger/smaller by archetype without changing hitboxes much
+	figure.scale = Vector2.ONE * clampf(float(look.get("build", 1.0)), 0.85, 1.35)
+	add_child(figure)
+
 	idle_phase = randf() * TAU
 	_update_cone()
 
@@ -69,6 +82,11 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		_update_cone()
 		return
+
+	if _lunge_cd > 0.0:
+		_lunge_cd -= delta
+	if _lunge_left > 0.0:
+		_lunge_left -= delta
 
 	_see_timer -= delta
 	if _see_timer <= 0.0:
@@ -94,7 +112,22 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	_update_cone()
+	_sync_figure(delta)
 	queue_redraw()
+
+func _sync_figure(_delta: float) -> void:
+	if figure == null:
+		return
+	figure.dead = not alive
+	if alive:
+		figure.rotation = facing.angle() + PI * 0.5
+	figure.walk = clampf(velocity.length() / maxf(chase_speed, 1.0), 0.0, 1.0)
+	figure.hunch = clampf(float(TopDownFigure.look_for("zombie", zombie_type).get("hunch", 0.85)), 0.0, 1.0)
+	figure.swing = 1.0 if (_lunge_left > 0.0 or state == State.ATTACK) else 0.0
+	if state == State.CHASE or state == State.ATTACK:
+		figure.look["eye"] = "#ff5c5c"
+	else:
+		figure.look["eye"] = str(TopDownFigure.look_for("zombie", zombie_type).get("eye", "#c8ff7a"))
 
 func _become_alert() -> void:
 	state = State.CHASE
@@ -144,6 +177,17 @@ func _do_chase(delta: float) -> void:
 	var to_player: Vector2 = global_position.direction_to(last_seen)
 	var dist: float = global_position.distance_to(last_seen)
 	facing = to_player
+
+	# zombie lunge: a short telegraphed burst when the player is just out of reach
+	if _lunge_left <= 0.0 and _lunge_cd <= 0.0 and dist > 46.0 and dist < 150.0 and zombie_type != "bloated":
+		_lunge_left = 0.32
+		_lunge_cd = 1.7
+		_lunge_dir = to_player
+
+	if _lunge_left > 0.0:
+		velocity = _lunge_dir * (chase_speed * 1.85)
+		_update_cone_color()
+		return
 
 	if dist < 44.0:
 		state = State.ATTACK
@@ -222,12 +266,23 @@ func _update_cone() -> void:
 	if state == State.CHASE or state == State.ATTACK:
 		reach = min(view_range, 520.0)
 		_update_cone_color()
+	_cone_tick += 1
+	var clip := (_cone_tick % 3) == 0
+	var space := get_world_2d().direct_space_state if clip else null
 	var pts := PackedVector2Array()
 	pts.append(Vector2.ZERO)
-	var steps := 14
+	var steps := 16
 	for i in range(steps + 1):
 		var a: float = -half + (2.0 * half) * (float(i) / float(steps))
-		pts.append(Vector2(0, -reach).rotated(a))
+		var p: Vector2 = Vector2(0, -reach).rotated(a)
+		if space:
+			var q := PhysicsRayQueryParameters2D.create(
+				global_position, global_position + p, (1 << 0) | (1 << 3))
+			q.exclude = [get_rid()]
+			var hit := space.intersect_ray(q)
+			if not hit.is_empty():
+				p = hit["position"] - global_position
+		pts.append(p)
 	_cone.polygon = pts
 	_cone.rotation = facing.angle() + PI * 0.5
 
@@ -236,11 +291,11 @@ func _update_cone_color() -> void:
 		return
 	match state:
 		State.CHASE, State.ATTACK:
-			_cone.color = Color(1.0, 0.2, 0.28, 0.15)
+			_cone.color = Color(1.0, 0.2, 0.28, 0.12)
 		State.ALERT:
-			_cone.color = Color(1.0, 0.55, 0.2, 0.13)
+			_cone.color = Color(1.0, 0.55, 0.2, 0.10)
 		_:
-			_cone.color = Color(0.85, 0.9, 0.8, 0.07)
+			_cone.color = Color(0.85, 0.9, 0.8, 0.05)
 
 func die(from_dir: Vector2 = Vector2.ZERO) -> void:
 	if not alive:
@@ -257,28 +312,6 @@ func die(from_dir: Vector2 = Vector2.ZERO) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_circle(Vector2(0, 7), 14.0, Color(0, 0, 0, 0.35))
-	if not alive:
-		draw_circle(Vector2(0, 2), 14.0, BODY_DARK)
-		draw_circle(Vector2(0, 4), 8.0, HEAD_COLOR)
-		draw_circle(Vector2(0, 6), 20.0, Color(0.32, 0.03, 0.05, 0.5))
-		return
-
-	var body := BODY_COLOR
-	if state == State.CHASE or state == State.ATTACK:
-		body = Color("#a96b62")
-	elif state == State.ALERT:
-		body = Color("#96987a")
-
-	draw_circle(Vector2.ZERO, 13.0, body)
-	draw_circle(Vector2(0, -2), 11.0, body.lightened(0.05))
-	draw_arc(Vector2.ZERO, 13.0, 0.0, TAU, 20, OUTLINE, 1.6, true)
-	draw_circle(Vector2(0, -4), 6.6, HEAD_COLOR)
-	draw_arc(Vector2(0, -4), 6.6, 0.0, TAU, 14, OUTLINE, 1.2, true)
-	# infection blooms: a few sickly spots
-	draw_circle(Vector2(-4, 4), 2.2, Color("#4e5b46"))
-	draw_circle(Vector2(5, 2), 1.6, Color("#5f4a46"))
-	if weapon_id == "pistol":
-		draw_line(Vector2(2, -8), Vector2(2, -22), Color("#20242a"), 3.0)
-	else:
-		draw_line(Vector2(2, -8), Vector2(2, -20), OUTLINE, 2.0)
+	# Body is drawn by the TopDownFigure child. Nothing to add here yet; kept
+	# so the node still has a draw pass for future status pips.
+	pass

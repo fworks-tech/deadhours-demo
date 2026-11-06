@@ -7,66 +7,651 @@
   "briefing": "The emergency lights flicker every few seconds. The blood smear starts on the sixth floor landing and drags down. Whatever made it is still in the stairwell with you.",
   "tip": "Gunshots pull every infected in earshot. The bat does not. Use the lockers.",
   "objective": "GET DOWN TO THE LOBBY",
-  "world": { "width": 1400, "height": 2760 },
-  "player": { "spawn": [700, 180], "weapon": "bat" },
+  "world": {
+    "width": 1400,
+    "height": 2760
+  },
+  "player": {
+    "spawn": [
+      700,
+      180
+    ],
+    "weapon": "bat"
+  },
   "rooms": [
-    { "id": "landing_7", "rect": [380, 100, 640, 340], "floor": "checker", "neon": "#28e0d0", "neon_side": "top", "label": "7F" },
-    { "id": "shaft_a", "rect": [620, 440, 160, 200], "floor": "concrete", "neon": "#28e0d0", "neon_side": "left" },
-    { "id": "landing_6", "rect": [340, 640, 720, 340], "floor": "checker_red", "neon": "#ff2e88", "neon_side": "bottom", "label": "6F" },
-    { "id": "maintenance", "rect": [1060, 700, 260, 240], "floor": "concrete", "neon": "#ffb03a", "neon_side": "right", "label": "MAINT." },
-    { "id": "shaft_b", "rect": [620, 980, 160, 220], "floor": "concrete", "neon": "#ff2e88", "neon_side": "right" },
-    { "id": "landing_5", "rect": [340, 1200, 720, 340], "floor": "checker", "neon": "#28e0d0", "neon_side": "left", "label": "5F" },
-    { "id": "shaft_c", "rect": [620, 1540, 160, 220], "floor": "concrete", "neon": "#ffb03a", "neon_side": "left" },
-    { "id": "landing_4", "rect": [340, 1760, 720, 340], "floor": "checker_red", "neon": "#ff2e88", "neon_side": "top", "label": "4F" },
-    { "id": "shaft_d", "rect": [620, 2100, 160, 220], "floor": "concrete", "neon": "#28e0d0", "neon_side": "right" },
-    { "id": "lobby", "rect": [340, 2320, 720, 300], "floor": "concrete", "neon": "#ffb03a", "neon_side": "bottom", "label": "LOBBY" }
+    {
+      "id": "landing_7",
+      "rect": [
+        380,
+        100,
+        640,
+        340
+      ],
+      "floor": "checker",
+      "neon": "#28e0d0",
+      "neon_side": "top",
+      "label": "7F"
+    },
+    {
+      "id": "shaft_a",
+      "rect": [
+        620,
+        440,
+        160,
+        200
+      ],
+      "floor": "concrete",
+      "neon": "#28e0d0",
+      "neon_side": "left"
+    },
+    {
+      "id": "landing_6",
+      "rect": [
+        340,
+        640,
+        720,
+        340
+      ],
+      "floor": "checker_red",
+      "neon": "#ff2e88",
+      "neon_side": "bottom",
+      "label": "6F"
+    },
+    {
+      "id": "maintenance",
+      "rect": [
+        1060,
+        700,
+        260,
+        240
+      ],
+      "floor": "concrete",
+      "neon": "#ffb03a",
+      "neon_side": "right",
+      "label": "MAINT."
+    },
+    {
+      "id": "shaft_b",
+      "rect": [
+        620,
+        980,
+        160,
+        220
+      ],
+      "floor": "concrete",
+      "neon": "#ff2e88",
+      "neon_side": "right"
+    },
+    {
+      "id": "landing_5",
+      "rect": [
+        340,
+        1200,
+        720,
+        340
+      ],
+      "floor": "checker",
+      "neon": "#28e0d0",
+      "neon_side": "left",
+      "label": "5F"
+    },
+    {
+      "id": "shaft_c",
+      "rect": [
+        620,
+        1540,
+        160,
+        220
+      ],
+      "floor": "concrete",
+      "neon": "#ffb03a",
+      "neon_side": "left"
+    },
+    {
+      "id": "landing_4",
+      "rect": [
+        340,
+        1760,
+        720,
+        340
+      ],
+      "floor": "checker_red",
+      "neon": "#ff2e88",
+      "neon_side": "top",
+      "label": "4F"
+    },
+    {
+      "id": "shaft_d",
+      "rect": [
+        620,
+        2100,
+        160,
+        220
+      ],
+      "floor": "concrete",
+      "neon": "#28e0d0",
+      "neon_side": "right"
+    },
+    {
+      "id": "lobby",
+      "rect": [
+        340,
+        2320,
+        720,
+        300
+      ],
+      "floor": "concrete",
+      "neon": "#ffb03a",
+      "neon_side": "bottom",
+      "label": "LOBBY"
+    }
   ],
   "doors": [
-    { "rect": [620, 430, 160, 20] },
-    { "rect": [620, 630, 160, 20] },
-    { "rect": [1050, 800, 20, 120] },
-    { "rect": [620, 970, 160, 20] },
-    { "rect": [620, 1190, 160, 20] },
-    { "rect": [620, 1530, 160, 20] },
-    { "rect": [620, 1750, 160, 20] },
-    { "rect": [620, 2090, 160, 20] },
-    { "rect": [620, 2310, 160, 20] }
+    {
+      "rect": [
+        620,
+        430,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        620,
+        630,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        1050,
+        800,
+        20,
+        120
+      ]
+    },
+    {
+      "rect": [
+        620,
+        970,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        620,
+        1190,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        620,
+        1530,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        620,
+        1750,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        620,
+        2090,
+        160,
+        20
+      ]
+    },
+    {
+      "rect": [
+        620,
+        2310,
+        160,
+        20
+      ]
+    }
   ],
   "props": [
-    { "type": "crate", "rect": [400, 130, 60, 60] },
-    { "type": "barrel", "pos": [980, 200], "radius": 20 },
-    { "type": "locker", "rect": [352, 660, 54, 92] },
-    { "type": "crate", "rect": [980, 660, 60, 60] },
-    { "type": "crate", "rect": [1100, 730, 56, 56] },
-    { "type": "locker", "rect": [1240, 780, 54, 92] },
-    { "type": "door", "rect": [620, 984, 160, 16], "locked": false },
-    { "type": "barrel", "pos": [420, 1380], "radius": 20 },
-    { "type": "crate", "rect": [960, 1420, 64, 64] },
-    { "type": "locker", "rect": [352, 1780, 54, 92] },
-    { "type": "barrel", "pos": [980, 1980], "radius": 20 },
-    { "type": "crate", "rect": [420, 2020, 56, 56] },
-    { "type": "door", "rect": [620, 2324, 160, 16], "locked": false }
+    {
+      "type": "crate",
+      "rect": [
+        400,
+        130,
+        60,
+        60
+      ]
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        980,
+        200
+      ],
+      "radius": 20
+    },
+    {
+      "type": "locker",
+      "rect": [
+        352,
+        660,
+        54,
+        92
+      ]
+    },
+    {
+      "type": "crate",
+      "rect": [
+        980,
+        660,
+        60,
+        60
+      ]
+    },
+    {
+      "type": "crate",
+      "rect": [
+        1100,
+        730,
+        56,
+        56
+      ]
+    },
+    {
+      "type": "locker",
+      "rect": [
+        1240,
+        780,
+        54,
+        92
+      ]
+    },
+    {
+      "type": "door",
+      "rect": [
+        620,
+        984,
+        160,
+        16
+      ],
+      "locked": false
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        420,
+        1380
+      ],
+      "radius": 20
+    },
+    {
+      "type": "crate",
+      "rect": [
+        960,
+        1420,
+        64,
+        64
+      ]
+    },
+    {
+      "type": "locker",
+      "rect": [
+        352,
+        1780,
+        54,
+        92
+      ]
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        980,
+        1980
+      ],
+      "radius": 20
+    },
+    {
+      "type": "crate",
+      "rect": [
+        420,
+        2020,
+        56,
+        56
+      ]
+    },
+    {
+      "type": "door",
+      "rect": [
+        620,
+        2324,
+        160,
+        16
+      ],
+      "locked": false
+    }
   ],
   "enemies": [
-    { "pos": [520, 220], "weapon": "fists", "patrol": [[520, 220], [520, 380]], "facing": [1, 0] },
-    { "pos": [900, 340], "weapon": "pistol", "patrol": [[900, 340], [780, 340]], "facing": [-1, 0] },
-    { "pos": [700, 540], "weapon": "fists", "patrol": [[700, 480], [700, 610]], "facing": [0, 1] },
-    { "pos": [480, 780], "weapon": "fists", "patrol": [[480, 780], [480, 940]], "facing": [1, 0] },
-    { "pos": [880, 920], "weapon": "pistol", "patrol": [[880, 920], [680, 920]], "facing": [-1, 0] },
-    { "pos": [1180, 820], "weapon": "pistol", "patrol": [[1180, 820], [1180, 900]], "facing": [0, 1], "view_range": 360 },
-    { "pos": [500, 1320], "weapon": "fists", "patrol": [[500, 1320], [500, 1480]], "facing": [1, 0] },
-    { "pos": [920, 1450], "weapon": "pistol", "patrol": [[920, 1450], [700, 1450]], "facing": [-1, 0] },
-    { "pos": [560, 1840], "weapon": "fists", "patrol": [[560, 1840], [560, 2010]], "facing": [1, 0] },
-    { "pos": [900, 2020], "weapon": "pistol", "patrol": [[900, 2020], [700, 2020]], "facing": [-1, 0] },
-    { "pos": [740, 2420], "weapon": "pistol", "patrol": [[740, 2420], [900, 2420]], "facing": [1, 0] },
-    { "pos": [480, 2520], "weapon": "fists", "patrol": [[480, 2520], [480, 2400]], "facing": [0, -1] }
+    {
+      "pos": [
+        520,
+        220
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          520,
+          220
+        ],
+        [
+          520,
+          380
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "type": "runner"
+    },
+    {
+      "pos": [
+        900,
+        340
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          900,
+          340
+        ],
+        [
+          780,
+          340
+        ]
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "type": "bloated"
+    },
+    {
+      "pos": [
+        700,
+        540
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          700,
+          480
+        ],
+        [
+          700,
+          610
+        ]
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        480,
+        780
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          480,
+          780
+        ],
+        [
+          480,
+          940
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        880,
+        920
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          880,
+          920
+        ],
+        [
+          680,
+          920
+        ]
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        1180,
+        820
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          1180,
+          820
+        ],
+        [
+          1180,
+          900
+        ]
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "view_range": 360,
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        500,
+        1320
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          500,
+          1320
+        ],
+        [
+          500,
+          1480
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        920,
+        1450
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          920,
+          1450
+        ],
+        [
+          700,
+          1450
+        ]
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        560,
+        1840
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          560,
+          1840
+        ],
+        [
+          560,
+          2010
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        900,
+        2020
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          900,
+          2020
+        ],
+        [
+          700,
+          2020
+        ]
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        740,
+        2420
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          740,
+          2420
+        ],
+        [
+          900,
+          2420
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        480,
+        2520
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          480,
+          2520
+        ],
+        [
+          480,
+          2400
+        ]
+      ],
+      "facing": [
+        0,
+        -1
+      ],
+      "type": "shambler"
+    }
   ],
   "pickups": [
-    { "weapon": "pistol", "ammo": 7, "pos": [640, 1160] },
-    { "weapon": "shotgun", "ammo": 4, "pos": [1180, 900] }
+    {
+      "weapon": "pistol",
+      "ammo": 7,
+      "pos": [
+        640,
+        1160
+      ]
+    },
+    {
+      "weapon": "shotgun",
+      "ammo": 4,
+      "pos": [
+        1180,
+        900
+      ]
+    }
   ],
-  "exit": { "rect": [620, 2500, 240, 120], "label": "LOBBY DOOR" },
-  "on_enemy_killed": [{ "add": { "corruption_level": 1 } }],
-  "on_alarm": [{ "set": { "made_enemies": true } }],
-  "on_complete": [{ "set": { "took_stairs": true, "has_flashlight": true } }]
+  "exit": {
+    "rect": [
+      620,
+      2500,
+      240,
+      120
+    ],
+    "label": "LOBBY DOOR"
+  },
+  "on_enemy_killed": [
+    {
+      "add": {
+        "corruption_level": 1
+      }
+    }
+  ],
+  "on_alarm": [
+    {
+      "set": {
+        "made_enemies": true
+      }
+    }
+  ],
+  "on_complete": [
+    {
+      "set": {
+        "took_stairs": true,
+        "has_flashlight": true
+      }
+    }
+  ]
 }

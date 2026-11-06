@@ -352,7 +352,8 @@ func _spawn_enemies() -> void:
 		enemy.mission = self
 		enemy.position = _v(e.get("pos", [0, 0]))
 		enemy.weapon_id = str(e.get("weapon", "fists"))
-		enemy.view_range = float(e.get("view_range", 430.0))
+		enemy.zombie_type = str(e.get("type", "shambler"))
+		enemy.view_range = float(e.get("view_range", 340.0))
 		enemy.view_angle = float(e.get("view_angle", 96.0))
 		var pts: Array = []
 		for p in e.get("patrol", []):

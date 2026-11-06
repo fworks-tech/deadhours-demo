@@ -7,49 +7,429 @@
   "briefing": "Garcia's people are inside. You need the supplies in the back office, and you need them without a firefight. Every shot you take is a door you close with Garcia later.",
   "tip": "Fists and the bat keep it quiet. If the alarm goes up, Garcia will hear about it.",
   "objective": "REACH THE BACK OFFICE, QUIETLY",
-  "world": { "width": 1800, "height": 1240 },
-  "player": { "spawn": [320, 1000], "weapon": "knife" },
+  "world": {
+    "width": 1800,
+    "height": 1240
+  },
+  "player": {
+    "spawn": [
+      320,
+      1000
+    ],
+    "weapon": "knife"
+  },
   "rooms": [
-    { "id": "store", "rect": [300, 160, 900, 480], "floor": "checker", "neon": "#28e0d0", "neon_side": "left", "label": "STORE" },
-    { "id": "backroom", "rect": [1200, 240, 420, 400], "floor": "concrete", "neon": "#ffb03a", "neon_side": "top", "label": "OFFICE" },
-    { "id": "forecourt", "rect": [200, 640, 1400, 460], "floor": "concrete", "neon": "#ff2e88", "neon_side": "bottom", "label": "FORECOURT" }
+    {
+      "id": "store",
+      "rect": [
+        300,
+        160,
+        900,
+        480
+      ],
+      "floor": "checker",
+      "neon": "#28e0d0",
+      "neon_side": "left",
+      "label": "STORE"
+    },
+    {
+      "id": "backroom",
+      "rect": [
+        1200,
+        240,
+        420,
+        400
+      ],
+      "floor": "concrete",
+      "neon": "#ffb03a",
+      "neon_side": "top",
+      "label": "OFFICE"
+    },
+    {
+      "id": "forecourt",
+      "rect": [
+        200,
+        640,
+        1400,
+        460
+      ],
+      "floor": "concrete",
+      "neon": "#ff2e88",
+      "neon_side": "bottom",
+      "label": "FORECOURT"
+    }
   ],
   "doors": [
-    { "rect": [500, 630, 220, 20] },
-    { "rect": [1190, 380, 20, 120] },
-    { "rect": [1300, 630, 160, 20] }
+    {
+      "rect": [
+        500,
+        630,
+        220,
+        20
+      ]
+    },
+    {
+      "rect": [
+        1190,
+        380,
+        20,
+        120
+      ]
+    },
+    {
+      "rect": [
+        1300,
+        630,
+        160,
+        20
+      ]
+    }
   ],
   "props": [
-    { "type": "crate", "rect": [340, 200, 60, 60] },
-    { "type": "crate", "rect": [400, 200, 60, 60] },
-    { "type": "barrel", "pos": [1100, 300], "radius": 22 },
-    { "type": "crate", "rect": [960, 460, 64, 64] },
-    { "type": "locker", "rect": [312, 400, 54, 92] },
-    { "type": "barrel", "pos": [520, 900], "radius": 22 },
-    { "type": "barrel", "pos": [560, 900], "radius": 22 },
-    { "type": "crate", "rect": [800, 940, 70, 70] },
-    { "type": "crate", "rect": [870, 940, 70, 70] },
-    { "type": "barrel", "pos": [1250, 980], "radius": 22 },
-    { "type": "locker", "rect": [1212, 260, 54, 92] },
-    { "type": "door", "rect": [500, 634, 220, 16], "locked": false },
-    { "type": "door", "rect": [1194, 380, 16, 120], "locked": false }
+    {
+      "type": "crate",
+      "rect": [
+        340,
+        200,
+        60,
+        60
+      ]
+    },
+    {
+      "type": "crate",
+      "rect": [
+        400,
+        200,
+        60,
+        60
+      ]
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        1100,
+        300
+      ],
+      "radius": 22
+    },
+    {
+      "type": "crate",
+      "rect": [
+        960,
+        460,
+        64,
+        64
+      ]
+    },
+    {
+      "type": "locker",
+      "rect": [
+        312,
+        400,
+        54,
+        92
+      ]
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        520,
+        900
+      ],
+      "radius": 22
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        560,
+        900
+      ],
+      "radius": 22
+    },
+    {
+      "type": "crate",
+      "rect": [
+        800,
+        940,
+        70,
+        70
+      ]
+    },
+    {
+      "type": "crate",
+      "rect": [
+        870,
+        940,
+        70,
+        70
+      ]
+    },
+    {
+      "type": "barrel",
+      "pos": [
+        1250,
+        980
+      ],
+      "radius": 22
+    },
+    {
+      "type": "locker",
+      "rect": [
+        1212,
+        260,
+        54,
+        92
+      ]
+    },
+    {
+      "type": "door",
+      "rect": [
+        500,
+        634,
+        220,
+        16
+      ],
+      "locked": false
+    },
+    {
+      "type": "door",
+      "rect": [
+        1194,
+        380,
+        16,
+        120
+      ],
+      "locked": false
+    }
   ],
   "enemies": [
-    { "pos": [520, 520], "weapon": "fists", "patrol": [[520, 520], [520, 300]], "facing": [0, -1] },
-    { "pos": [1000, 280], "weapon": "fists", "patrol": [[1000, 280], [1000, 560]], "facing": [0, 1] },
-    { "pos": [900, 420], "weapon": "pistol", "patrol": [[900, 420], [680, 420]], "facing": [-1, 0], "view_range": 380 },
-    { "pos": [1400, 300], "weapon": "pistol", "patrol": [[1400, 300], [1400, 560]], "facing": [0, 1], "view_range": 360 },
-    { "pos": [420, 780], "weapon": "fists", "patrol": [[420, 780], [420, 1000]], "facing": [0, 1] },
-    { "pos": [1120, 760], "weapon": "fists", "patrol": [[1120, 760], [1120, 1000]], "facing": [0, 1] },
-    { "pos": [1500, 900], "weapon": "pistol", "patrol": [[1500, 900], [1500, 700]], "facing": [0, -1], "view_range": 400 },
-    { "pos": [760, 1060], "weapon": "fists", "patrol": [[760, 1060], [980, 1060]], "facing": [1, 0] }
+    {
+      "pos": [
+        520,
+        520
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          520,
+          520
+        ],
+        [
+          520,
+          300
+        ]
+      ],
+      "facing": [
+        0,
+        -1
+      ],
+      "type": "runner"
+    },
+    {
+      "pos": [
+        1000,
+        280
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          1000,
+          280
+        ],
+        [
+          1000,
+          560
+        ]
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        900,
+        420
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          900,
+          420
+        ],
+        [
+          680,
+          420
+        ]
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "view_range": 380,
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        1400,
+        300
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          1400,
+          300
+        ],
+        [
+          1400,
+          560
+        ]
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "view_range": 360,
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        420,
+        780
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          420,
+          780
+        ],
+        [
+          420,
+          1000
+        ]
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        1120,
+        760
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          1120,
+          760
+        ],
+        [
+          1120,
+          1000
+        ]
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        1500,
+        900
+      ],
+      "weapon": "pistol",
+      "patrol": [
+        [
+          1500,
+          900
+        ],
+        [
+          1500,
+          700
+        ]
+      ],
+      "facing": [
+        0,
+        -1
+      ],
+      "view_range": 400,
+      "type": "shambler"
+    },
+    {
+      "pos": [
+        760,
+        1060
+      ],
+      "weapon": "fists",
+      "patrol": [
+        [
+          760,
+          1060
+        ],
+        [
+          980,
+          1060
+        ]
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "type": "shambler"
+    }
   ],
   "pickups": [
-    { "weapon": "pistol", "ammo": 7, "pos": [1080, 240] },
-    { "weapon": "shotgun", "ammo": 4, "pos": [1520, 260] }
+    {
+      "weapon": "pistol",
+      "ammo": 7,
+      "pos": [
+        1080,
+        240
+      ]
+    },
+    {
+      "weapon": "shotgun",
+      "ammo": 4,
+      "pos": [
+        1520,
+        260
+      ]
+    }
   ],
-  "exit": { "rect": [1420, 640, 160, 220], "label": "BACK ALLEY" },
-  "on_enemy_killed": [{ "add": { "corruption_level": 1 } }],
-  "on_alarm": [{ "set": { "made_enemies": true, "garcia_hostile": true } }],
-  "on_complete": [{ "set": { "inside_gas_station": true } }]
+  "exit": {
+    "rect": [
+      1420,
+      640,
+      160,
+      220
+    ],
+    "label": "BACK ALLEY"
+  },
+  "on_enemy_killed": [
+    {
+      "add": {
+        "corruption_level": 1
+      }
+    }
+  ],
+  "on_alarm": [
+    {
+      "set": {
+        "made_enemies": true,
+        "garcia_hostile": true
+      }
+    }
+  ],
+  "on_complete": [
+    {
+      "set": {
+        "inside_gas_station": true
+      }
+    }
+  ]
 }

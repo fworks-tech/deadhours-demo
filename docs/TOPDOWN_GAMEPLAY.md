@@ -166,13 +166,35 @@ sprite pipeline, and so it can be replaced asset-by-asset later.
 | Walls | Slate `#333d45` with a lit top edge |
 | Void | `#0b0e11` with a faint 128px grid (building mass, not emptiness) |
 | Blood | Layered dark red splatter decals, permanent per mission |
-| Characters | Top-down silhouettes: shoulders, head, weapon, direction |
+| Characters | Layered 3/4-top-down figures: shadow, walk cycle, jacket, arms, weapon, face, hair (`TopDownFigure.gd`) |
 | Camera | Zoom 1.55, smoothing, 70px look-ahead toward aim, shake on shots |
 | Vignette | Existing `shaders/vignette.gdshader`, intensity 0.32 |
 
 Existing painterly assets are **not wasted**: every mission briefing is a full-screen
 loading/briefing screen using the chapter background art (`ch1_fire_escape`,
 `ch1_stairwell`, `ch2_gas_station`). Portraits and cutscenes are untouched.
+
+### Characters
+
+`TopDownFigure.gd` draws every character out of layered shapes, driven by
+`assets/data/characters.json`:
+
+- **Player — Elena**: designed from her existing portrait palette (dark auburn
+  ponytail, teal field jacket, rust accent). Walk cycle, weapon swing, hit flash,
+  collapsed corpse.
+- **Shambler**: stooped, one arm reaching, torn shirt, exposed ribs, dragging foot.
+- **Runner**: lean, blood-soaked, arms back, faster and lunges further.
+- **Bloated**: wide silhouette, bald, blotched skin, slow.
+
+The infected also *behave* like zombies: shambling gait, body sway, head twitch,
+and a telegraphed lunge (windup, then a burst of speed) when the player is just
+out of reach. Vision cones are wall-clipped, so they read as sight, not light.
+
+Swap a color, hairstyle or build in `characters.json` and every mission follows.
+A generated sprite sheet can replace the figure later without touching gameplay:
+the figure node is the only thing that knows how a body is drawn.
+
+Preview the cast: `res://tools/CharacterPreview.tscn`.
 
 ### Art pipeline
 

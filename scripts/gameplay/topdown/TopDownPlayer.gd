@@ -16,11 +16,6 @@ const WEAPONS := {
 	"shotgun": {"label": "SHOTGUN", "melee": false, "range": 520.0, "arc": 0.0, "cooldown": 0.62, "noise": 1100.0, "ammo": 4, "pellets": 5, "spread": 13.0},
 }
 
-const JACKET := Color("#c8a06a")
-const JACKET_DARK := Color("#8d6a3f")
-const SKIN := Color("#e3b58f")
-const OUTLINE := Color("#14100e")
-
 @export var speed: float = 268.0
 @export var accel: float = 2400.0
 @export var friction: float = 2800.0
@@ -46,6 +41,7 @@ var _dash_dir: Vector2 = Vector2.ZERO
 var _swing_t: float = 0.0
 var _muzzle_t: float = 0.0
 var _hit_flash_t: float = 0.0
+var figure: TopDownFigure = null
 
 func _ready() -> void:
 	collision_layer = 1 << 1  # player
@@ -57,6 +53,12 @@ func _ready() -> void:
 	circle.radius = 13.0
 	shape.shape = circle
 	add_child(shape)
+
+	figure = TopDownFigure.new()
+	figure.name = "Figure"
+	figure.setup(TopDownFigure.look_for("player"))
+	add_child(figure)
+
 	set_weapon(weapon_id, -1)
 
 func set_weapon(id: String, ammo_override: int = -1) -> void:
@@ -92,6 +94,7 @@ func _physics_process(delta: float) -> void:
 	if not alive or in_cover or not can_act:
 		velocity = Vector2.ZERO
 		move_and_slide()
+		_sync_figure()
 		queue_redraw()
 		return
 
@@ -135,7 +138,18 @@ func _physics_process(delta: float) -> void:
 	if _interact_pressed() and mission:
 		mission.try_interact(global_position)
 
+	_sync_figure()
 	queue_redraw()
+
+func _sync_figure() -> void:
+	if figure == null:
+		return
+	figure.walk = clampf(velocity.length() / maxf(speed, 1.0), 0.0, 1.0)
+	figure.swing = clampf(_swing_t * 3.4, 0.0, 1.0)
+	figure.hurt = clampf(_hit_flash_t * 6.0, 0.0, 1.0)
+	figure.dead = not alive
+	figure.covered = in_cover
+	figure.weapon = weapon_id
 
 func _update_aim(move_dir: Vector2) -> void:
 	var touch_aim := Vector2.ZERO
@@ -268,43 +282,22 @@ func kill() -> void:
 	collision_layer = 0
 	collision_mask = 0
 	aim_dir = Vector2.ZERO
+	if figure:
+		figure.dead = true
 	died.emit()
 	if mission:
 		mission.on_player_died()
 	queue_redraw()
 
 func _draw() -> void:
-	# shadow
-	draw_circle(Vector2(0, 7), 14.0, Color(0, 0, 0, 0.38))
-	if not alive:
-		# crumpled body
-		draw_circle(Vector2(0, 2), 14.0, JACKET_DARK)
-		draw_circle(Vector2(-3, 0), 8.0, SKIN)
-		draw_circle(Vector2(6, 8), 22.0, Color(0.36, 0.04, 0.06, 0.55))
-		return
-
-	var body := JACKET
-	if _hit_flash_t > 0.0:
-		body = Color("#f4e0c2")
-	if in_cover:
-		body = body.darkened(0.35)
-	# torso (shoulders) pointing "up" before rotation
-	draw_circle(Vector2.ZERO, 13.0, body)
-	draw_circle(Vector2(0, -2), 11.0, body.lightened(0.06))
-	# outline hint
-	draw_arc(Vector2.ZERO, 13.0, 0.0, TAU, 20, OUTLINE, 1.6, true)
-	# head
-	draw_circle(Vector2(0, -4), 6.8, SKIN)
-	draw_arc(Vector2(0, -4), 6.8, 0.0, TAU, 14, OUTLINE, 1.2, true)
-	# weapon pointing up (-Y)
+	# The figure child draws the body. Here we only add the read-at-a-glance
+	# combat feedback that must sit in the same rotated space.
 	var w := weapon()
-	if bool(w.get("melee", false)):
-		draw_line(Vector2(2, -8), Vector2(2, -26), Color("#b9c0c7"), 2.4)
-	else:
-		draw_line(Vector2(2, -8), Vector2(2, -24), Color("#2b2f33"), 3.6)
+	if not alive:
+		return
 	if _muzzle_t > 0.0:
 		draw_circle(Vector2(2, -30), 7.0, Color(1.0, 0.85, 0.45, 0.9))
-		draw_circle(Vector2(2, -30), 12.0, Color(1.0, 0.7, 0.3, 0.25))
-	if _swing_t > 0.0:
+		draw_circle(Vector2(2, -30), 13.0, Color(1.0, 0.7, 0.3, 0.22))
+	if _swing_t > 0.0 and bool(w.get("melee", false)):
 		var alpha: float = clampf(_swing_t * 5.0, 0.0, 1.0)
-		draw_arc(Vector2.ZERO, 42.0, -PI * 0.5 - 0.9, -PI * 0.5 + 0.9, 14, Color(1, 1, 1, alpha * 0.35), 5.0, true)
+		draw_arc(Vector2.ZERO, 42.0, -PI * 0.5 - 0.95, -PI * 0.5 + 0.95, 16, Color(1, 1, 1, alpha * 0.28), 5.0, true)
