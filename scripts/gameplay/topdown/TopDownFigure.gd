@@ -20,6 +20,9 @@ var covered: bool = false
 var hurt: float = 0.0          # 0..1 hit flash
 var weapon: String = "bat"
 var hunch: float = 0.0         # 0 human .. 1 heavy zombie stoop
+# World-space direction the character is looking/aiming. The head is drawn in
+# screen space from this, so facing north shows the back of the head.
+var view_dir: Vector2 = Vector2.DOWN
 var _breath: float = 0.0
 
 static var _library: Dictionary = {}
@@ -230,45 +233,91 @@ func _draw_weapon(b: float) -> void:
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 func _draw_head(b: float, stoop: float) -> void:
+	# The body rotates with the character, but a head should not: from a top-down
+	# camera you only see the face when the character is turned toward the screen
+	# (south). Draw the head screen-aligned at its rotated position instead.
+	var head_pos := Vector2(0, -9.6 - stoop)
+	var vd := view_dir
+	if vd.length() < 0.01:
+		vd = Vector2.DOWN
+	vd = vd.normalized()
+	var facing_camera: float = clampf(vd.y, 0.0, 1.0)   # 1 = south, 0 = side, 0 = north
+	var back_view: bool = vd.y < -0.35
+	var face_alpha: float = 0.0
+	if not back_view:
+		# profiles keep the face readable; full frontal only when looking south
+		face_alpha = clampf(0.88 + 0.12 * vd.y, 0.88, 1.0)
+
+	draw_set_transform(head_pos, -global_rotation, Vector2.ONE)
+
+	# hair / skull mass
+	draw_circle(Vector2.ZERO, 8.0 * b, hair())
 	if bool(look.get("bald", false)):
-		draw_circle(Vector2(0, -10.5 - stoop), 7.2 * b, skin().darkened(0.05))
-		draw_circle(Vector2(-2.0, -12.0), 2.0, Color(blood(), 0.6))
-		draw_circle(Vector2(2.6, -8.6), 1.6, skin().darkened(0.25))
-		_draw_face(b, stoop)
+		draw_circle(Vector2.ZERO, 7.4 * b, skin().darkened(0.08))
+		draw_circle(Vector2(-2.2, -1.2), 2.2 * b, Color(blood(), 0.55))
+		draw_circle(Vector2(2.6, 1.4), 1.7 * b, skin().darkened(0.22))
+	elif is_zombie():
+		var clumps: Array = look.get("clumps", [[-5, -1, 2.2], [5, 1, 2.0], [-2, -4, 1.8], [4, 3, 1.6]])
+		for c in clumps:
+			draw_circle(Vector2(float(c[0]) * b, float(c[1]) * b), float(c[2]) * b, hair().lightened(0.12))
+
+	if back_view:
+		# back of the head: hair sheen and the nape of the neck at the bottom
+		draw_arc(Vector2(0, -1.0), 6.4 * b, PI * 1.15, PI * 1.85, 12, hair().lightened(0.18), 1.8)
+		draw_circle(Vector2(0, 6.4) * b, 2.6 * b, skin().darkened(0.12))
+		draw_circle(Vector2(0, 5.2) * b, 3.4 * b, Color(hair(), 0.9))
+		# ears peek from the sides even from behind
+		draw_circle(Vector2(-7.4, 0.6) * b, 1.7 * b, skin().darkened(0.15))
+		draw_circle(Vector2(7.4, 0.6) * b, 1.7 * b, skin().darkened(0.15))
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 		return
 
-	# hair mass, then face peeking toward the forward edge
-	draw_circle(Vector2(0, -9.6 - stoop), 8.0 * b, hair())
-	if is_zombie():
-		var clumps: Array = look.get("clumps", [[-5, -11, 2.2], [5, -9, 2.0], [-2, -14, 1.8], [4, -13, 1.6]])
-		for c in clumps:
-			draw_circle(Vector2(float(c[0]) * b, float(c[1]) - stoop), float(c[2]) * b, hair().lightened(0.12))
-	draw_circle(Vector2(0, -11.6 - stoop), 5.6 * b, skin())
-	# hair fringe over the forehead
-	draw_arc(Vector2(0, -9.6 - stoop), 7.4 * b, PI * 1.02, PI * 1.98, 12, hair(), 3.2)
-	_draw_face(b, stoop)
+	# face patch, pushed toward the camera side so side views read as a profile
+	var face_center := vd * (1.5 * b)
+	var face_radius: float = 5.4 * b * (0.74 + 0.26 * facing_camera)
+	draw_circle(face_center, face_radius, Color(skin(), face_alpha))
+	# ears
+	var perp := Vector2(-vd.y, vd.x)
+	draw_circle(face_center + perp * (7.2 * b), 1.8 * b, Color(skin().darkened(0.12), face_alpha))
+	draw_circle(face_center - perp * (7.2 * b), 1.8 * b, Color(skin().darkened(0.12), face_alpha))
 
-func _draw_face(b: float, stoop: float) -> void:
+	_draw_face_screen(b, vd, perp, face_alpha, facing_camera)
+
+	# fringe over the forehead: a hair crescent between the face and the crown
+	draw_arc(face_center, 5.6 * b, PI * 1.05, PI * 1.95, 12, Color(hair(), face_alpha), 2.6 * b)
+
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+func _draw_face_screen(b: float, vd: Vector2, perp: Vector2, face_alpha: float, facing_camera: float) -> void:
 	var eye_color := Color(str(look.get("eye", "#1b1512")))
 	if is_zombie():
 		eye_color = Color(str(look.get("eye", "#b7ff7a")))
-		var glow := Color(eye_color.r, eye_color.g, eye_color.b, 0.28)
-		draw_circle(Vector2(-2.3, -13.2 - stoop), 3.0, glow)
-		draw_circle(Vector2(2.3, -13.2 - stoop), 3.0, glow)
-		draw_circle(Vector2(-2.3, -13.2 - stoop), 1.2, eye_color)
-		draw_circle(Vector2(2.3, -13.2 - stoop), 1.2, eye_color)
-		# slack jaw / open mouth
+		var glow := Color(eye_color.r, eye_color.g, eye_color.b, 0.30 * face_alpha)
+		draw_circle(vd * (2.8 * b), 3.2 * b, glow)
+		draw_circle(vd * (2.8 * b) + perp * (2.3 * b), 3.2 * b, glow)
+		draw_circle(vd * (2.8 * b) - perp * (2.3 * b), 3.2 * b, glow)
+	# eyes converge on the profile as the character turns away from the camera
+	var sep: float = 2.2 * b * facing_camera
+	var eye_pos := vd * (3.1 * b)
+	for s in [-1.0, 1.0]:
+		draw_circle(eye_pos + perp * (sep * s), 1.15 * b, Color(eye_color, face_alpha))
+	# brow / brow ridge
+	draw_line(eye_pos + perp * (sep + 1.2 * b) - vd * (1.0 * b),
+		eye_pos + perp * (sep + 1.2 * b) + vd * (0.4 * b), Color(hair().darkened(0.2), face_alpha * 0.8), 1.1)
+	draw_line(eye_pos - perp * (sep + 1.2 * b) - vd * (1.0 * b),
+		eye_pos - perp * (sep + 1.2 * b) + vd * (0.4 * b), Color(hair().darkened(0.2), face_alpha * 0.8), 1.1)
+
+	if is_zombie():
+		# slack jaw, wider when it is looking at you
+		var jaw := vd * (5.0 * b)
+		var w := (2.2 + 0.8 * facing_camera) * b
 		draw_colored_polygon(PackedVector2Array([
-			Vector2(-2.0, -11.0 - stoop), Vector2(2.0, -11.0 - stoop),
-			Vector2(1.2, -8.6 - stoop), Vector2(-1.2, -8.6 - stoop),
-		]), Color("#1a0d10"))
+			jaw + perp * w + vd * (1.0 * b), jaw - perp * w + vd * (1.0 * b),
+			jaw - perp * (w * 0.6), jaw + perp * (w * 0.6),
+		]), Color("#1a0d10", face_alpha))
 	else:
-		draw_circle(Vector2(-2.1, -13.2 - stoop), 1.15, eye_color)
-		draw_circle(Vector2(2.1, -13.2 - stoop), 1.15, eye_color)
-		# brow + mouth
-		draw_line(Vector2(-3.4, -14.6 - stoop), Vector2(-1.2, -14.2 - stoop), hair().darkened(0.25), 1.1)
-		draw_line(Vector2(1.2, -14.2 - stoop), Vector2(3.4, -14.6 - stoop), hair().darkened(0.25), 1.1)
-		draw_line(Vector2(-1.3, -9.4 - stoop), Vector2(1.3, -9.4 - stoop), Color(0.25, 0.12, 0.12, 0.85), 1.2)
+		draw_line(vd * (4.9 * b) + perp * (1.3 * b), vd * (4.9 * b) - perp * (1.3 * b),
+			Color(0.25, 0.12, 0.12, 0.85 * face_alpha), 1.2)
 
 func _draw_hair_back() -> void:
 	if is_zombie() or bool(look.get("bald", false)):

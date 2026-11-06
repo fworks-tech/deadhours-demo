@@ -190,11 +190,18 @@ The infected also *behave* like zombies: shambling gait, body sway, head twitch,
 and a telegraphed lunge (windup, then a burst of speed) when the player is just
 out of reach. Vision cones are wall-clipped, so they read as sight, not light.
 
+Heads are drawn screen-aligned rather than with the body, so direction reads
+correctly: facing south you see the face; east/west you see a profile; facing
+north (away from the camera) you see the back of the head and the nape, with no
+eyes or mouth. `view_dir` is the world aim/facing vector; the figure cancels its
+own rotation for the head pass.
+
 Swap a color, hairstyle or build in `characters.json` and every mission follows.
 A generated sprite sheet can replace the figure later without touching gameplay:
 the figure node is the only thing that knows how a body is drawn.
 
 Preview the cast: `res://tools/CharacterPreview.tscn`.
+Check the four facings: `res://tools/FacingPreview.tscn`.
 
 ### Art pipeline
 

@@ -150,6 +150,7 @@ func _sync_figure() -> void:
 	figure.dead = not alive
 	figure.covered = in_cover
 	figure.weapon = weapon_id
+	figure.view_dir = aim_dir
 
 func _update_aim(move_dir: Vector2) -> void:
 	var touch_aim := Vector2.ZERO

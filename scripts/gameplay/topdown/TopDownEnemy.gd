@@ -121,6 +121,7 @@ func _sync_figure(_delta: float) -> void:
 	figure.dead = not alive
 	if alive:
 		figure.rotation = facing.angle() + PI * 0.5
+		figure.view_dir = facing
 	figure.walk = clampf(velocity.length() / maxf(chase_speed, 1.0), 0.0, 1.0)
 	figure.hunch = clampf(float(TopDownFigure.look_for("zombie", zombie_type).get("hunch", 0.85)), 0.0, 1.0)
 	figure.swing = 1.0 if (_lunge_left > 0.0 or state == State.ATTACK) else 0.0
