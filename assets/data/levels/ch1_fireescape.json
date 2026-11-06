@@ -690,5 +690,18 @@
       }
     ],
     "blood_smears": []
-  }
+  },
+  "npcs": [
+    {
+      "id": "marcus",
+      "name": "MARCUS",
+      "char": "marcus",
+      "pos": [
+        700,
+        1270
+      ],
+      "facing": "east",
+      "conversation": "marcus_landing"
+    }
+  ]
 }

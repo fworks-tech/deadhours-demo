@@ -214,6 +214,34 @@ Solid props block movement, bullets and vision cones. Rugs, streetlights and
 trash are decoration only. Doorways are kept clear; spawn points are checked
 against footprints.
 
+### NPC conversations
+
+Missions can hold people you can talk to. Data lives in two places:
+
+- `assets/data/dialogues.json` — conversation trees: `nodes` with `speaker`,
+  `portrait`, `text`, `next` and `choices`, and `effects` on nodes or choices
+  (`set` flags, `inc` counters, `give` a weapon, `hostile`, `complete`).
+- level JSON `npcs` — `{"id","name","char","pos","facing","conversation"}`.
+
+`TopDownNpc.gd` places the body (same layered figure, look from
+`characters.json` > `npcs`), draws the name tag and the TALK ring, and turns to
+face the player. `NpcDialogue.gd` is the overlay: portrait, typewriter line,
+choices on keys 1-4, tap or click. The scene tree is paused while a conversation
+is open and the player's `can_act` is off, so a talk can happen mid-fight.
+
+Flag names are taken from `story.json`, so talking changes the cutscenes and the
+endings directly: `has_flashlight`, `shared_marcus_story`, `ignored_marcus`,
+`let_stranger_in`, `opened_for_infected`, `ignored_stranger`, `met_garcia`,
+`garcia_hostile`, `made_enemies`, `inside_gas_station`, `lied_about_bite`,
+`danny_bitten`, `met_priya`, `knows_sofia`.
+
+Placed conversations: Marcus on the 4th floor landing (the supply bag beat),
+the man from 5C on the blood-smeared stairs, and Garcia and Priya at the Route 9
+station. The honest path hands over the shotgun and opens the store; the hostile
+path pulls two patrolling guards onto the NPC's position.
+
+Regression test: `res://tools/NpcDialogueTest.tscn` (headless, 25 checks).
+
 ### Combat effects
 
 `TopDownFX.gd` holds every impact beat, all procedural (no audio or texture

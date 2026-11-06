@@ -624,5 +624,29 @@
   "effects": {
     "fires": [],
     "blood_smears": []
-  }
+  },
+  "npcs": [
+    {
+      "id": "garcia",
+      "name": "GARCIA",
+      "char": "garcia",
+      "pos": [
+        620,
+        470
+      ],
+      "facing": "south",
+      "conversation": "garcia_forecourt"
+    },
+    {
+      "id": "priya",
+      "name": "PRIYA",
+      "char": "priya",
+      "pos": [
+        790,
+        330
+      ],
+      "facing": "south",
+      "conversation": "priya_store"
+    }
+  ]
 }

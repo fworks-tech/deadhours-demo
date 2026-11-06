@@ -161,5 +161,69 @@
    "zombie": true,
    "sheet": "bloated"
   }
+ },
+ "npcs": {
+  "marcus": {
+   "name": "Marcus",
+   "skin": "#b98a68",
+   "hair": "#6b5a4a",
+   "hairstyle": "short",
+   "top": "#4a3b32",
+   "top_dark": "#372c25",
+   "pants": "#33302c",
+   "boots": "#1a1715",
+   "accent": "#8a5a2b",
+   "blood": "#5a1418",
+   "eye": "#1b1512",
+   "build": 1.05,
+   "zombie": false
+  },
+  "stranger": {
+   "name": "Man from 5C",
+   "skin": "#8a9a86",
+   "hair": "#2a2b22",
+   "hairstyle": "short",
+   "top": "#2e3436",
+   "top_dark": "#22282a",
+   "pants": "#2b3034",
+   "boots": "#171a1c",
+   "accent": "#5c3a2e",
+   "blood": "#5a1418",
+   "eye": "#c8ff7a",
+   "build": 1.0,
+   "hunch": 0.45,
+   "zombie": false
+  },
+  "garcia": {
+   "name": "Garcia",
+   "skin": "#a77a5a",
+   "hair": "#2a2a26",
+   "hairstyle": "buzz",
+   "top": "#4a5442",
+   "top_dark": "#37402f",
+   "pants": "#3a3d33",
+   "boots": "#1b1c18",
+   "accent": "#7d2d24",
+   "blood": "#5a1418",
+   "eye": "#1b1512",
+   "build": 1.08,
+   "weapon": "shotgun",
+   "zombie": false
+  },
+  "priya": {
+   "name": "Priya",
+   "skin": "#c08a62",
+   "hair": "#241a16",
+   "hairstyle": "ponytail",
+   "top": "#cfc9ba",
+   "top_dark": "#ada798",
+   "pants": "#33384a",
+   "boots": "#1a1c20",
+   "accent": "#3e5c46",
+   "blood": "#5a1418",
+   "eye": "#1b1512",
+   "build": 0.95,
+   "zombie": false
+  }
  }
 }

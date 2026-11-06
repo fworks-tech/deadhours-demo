@@ -776,5 +776,18 @@
         "width": 24
       }
     ]
-  }
+  },
+  "npcs": [
+    {
+      "id": "stranger",
+      "name": "5C",
+      "char": "stranger",
+      "pos": [
+        700,
+        1130
+      ],
+      "facing": "north",
+      "conversation": "stairwell_stranger"
+    }
+  ]
 }

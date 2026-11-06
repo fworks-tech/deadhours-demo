@@ -1,0 +1,297 @@
+{
+  "_comment": "In-mission NPC conversations. Flag names match assets/data/story.json so a talk here changes the cutscenes and the endings.",
+  "version": 1,
+  "conversations": {
+    "marcus_landing": {
+      "speaker": "marcus",
+      "start": "n1",
+      "nodes": {
+        "n1": {
+          "speaker": "marcus",
+          "portrait": "marcus_neutral",
+          "name": "MARCUS",
+          "text": "You're Elena. Seventh floor. I've watched you come home at three in the morning for two years.",
+          "next": "n2"
+        },
+        "n2": {
+          "speaker": "marcus",
+          "portrait": "marcus_neutral",
+          "text": "I'm not going down there. But the bag by the rail is yours. Flashlight, batteries, a little food. Take it.",
+          "effects": [
+            {
+              "set": {
+                "has_flashlight": true
+              }
+            }
+          ],
+          "next": "n3"
+        },
+        "n3": {
+          "speaker": "marcus",
+          "portrait": "marcus_neutral",
+          "text": "You want the truth or you want the stairs?",
+          "choices": [
+            {
+              "text": "Ask him about the night it started",
+              "next": "n4"
+            },
+            {
+              "text": "Tell him to come with you",
+              "next": "n6"
+            },
+            {
+              "text": "Leave without a word",
+              "effects": [
+                {
+                  "set": {
+                    "ignored_marcus": true
+                  }
+                }
+              ],
+              "next": ""
+            }
+          ]
+        },
+        "n4": {
+          "speaker": "marcus",
+          "portrait": "marcus_neutral",
+          "text": "My wife went to the hospital on the second day. She never called. I keep the door locked now, and I keep the lights off. That's the whole story.",
+          "effects": [
+            {
+              "set": {
+                "shared_marcus_story": true
+              }
+            }
+          ],
+          "next": "n5"
+        },
+        "n5": {
+          "speaker": "marcus",
+          "portrait": "marcus_neutral",
+          "text": "Go. And if you see a woman in a green coat, tell her I waited. She'll know what it means.",
+          "next": ""
+        },
+        "n6": {
+          "speaker": "marcus",
+          "portrait": "marcus_neutral",
+          "text": "With these knees? I'd be your second death tonight. Go on. I'll keep the door shut.",
+          "next": "n3"
+        }
+      }
+    },
+    "stairwell_stranger": {
+      "speaker": "stranger",
+      "start": "n1",
+      "nodes": {
+        "n1": {
+          "speaker": "stranger",
+          "name": "THE MAN FROM 5C",
+          "text": "Please. Don't. I'm not bit. I swear on my mother, I'm not bit — I just fell on the stairs.",
+          "next": "n2"
+        },
+        "n2": {
+          "speaker": "stranger",
+          "text": "He's holding his left arm against his chest like it belongs to someone else.",
+          "choices": [
+            {
+              "text": "Shine the flashlight on his arm",
+              "requires": {
+                "has_flashlight": true
+              },
+              "next": "n3"
+            },
+            {
+              "text": "Help him up",
+              "next": "n4"
+            },
+            {
+              "text": "Back away and keep moving",
+              "effects": [
+                {
+                  "set": {
+                    "ignored_stranger": true
+                  }
+                }
+              ],
+              "next": ""
+            }
+          ]
+        },
+        "n3": {
+          "speaker": "stranger",
+          "text": "The light finds the bite. A crescent of teeth through the sleeve, black at the edges. He sees you see it. His jaw clicks, once.",
+          "effects": [
+            {
+              "set": {
+                "opened_for_infected": true
+              },
+              "hostile": true
+            }
+          ],
+          "next": ""
+        },
+        "n4": {
+          "speaker": "stranger",
+          "text": "His hand closes around your wrist. Too strong. Too cold. The thing that used to be the man from 5C stands up.",
+          "effects": [
+            {
+              "set": {
+                "let_stranger_in": true
+              },
+              "hostile": true
+            }
+          ],
+          "next": ""
+        }
+      }
+    },
+    "garcia_forecourt": {
+      "speaker": "garcia",
+      "start": "n1",
+      "nodes": {
+        "n1": {
+          "speaker": "garcia",
+          "portrait": "garcia_cold",
+          "name": "GARCIA",
+          "text": "That's far enough. Hands where I can see them. I've shot three people this week who moved too fast.",
+          "effects": [
+            {
+              "set": {
+                "met_garcia": true
+              }
+            }
+          ],
+          "next": "n2"
+        },
+        "n2": {
+          "speaker": "garcia",
+          "portrait": "garcia_serious",
+          "text": "So. What's the story, and make it a short one.",
+          "choices": [
+            {
+              "text": "Tell him the truth about the kid's bite",
+              "next": "n3"
+            },
+            {
+              "text": "Lie: it's just a scratch",
+              "next": "n5"
+            },
+            {
+              "text": "Raise your weapon first",
+              "effects": [
+                {
+                  "set": {
+                    "garcia_hostile": true,
+                    "made_enemies": true
+                  },
+                  "hostile": true
+                }
+              ],
+              "next": ""
+            }
+          ]
+        },
+        "n3": {
+          "speaker": "garcia",
+          "portrait": "garcia_serious",
+          "text": "A bite. On a kid. And you drove him here instead of leaving him on the shoulder. Huh.",
+          "effects": [
+            {
+              "set": {
+                "inside_gas_station": true,
+                "danny_bitten": true
+              },
+              "give": "shotgun",
+              "ammo": 4
+            }
+          ],
+          "next": "n4"
+        },
+        "n4": {
+          "speaker": "garcia",
+          "portrait": "garcia_neutral",
+          "text": "Then you're not lying, and that's worth more than the shells. Take these. Point it at the dead, not at me.",
+          "next": ""
+        },
+        "n5": {
+          "speaker": "garcia",
+          "portrait": "garcia_cold",
+          "text": "A scratch. Sure. You keep that story and I'll keep my eyes on you.",
+          "effects": [
+            {
+              "set": {
+                "inside_gas_station": true,
+                "lied_about_bite": true
+              }
+            }
+          ],
+          "next": ""
+        }
+      }
+    },
+    "priya_store": {
+      "speaker": "priya",
+      "start": "n1",
+      "nodes": {
+        "n1": {
+          "speaker": "priya",
+          "portrait": "priya_neutral",
+          "name": "PRIYA",
+          "text": "Don't touch the shelves. Garcia counts every can and he counts them again at night.",
+          "effects": [
+            {
+              "set": {
+                "met_priya": true
+              }
+            }
+          ],
+          "next": "n2"
+        },
+        "n2": {
+          "speaker": "priya",
+          "portrait": "priya_neutral",
+          "text": "You look like you want to ask me something. Everyone does.",
+          "choices": [
+            {
+              "text": "Ask about Sofia",
+              "next": "n3"
+            },
+            {
+              "text": "Ask about the group",
+              "next": "n4"
+            },
+            {
+              "text": "Say nothing and step away",
+              "next": ""
+            }
+          ]
+        },
+        "n3": {
+          "speaker": "priya",
+          "portrait": "priya_angry",
+          "text": "Sofia was my sister. She was out there when the highway closed. If you found her, say it fast.",
+          "effects": [
+            {
+              "set": {
+                "knows_sofia": true
+              }
+            }
+          ],
+          "next": "n5"
+        },
+        "n4": {
+          "speaker": "priya",
+          "portrait": "priya_neutral",
+          "text": "Nine of us made it to this station. Four since. Garcia does the math out loud so nobody forgets it.",
+          "next": ""
+        },
+        "n5": {
+          "speaker": "priya",
+          "portrait": "priya_sad",
+          "text": "Then don't tell me. I've had enough of that word for one year.",
+          "next": ""
+        }
+      }
+    }
+  }
+}

@@ -95,6 +95,11 @@ var _shake: float = 0.0
 var _message_t: float = 0.0
 var _near_interactable: Node = null
 
+# talking (see scripts/gameplay/topdown/NpcDialogue.gd)
+var npcs: Array = []
+var npc_dialogue: NpcDialogue
+var dialogue_open: bool = false
+
 # HUD refs
 var _objective_label: Label
 var _weapon_label: Label
@@ -193,6 +198,7 @@ func _build_world() -> void:
 	_build_props()
 	_build_pickups()
 	_build_ambient_effects()
+	_build_npcs()
 	_build_exit()
 	_spawn_player()
 	_spawn_enemies()
@@ -496,9 +502,17 @@ func _update_near_interactable() -> void:
 			if dist < best_d:
 				best = l
 				best_d = dist
+	for n in npcs:
+		if is_instance_valid(n):
+			var nd: float = player.global_position.distance_to(n.global_position)
+			if nd < 96.0 and nd <= best_d + 16.0:
+				best = n
+				best_d = nd
 	_near_interactable = best
 	if _hint_label:
-		if best is LockerNode and player.in_cover:
+		if best is TopDownNpc:
+			_hint_label.text = "E / TAP: TALK"
+		elif best is LockerNode and player.in_cover:
 			_hint_label.text = "E / TAP: LEAVE COVER"
 		elif best != null:
 			_hint_label.text = "E / TAP: INTERACT"
@@ -510,7 +524,9 @@ func _update_near_interactable() -> void:
 func try_interact(pos: Vector2) -> void:
 	if _near_interactable == null:
 		return
-	if _near_interactable is DoorNode:
+	if _near_interactable is TopDownNpc:
+		_near_interactable.talk()
+	elif _near_interactable is DoorNode:
 		_near_interactable.open_door()
 	elif _near_interactable is LockerNode:
 		_near_interactable.toggle_hide(player)
@@ -598,6 +614,80 @@ func hit_stop(duration: float = 0.045) -> void:
 
 func _end_hit_stop() -> void:
 	Engine.time_scale = 1.0
+
+# ------------------------------------------------------------- npcs / talk --
+
+func _dir_name(text: String) -> Vector2:
+	match text.to_lower():
+		"north", "up": return Vector2.UP
+		"east", "right": return Vector2.RIGHT
+		"west", "left": return Vector2.LEFT
+		_: return Vector2.DOWN
+
+func _build_npcs() -> void:
+	for data in level.get("npcs", []):
+		var npc := TopDownNpc.new()
+		npc.mission = self
+		npc.npc_id = str(data.get("id", "npc"))
+		npc.display_name = str(data.get("name", npc.npc_id.to_upper()))
+		npc.character = str(data.get("char", npc.npc_id))
+		npc.conversation = str(data.get("conversation", ""))
+		npc.facing = _dir_name(str(data.get("facing", "south")))
+		npc.position = _v(data.get("pos", [0, 0]))
+		world.add_child(npc)
+		npcs.append(npc)
+
+func open_dialogue(conv_id: String, npc: Node) -> void:
+	if conv_id.is_empty() or dialogue_open:
+		return
+	if npc_dialogue == null:
+		npc_dialogue = NpcDialogue.new()
+		npc_dialogue.mission = self
+		add_child(npc_dialogue)
+	npc_dialogue.open(conv_id, npc)
+	if not npc_dialogue.active:
+		return
+	dialogue_open = true
+	if player:
+		player.can_act = false
+		player.move_input = Vector2.ZERO
+	get_tree().paused = true
+
+func close_dialogue() -> void:
+	if not dialogue_open:
+		return
+	dialogue_open = false
+	get_tree().paused = false
+	if player:
+		player.can_act = true
+	_near_interactable = null
+
+func give_weapon(id: String, amount: int = -1) -> void:
+	if player == null:
+		return
+	var ammo := amount
+	if ammo < 0:
+		ammo = int(TopDownPlayer.WEAPONS.get(id, {}).get("ammo", 0))
+	player.set_weapon(id, ammo)
+	flash_message("GOT " + id.to_upper())
+	update_weapon_hud()
+
+func turn_hostile(npc: Node) -> void:
+	if not is_instance_valid(npc):
+		return
+	var pos: Vector2 = npc.global_position
+	npcs.erase(npc)
+	var sent := 0
+	for e in enemies:
+		if sent >= 2:
+			break
+		if is_instance_valid(e) and e.alive:
+			e.global_position = pos + Vector2(randf_range(-46, 46), randf_range(-46, 46))
+			e.alert_to(pos)
+			sent += 1
+	if fx_system:
+		fx_system.blood_spray(pos, Vector2.DOWN, 8)
+	npc.queue_free()
 
 func is_wall_between(a: Vector2, b: Vector2) -> bool:
 	var space := get_world_2d().direct_space_state
