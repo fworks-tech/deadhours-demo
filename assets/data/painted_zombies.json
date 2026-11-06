@@ -1,0 +1,24 @@
+{
+  "_comment": "GegX FREE PACK - FRESH ZOMBIES v1.1 (free for commercial use, no resale/redistribution as an asset pack). 192px frames downscaled to 128, one strip per character+direction. Source pivot x=96 y=165 of 192 -> x=64 y=110 of 128.",
+  "license": "Free for any project, commercial or free; reselling or redistributing the assets themselves is not allowed.",
+  "author": "GegX",
+  "url": "https://gegx.itch.io/fresh-zombies-painted",
+  "cell": 128,
+  "foot": 110,
+  "frames": 12,
+  "fps": 10,
+  "characters": [
+    "fresh_zombie",
+    "shopper",
+    "heavy",
+    "old_man",
+    "teen"
+  ],
+  "directions": [
+    "south",
+    "north",
+    "east",
+    "west"
+  ],
+  "path": "res://assets/images/sprites/zombies_painted/%s_%s.png"
+}

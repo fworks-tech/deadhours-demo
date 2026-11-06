@@ -31,6 +31,13 @@ shaders — is original work generated for Dead Hours and belongs to the project
 - `assets/images/sprites/topdown/*_sheet.png` — baked from `TopDownFigure.gd`
   by `tools/bake_character_sheets.gd` (8 directions x 8 frames, 128 px cells).
 - `assets/images/portraits/`, `assets/images/backgrounds/` — painterly set.
+- `assets/images/sprites/zombies_painted/*.png` — **GegX FREE PACK - FRESH ZOMBIES
+  v1.1** (fresh_zombie, shopper, heavy, old_man, teen; 4 directions, 12-frame
+  walk). Licence: use in any project, commercial or free, no credit required;
+  reselling or redistributing the assets themselves is not allowed. Full text
+  in the pack README; source https://gegx.itch.io/fresh-zombies-painted .
+  Downscaled from 192 px to 128 px per frame with the pack pivot (x 96, y 165)
+  preserved; `assets/data/painted_zombies.json` holds the mapping.
 - `assets/images/textures/*.png` — **PSX Retro Seamless Textures (free sample)**
   by REEBOO Labs, 31 seamless 64/128 px PS1 textures; we ship 7 of them,
   recoloured by the game's grade. Licence: royalty-free use in commercial and

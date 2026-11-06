@@ -39,7 +39,10 @@ var _lunge_cd: float = 0.0
 var _lunge_dir: Vector2 = Vector2.ZERO
 var figure: TopDownFigure = null
 
+var painted_sprite: Node2D = null
+
 func _ready() -> void:
+	_setup_painted_sprite()
 	collision_layer = 1 << 2  # enemy
 	collision_mask = (1 << 0) | (1 << 2) | (1 << 3)  # walls, other enemies, props
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
@@ -315,7 +318,25 @@ func die(from_dir: Vector2 = Vector2.ZERO) -> void:
 		mission.on_enemy_killed(self, from_dir)
 	queue_redraw()
 
+func _setup_painted_sprite() -> void:
+	var arch := zombie_type if zombie_type != "" else "shambler"
+	var char_id := "fresh_zombie"
+	if arch == "bloated":
+		char_id = "heavy"
+	elif arch == "runner":
+		char_id = "teen"
+	else:
+		var pool := ["fresh_zombie", "shopper", "old_man"]
+		char_id = pool[int(abs(global_position.x + global_position.y * 7.0)) % pool.size()]
+	var painted := preload("res://scripts/gameplay/topdown/PaintedZombieSprite.gd")
+	var node: Node2D = painted.new()
+	node.setup(self, char_id)
+	add_child(node)
+	painted_sprite = node
+
 func _draw() -> void:
+	if painted_sprite != null:
+		return
 	# Body is drawn by the TopDownFigure child. Nothing to add here yet; kept
 	# so the node still has a draw pass for future status pips.
 	pass

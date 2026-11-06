@@ -320,6 +320,206 @@
    "url": "tools/make_audio.py",
    "source_query": "Synthesised by tools/make_audio.py (pure Python)",
    "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/fresh_zombie_south.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (fresh_zombie, south walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/fresh_zombie_north.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (fresh_zombie, north walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/fresh_zombie_east.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (fresh_zombie, east walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/fresh_zombie_west.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (fresh_zombie, west walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/shopper_south.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (shopper, south walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/shopper_north.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (shopper, north walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/shopper_east.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (shopper, east walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/shopper_west.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (shopper, west walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/heavy_south.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (heavy, south walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/heavy_north.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (heavy, north walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/heavy_east.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (heavy, east walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/heavy_west.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (heavy, west walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/old_man_south.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (old_man, south walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/old_man_north.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (old_man, north walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/old_man_east.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (old_man, east walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/old_man_west.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (old_man, west walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/teen_south.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (teen, south walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/teen_north.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (teen, north walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/teen_east.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (teen, east walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/sprites/zombies_painted/teen_west.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial use, no credit required; no resale or redistribution of the assets themselves",
+   "url": "https://gegx.itch.io/fresh-zombies-painted",
+   "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (teen, west walk strip)",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
   }
  ]
 }

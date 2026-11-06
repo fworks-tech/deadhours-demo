@@ -300,6 +300,15 @@ Story hooks that drove this (`assets/data/story.json`): the gas station chapter
 visible in `ch1_barricade_survive`, and the blood smear down the stairwell in
 `ch1_stairwell`.
 
+### Zombies
+
+Enemies wear the GegX painted zombies: `PaintedZombieSprite.gd` replaces the
+procedural body with a 4-direction, 12-frame painted walk, picking the strip from
+the enemy's movement (falling back to `facing`) and holding frame 0 when idle.
+Archetypes map to characters: `bloated` → heavy, `runner` → teen, `shambler` →
+fresh_zombie / shopper / old_man (picked from the spawn position so a room is not
+repetitive). The procedural figure remains as fallback if a sheet is missing.
+
 ### Surfaces
 
 Floors and walls use the REEBOO Labs PSX Retro Seamless Textures (free sample,
@@ -307,6 +316,15 @@ royalty-free in games): checker tile, bloody wallpaper, concrete panels,
 herringbone parquet, red brick, cracked concrete and rusty plates, all drawn
 tiled and tinted into the neon-noir grade with a light checker overlay kept for
 readability. Seven 128 px surfaces ship in `assets/images/textures/`.
+
+### Zombies
+
+Enemies wear the GegX painted zombies: `PaintedZombieSprite.gd` replaces the
+procedural body with a 4-direction, 12-frame painted walk, picking the strip from
+the enemy's movement (falling back to `facing`) and holding frame 0 when idle.
+Archetypes map to characters: `bloated` → heavy, `runner` → teen, `shambler` →
+fresh_zombie / shopper / old_man (picked from the spawn position so a room is not
+repetitive). The procedural figure remains as fallback if a sheet is missing.
 
 ### Surfaces and licensed assets
 
