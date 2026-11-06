@@ -1,0 +1,152 @@
+{
+  "door_h_closed": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      176.0,
+      42.0
+    ],
+    "footprint": [
+      160.0,
+      26.0
+    ],
+    "pivot": [
+      176.0,
+      42.0
+    ]
+  },
+  "door_h_open": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      176.0,
+      42.0
+    ],
+    "footprint": [
+      160.0,
+      26.0
+    ],
+    "pivot": [
+      176.0,
+      42.0
+    ]
+  },
+  "door_v_closed": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      42.0,
+      176.0
+    ],
+    "footprint": [
+      26.0,
+      160.0
+    ],
+    "pivot": [
+      42.0,
+      176.0
+    ]
+  },
+  "door_v_open": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      42.0,
+      176.0
+    ],
+    "footprint": [
+      26.0,
+      160.0
+    ],
+    "pivot": [
+      42.0,
+      176.0
+    ]
+  },
+  "locker_closed": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      70.0,
+      108.0
+    ],
+    "footprint": [
+      54.0,
+      92.0
+    ],
+    "pivot": [
+      70.0,
+      108.0
+    ]
+  },
+  "locker_open": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      70.0,
+      108.0
+    ],
+    "footprint": [
+      54.0,
+      92.0
+    ],
+    "pivot": [
+      70.0,
+      108.0
+    ]
+  },
+  "pickup_bat": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      46.0,
+      46.0
+    ],
+    "footprint": [
+      30.0,
+      30.0
+    ],
+    "pivot": [
+      46.0,
+      46.0
+    ]
+  },
+  "pickup_knife": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      46.0,
+      46.0
+    ],
+    "footprint": [
+      30.0,
+      30.0
+    ],
+    "pivot": [
+      46.0,
+      46.0
+    ]
+  },
+  "pickup_pistol": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      46.0,
+      46.0
+    ],
+    "footprint": [
+      30.0,
+      30.0
+    ],
+    "pivot": [
+      46.0,
+      46.0
+    ]
+  },
+  "pickup_shotgun": {
+    "bake_scale": 2.0,
+    "draw_size": [
+      46.0,
+      46.0
+    ],
+    "footprint": [
+      30.0,
+      30.0
+    ],
+    "pivot": [
+      46.0,
+      46.0
+    ]
+  }
+}

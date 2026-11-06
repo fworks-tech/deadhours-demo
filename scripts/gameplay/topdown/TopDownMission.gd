@@ -1209,18 +1209,18 @@ class DoorNode extends StaticBody2D:
 		if mission:
 			mission.emit_noise(global_position, 150.0, null)
 
+	func sprite_key() -> String:
+		return "door_%s_%s" % ["h" if horizontal else "v", "open" if open else "closed"]
+
 	func _draw() -> void:
-		var r := Rect2(-rect.size * 0.5, rect.size)
-		if open:
-			draw_rect(r, Color("#1b1f22"))
+		if TopDownObjectArt.draw_sprite(self, sprite_key(), rect.size):
 			return
-		draw_rect(r, Color("#3c2a20"))
-		draw_rect(r.grow(-3.0), Color("#54392a"), false, 2.0)
-		draw_circle(Vector2(r.size.x * 0.36, 0), 3.0, Color("#c9a86a"))
+		TopDownObjectArt.door(self, rect.size, open, horizontal)
 
 class LockerNode extends Area2D:
 	var mission: Node
 	var rect: Rect2 = Rect2()
+	var open: bool = false
 	var _inside: Node = null
 
 	func _ready() -> void:
@@ -1240,24 +1240,22 @@ class LockerNode extends Area2D:
 			return
 		if player.in_cover:
 			player.in_cover = false
+			open = false
 			player.global_position = global_position + Vector2(rect.size.x * 0.5 + 26.0, 0)
 			if mission:
 				mission.flash_message("LEFT COVER")
 		else:
 			player.in_cover = true
+			open = true
 			player.global_position = global_position
 			if mission:
 				mission.flash_message("HIDDEN")
 		queue_redraw()
 
 	func _draw() -> void:
-		var r := Rect2(-rect.size * 0.5, rect.size)
-		draw_rect(r, Color("#2b3236"))
-		draw_rect(r.grow(-4.0), Color("#38444a"), false, 2.0)
-		draw_line(Vector2(0, r.position.y + 6), Vector2(0, r.end.y - 6), Color("#161b1e"), 2.0)
-		for i in range(3):
-			var y: float = r.position.y + 12 + i * 12
-			draw_line(Vector2(r.position.x + 6, y), Vector2(r.end.x - 6, y), Color("#1b2225"), 3.0)
+		if TopDownObjectArt.draw_sprite(self, "locker_open" if open else "locker_closed", rect.size):
+			return
+		TopDownObjectArt.locker(self, rect.size, open)
 
 class PickupNode extends Area2D:
 	var mission: Node
@@ -1286,10 +1284,10 @@ class PickupNode extends Area2D:
 			queue_free()
 
 	func _draw() -> void:
-		draw_circle(Vector2(0, 4), 14.0, Color(0, 0, 0, 0.3))
-		draw_circle(Vector2.ZERO, 12.0, Color(1.0, 0.82, 0.45, 0.10))
-		draw_circle(Vector2.ZERO, 8.0, Color("#d9c07a"))
-		draw_circle(Vector2.ZERO, 3.0, Color("#2a2620"))
+		var footprint := Vector2(30, 30)
+		if TopDownObjectArt.draw_sprite(self, "pickup_" + weapon_id, footprint):
+			return
+		TopDownObjectArt.pickup(self, weapon_id)
 
 class ExitView extends Node2D:
 	var size: Vector2 = Vector2(100, 100)

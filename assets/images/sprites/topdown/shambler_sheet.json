@@ -3,13 +3,47 @@
   "character": "shambler",
   "directions": 8,
   "fps": 10,
-  "frame_h": 128,
-  "frame_w": 128,
+  "frame_h": 160,
+  "frame_w": 160,
   "frames": 8,
   "layout": "rows = directions starting at north, clockwise; columns = walk frames",
   "pivot": [
-    64.0,
-    70.4
+    80.0,
+    80.0
   ],
-  "source": "res://scripts/gameplay/topdown/TopDownFigure.gd"
+  "source": "res://scripts/gameplay/topdown/TopDownFigure.gd",
+  "align_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      -1,
+      -1
+    ],
+    [
+      1,
+      -1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ]
+  ]
 }

@@ -6,6 +6,9 @@
 #   assets/images/sprites/topdown/<char>_sheet.png
 #   assets/images/sprites/topdown/<char>_sheet.json  (frame grid + pivot + fps)
 #
+# Then run `python3 tools/align_sheets.py` to align the directions on the feet,
+# and `python3 tools/asset_audit.py` to gate the result.
+#
 # The runtime loads the sheet automatically (TopDownFigure.sheet) and falls back
 # to the procedural draw if it is missing, so painted frames can replace these
 # later without touching gameplay code.
@@ -15,7 +18,7 @@
 extends Node
 
 const OUT_DIR := "res://assets/images/sprites/topdown"
-const FRAME := 128
+const FRAME := 160
 const FRAMES := 8
 const DIRS := 8
 const BAKE_SCALE := 2.0
@@ -50,7 +53,8 @@ func _bake(vp: SubViewport, spec: Dictionary) -> void:
 		var look := TopDownFigure.look_for("zombie", spec["variant"])
 		fig.setup(look)
 		fig.hunch = float(look.get("hunch", 0.85))
-		fig.scale = Vector2.ONE * clampf(float(look.get("build", 1.0)), 0.85, 1.35)
+		# build must fit the 128 px cell at 2x: bigger frames clipped the silhouette
+		fig.scale = Vector2.ONE * clampf(float(look.get("build", 1.0)), 0.85, 1.0)
 	fig.weapon = str(spec["weapon"])
 	fig.walk = 1.0
 	fig.scale *= BAKE_SCALE

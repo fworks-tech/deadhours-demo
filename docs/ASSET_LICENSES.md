@@ -31,6 +31,9 @@ shaders — is original work generated for Dead Hours and belongs to the project
 - `assets/images/sprites/topdown/*_sheet.png` — baked from `TopDownFigure.gd`
   by `tools/bake_character_sheets.gd` (8 directions x 8 frames, 128 px cells).
 - `assets/images/portraits/`, `assets/images/backgrounds/` — painterly set.
+- `assets/images/sprites/objects/*.png` — doors, lockers and weapon pickups,
+  baked from `TopDownObjectArt.gd` by `tools/bake_object_sprites.gd` (10 sprites,
+  2x, padded canvases, `_meta.json` with footprints).
 - `assets/data/*.json` — game data.
 
 ## Deliberately rejected

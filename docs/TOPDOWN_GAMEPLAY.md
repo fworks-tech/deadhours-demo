@@ -262,6 +262,21 @@ The blockout figure is baked into a real asset by
 Rebake after changing `characters.json`:
 `xvfb-run -a godot --path . res://tools/BakeCharacterSheets.tscn`
 
+Object art lives in `TopDownObjectArt.gd`, shared by the live nodes and
+`tools/bake_object_sprites.gd`: doors (h/v, closed/open), lockers (closed/open)
+and pickups (bat, knife, pistol, shotgun), 2x with padded canvases. Nodes prefer
+the baked sprite and fall back to the shared draw, so art can be replaced one
+file at a time.
+
+Quality gate:
+
+    python3 tools/asset_audit.py     # 63 checks, exit 1 on any failure
+
+It fails on empty or clipped frames, silhouettes that exceed the cell, feet that
+drift when the character turns, jittery walk cycles, cropped object sprites and
+visible texture seams. Current status: **63 checks, 0 failures**
+(`docs/ASSET_AUDIT.md`).
+
 Preview the cast: `res://tools/CharacterPreview.tscn`.
 Check the four facings: `res://tools/FacingPreview.tscn`.
 
