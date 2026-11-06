@@ -949,7 +949,7 @@ func _build_briefing() -> void:
 			root.add_child(art)
 
 	var wash := ColorRect.new()
-	wash.color = Color(0.02, 0.03, 0.04, 0.62)
+	wash.color = Color(0.02, 0.03, 0.04, 0.46)
 	wash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.add_child(wash)
 

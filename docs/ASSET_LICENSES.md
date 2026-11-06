@@ -31,6 +31,15 @@ shaders — is original work generated for Dead Hours and belongs to the project
 - `assets/images/sprites/topdown/*_sheet.png` — baked from `TopDownFigure.gd`
   by `tools/bake_character_sheets.gd` (8 directions x 8 frames, 128 px cells).
 - `assets/images/portraits/`, `assets/images/backgrounds/` — painterly set.
+- `assets/images/backgrounds/*.png` (four paintings) — **Painterly Backgrounds Free**
+  by GegX: painted forest (fog / night) and tavern interior (night / fog), used as
+  mission briefing art. Licence: use in commercial and non-commercial projects,
+  modified or not; no resale or redistribution as an image pack; no AI training.
+  The pack is AI-generated and the author discloses it. Source:
+  https://gegx.itch.io/painterly-backgrounds-free
+  Downloaded but **not** wired in (visual mismatch with the urban neon-noir
+  setting, kept out of the repo): Dark Fantasy Heroines Free, Painterly Monster
+  Cards Free.
 - `assets/images/sprites/zombies_painted/*.png` — **GegX FREE PACK - FRESH ZOMBIES
   v1.1** (fresh_zombie, shopper, heavy, old_man, teen; 4 directions, 12-frame
   walk). Licence: use in any project, commercial or free, no credit required;

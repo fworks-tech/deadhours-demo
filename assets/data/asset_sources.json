@@ -520,6 +520,46 @@
    "url": "https://gegx.itch.io/fresh-zombies-painted",
    "source_query": "GegX FREE PACK - FRESH ZOMBIES v1.1 (teen, west walk strip)",
    "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/backgrounds/ch3_riverside_fog.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial projects, modified or not; no resale/redistribution as an image pack; not for AI training",
+   "url": "https://gegx.itch.io/painterly-backgrounds-free",
+   "source_query": "Painterly Backgrounds Free (GegX) - forest_fog",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/backgrounds/ch3_riverside_night.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial projects, modified or not; no resale/redistribution as an image pack; not for AI training",
+   "url": "https://gegx.itch.io/painterly-backgrounds-free",
+   "source_query": "Painterly Backgrounds Free (GegX) - forest_night",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/backgrounds/ch2_station_night.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial projects, modified or not; no resale/redistribution as an image pack; not for AI training",
+   "url": "https://gegx.itch.io/painterly-backgrounds-free",
+   "source_query": "Painterly Backgrounds Free (GegX) - tavern_night",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
+  },
+  {
+   "file": "res://assets/images/backgrounds/ch1_stairwell_smoke.png",
+   "asset": "Concrete048",
+   "name": "Concrete 048",
+   "author": "GegX",
+   "license": "Free for commercial and non-commercial projects, modified or not; no resale/redistribution as an image pack; not for AI training",
+   "url": "https://gegx.itch.io/painterly-backgrounds-free",
+   "source_query": "Painterly Backgrounds Free (GegX) - tavern_fog",
+   "grade": "desaturated 0.35, brightness 0.55, contrast 1.15, tinted"
   }
  ]
 }
